@@ -1,7 +1,22 @@
 path:
   - data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
-  - output:
-  - srcmodel:
-  - galmodel:
-  - isomodel:
-  - catalog:
+  - output: /data01/projects/IGRJ17354-3255/FERMI/LC
+  - srcmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL21_IGR_inputmodelwithIGR.xml
+  - galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
+  - catalog: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA
+  - photometry: /data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out
+
+background:
+  - isofree: true
+  - isonorm: 1
+  - galfree: true
+  - galnorm: 1 
+  - galindex: 0
+
+execute:
+  - lc: true
+  - sed: false
+  - localise: false
+
+lightcurve:
+  - binsize: 86400
