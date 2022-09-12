@@ -45,17 +45,8 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree = False, keepiso
 
 # ---------------------------------------------------------------- input
 parser = argparse.ArgumentParser(description='ADD SCRIPT DESCRIPTION HERE')
-parser.add_argument('-f', '--fileconfig', type=str, required=True, help='configuration file')
-parser.add_argument('--isofree', type=str, default='True', help="set True to keep isomodel free, set False to keep fixed and get values from bkgfile")
-parser.add_argument('--galfree', type=str, default='True', help="set True to keep galmodel free, set False to keep fixed and get values from bkgfile")
-parser.add_argument('--iso_normalization', type=str, default='1', help="The value of iso_normalization if isofree is False")
-parser.add_argument('--gal_prefactor', type=str, default='1', help="The value of gal_prefactor_value if galfree is False")
-parser.add_argument('--gal_index', type=str, default='0', help="The value of gal_index_value if galfree is False")
-parser.add_argument('--makelc', type=int, default='1', choices=[0, 1, 2, 3], help="set 0 to skip LC; set 1 to perform LC selecting bins from file; set 2 to perform LC with fixed binsize;")
-parser.add_argument('--apfile', type=str, default='/data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out', help='')
-parser.add_argument('--binsize', type=int, default=86400, help='number of bins for LC')
-parser.add_argument('--skipsed', type=str, default='False', help="set True to skip SED or set False to compute SED")
-parser.add_argument('--skiploc', type=str, default='True', help="set True to skip localisation or set False to compute localisation")
+parser.add_argument('-pc', '--pipeconf', default="conf_template_fermianalysis.yml",  type=str, required=True, help='configuration file')
+parser.add_argument('-fc', '--fermiconf', default="conf_template_pipe.yml", type=str, required=True, help='configuration file')
 args = parser.parse_args()
 
 print('######### makelc ' + str(args.makelc))
