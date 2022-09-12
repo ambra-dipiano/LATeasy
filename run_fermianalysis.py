@@ -1,15 +1,23 @@
-from matplotlib import streamplot
+# *****************************************************************************
+# Copyright (C) 2022 INAF
+# This software is distributed under the terms of the BSD-3-Clause license
+#
+# This software is intended to run the fermi analysis with fermipy v0.17
+# *****************************************************************************
+
 import yaml
-import matplotlib
-matplotlib.use('agg')
-global plt
-import matplotlib.pyplot as plt
-plt.switch_backend('agg')
-import pandas as pd
-from fermipy.gtanalysis import GTAnalysis
-from os. path import join, isfile
 import numpy as np
 import argparse
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+from fermipy.gtanalysis import GTAnalysis
+from os. path import join, isfile
+from matplotlib import streamplot
+
+# switch matplotlib backend
+matplotlib.use('agg')
+plt.switch_backend('agg')
 
 def list_nans():
     nan_sources = list()

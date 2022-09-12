@@ -83,7 +83,7 @@ def generate(name, tmin, tmax, emax, model, queue, data):
     cp {dname}.* {dname}
     cp cmd6fermi_{dname}.log {dname}
     cd {dname}
-    python $FERMITOOLS/sens.py
+    python $FERMITOOLS/run_fermipy_sensitivity.py
     mv ltcube_00.fits ltcube_00.fits.tmp
     rm *.fits
     mv ltcube_00.fits.tmp ltcube_00.fits

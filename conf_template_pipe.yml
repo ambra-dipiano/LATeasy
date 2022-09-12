@@ -1,0 +1,7 @@
+path:
+  - data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
+  - output:
+  - srcmodel:
+  - galmodel:
+  - isomodel:
+  - catalog:
