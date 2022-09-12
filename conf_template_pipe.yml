@@ -1,22 +1,44 @@
 path:
-  - data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
-  - output: /data01/projects/IGRJ17354-3255/FERMI/LC
-  - srcmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL21_IGR_inputmodelwithIGR.xml
-  - galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
-  - catalog: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA
-  - photometry: /data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out
+  data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
+  output: /data01/projects/IGRJ17354-3255/FERMI/LC
+  srcmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL21_IGR_inputmodelwithIGR.xml
+  galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
+  catalog: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA
+  photometry: /data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out
 
 background:
-  - isofree: true
-  - isonorm: 1
-  - galfree: true
-  - galnorm: 1 
-  - galindex: 0
+  isomodel: iso_P8R3_SOURCE_V2_v1
+  isofree: true
+  isonorm: 1
+  galmodel: gll_iem_v07
+  galfree: true
+  galnorm: 1 
+  galindex: 0
+
+target:
+  name: IGRJ17354-3255
+
+variable_sources:
+  name: 4FGL J1802.6-3940
+    ROI_Center_Distance: 8.682
+    Signif_Avg: 65.025505
+
+extended_sources:
+  name: 4FGL J1745.8-3028e
+    Extended_Source_Name: FGES J1745.8-3028 
+    ROI_Center_Distance: 3.31
+    Signif_Avg: 29.66
+    Normalisation: 
+      - 9.332740743411838
+      - 2.2291994
+    Normalisation_Error: 
+      - null
+      - null
 
 execute:
-  - lc: true
-  - sed: false
-  - localise: false
+  lc: true
+  sed: false
+  localise: false
 
 lightcurve:
-  - binsize: 86400
+  binsize: 86400

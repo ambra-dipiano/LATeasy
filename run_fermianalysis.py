@@ -2,33 +2,36 @@
 # Copyright (C) 2022 INAF
 # This software is distributed under the terms of the BSD-3-Clause license
 #
-# This software is intended to run the fermi analysis with fermipy v0.17
+# This software is intended to run the fermi analysis 
 # *****************************************************************************
 
 import yaml
-import numpy as np
 import argparse
-import pandas as pd
+import logging
 import matplotlib
+import pandas as pd
 import matplotlib.pyplot as plt
 from fermipy.gtanalysis import GTAnalysis
-from os. path import join, isfile
+from os. path import isfile
 from matplotlib import streamplot
 
 # switch matplotlib backend
 matplotlib.use('agg')
 plt.switch_backend('agg')
 
+# -------------------------------------------------------- functions
 def list_nans():
+    '''Filter out all nan TS sources.'''
     nan_sources = list()
     for src in gta.roi.get_sources():
-        if str(src['ts']) == 'nan' and str(src.name) not in (mysource, 'isodiff', 'galdiff'):
+        if str(src['ts']) == 'nan' and str(src.name) not in (target_source, 'isodiff', 'galdiff'):
             nan_sources.append(str(src.name))
     return nan_sources
     
-def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree = False, keepisomodelfree = False, gal_prefactor_value = 1, gal_index_value = 0, iso_normalization_value = 1):
+def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=True, keepisomodelfree=True, gal_prefactor_value=1, gal_index_value=0, iso_normalization_value=1):
+    '''Update background parameters.'''
 
-    #set the initial value of gal/Index and gal/Prefactor parameter
+    # set the initial value of gal/Index and gal/Prefactor parameter
     gta.set_parameter(galmodel, par='Prefactor', value=gal_prefactor_value, scale=1)
     gta.set_parameter(galmodel, par='Index', value=gal_index_value, scale=1)
     if keepgalmodelfree == True:
@@ -44,61 +47,57 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree = False, keepiso
         gta.free_source(isomodel, free=False)
 
 # ---------------------------------------------------------------- input
-parser = argparse.ArgumentParser(description='ADD SCRIPT DESCRIPTION HERE')
-parser.add_argument('-pc', '--pipeconf', default="conf_template_fermianalysis.yml",  type=str, required=True, help='configuration file')
-parser.add_argument('-fc', '--fermiconf', default="conf_template_pipe.yml", type=str, required=True, help='configuration file')
+parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
+parser.add_argument('--pipeconf', default="conf_template_fermianalysis.yml",  type=str, required=True, help='configuration file')
+parser.add_argument('--fermiconf', default="conf_template_pipe.yml", type=str, required=True, help='configuration file')
 args = parser.parse_args()
 
-print('######### makelc ' + str(args.makelc))
+# load yaml configurations
+with open(args.pipeconf) as f:
+    pipeconf = yaml.load(f)
+with open(args.fermiconf) as f:
+    fermiconf = yaml.load(f)
+
+# logging
+logname = str(args.fermiconf).replace('.yml','.log')
+log = logging.getLogger()
+fileHandler = logging.FileHandler(logname)
+log.addHandler(fileHandler)
+consoleHandler = logging.StreamHandler()
+log.addHandler(consoleHandler)
 
 # ---------------------------------------------------------------- setup
-print(args.fileconfig)
-mysource='IGRJ17354-3255'
+target_source = pipeconf['target']['name']
+log.info('\n#### LOGGING ---> ' + str(logname))
 
-logname = 'cmd6fermi_' + str(args.fileconfig).replace('.yaml','') + '.log'
-logfile = open(logname, 'w+')
-print('#### LOGGING --->', logname)
-logfile.write('\n#### LOGGING ---> ' + str(logname))
+# free the following sources
+variable_sources = pipeconf['variable_sources']
+extended_sources = pipeconf['extended_sources']
 
-#gal and iso management - default values
-galmodel='gll_iem_v07'
-keepgalmodelfree = True
-
-isomodel='iso_P8R3_SOURCE_V2_v1'
-keepisomodelfree = True
-
-# list of sources that must be kept free
-# variable sources within 10 deg
-variable_sources = {'Source_Name': ['4FGL J1802.6-3940'], 'ROI_Center_Distance': [8.682], 'Signif_Avg': [65.025505]}
-# extended sources within 5 deg
-extended_sources = {'Source_Name': ['4FGL J1745.8-3028e'], 'Extended_Source_Name': ['FGES J1745.8-3028'], 'ROI_Center_Distance': [3.31], 'Signif_Avg': [29.66472816467285], 'Normalisation': [9.332740743411838, 2.2291994], 'Normalisation_Error': [np.nan, np.nan]}
-
-# input parameters
-if args.galfree == 'True':
+# background parameters
+galmodel = pipeconf['background']['galmodel']
+isomodel = pipeconf['background']['isomodel']
+if pipeconf['background']['galfree']:
     keepgalmodelfree = True
     gal_prefactor_value = 1
     gal_index_value = 0
-elif args.galfree == 'False':
-    gal_prefactor_value = float(args.gal_prefactor)
-    gal_index_value = float(args.gal_index)
-    keepgalmodelfree = False
 else:
-    logfile.write('\n#### PARAMETERS ERROR ---> galfree')
+    gal_prefactor_value = pipeconf['background']['galnorm']
+    gal_index_value = pipeconf['background']['galindex']
+    keepgalmodelfree = False
 
-if args.isofree == 'True':
+if pipeconf['background']['isofree']:
     keepisomodelfree = True
     iso_normalization_value = 1 
-elif args.isofree == 'False':
-    iso_normalization_value = float(args.iso_normalization)
-    keepisomodelfree = False
 else:
-    logfile.write('\n#### PARAMETERS ERROR ---> isofree')
+    iso_normalization_value = pipeconf['background']['isonorm']
+    keepisomodelfree = False
 
-logfile.write('\n\nSkip SED: ' + args.skipsed.capitalize() + '\nMake LC: ' + str(args.makelc))
+log.info('\n\nSkip SED: ' + args.skipsed.capitalize() + '\nMake LC: ' + str(args.makelc))
 
 # ----------------------------------------------------------------- analysis
-gta = GTAnalysis(args.fileconfig,logging={'verbosity' : 3})
-logfile.write('\n\n#### SETUP ---> gta.setup()')
+gta = GTAnalysis(args.fermiconf, logging={'verbosity' : 3})
+log.info('\n\n#### SETUP ---> gta.setup()')
 gta.print_roi()
 gta.setup()
 # 1st optimaze 
@@ -106,25 +105,25 @@ opt1 = gta.optimize()
 gta.print_roi()
 fname = 'roi1_optimize'
 gta.write_roi(fname)
-logfile.write('\n\n# 1st optimize saved in ---> ' + str(fname))
+log.info('\n\n# 1st optimize saved in ---> ' + str(fname))
 
 # ----------------------------------------------------------------- preliminary fit
-logfile.write('\n\n#### PRELIMINARY FIT')
+log.info('\n\n#### PRELIMINARY FIT')
 #manage gal and iso parameters
 manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=keepgalmodelfree, keepisomodelfree=keepisomodelfree, gal_prefactor_value=gal_prefactor_value, gal_index_value=gal_index_value, iso_normalization_value=iso_normalization_value)
-logfile.write('\n# manage gal and iso parameters')
-logfile.write('\n--- galmodel ---')
-logfile.write('\nmodel = ' + str(galmodel) + '\nfree = ' + str(keepgalmodelfree))
-logfile.write('\nprefactor = ' + str(gal_prefactor_value) + '\nindex = ' + str(gal_index_value))
-logfile.write('\n--- isomodel ---')
-logfile.write('\nmodel = ' + str(isomodel) + '\nfree = ' + str(keepisomodelfree))
-logfile.write('\nnormalisation = ' + str(iso_normalization_value))
+log.info('\n# manage gal and iso parameters')
+log.info('\n--- galmodel ---')
+log.info('\nmodel = ' + str(galmodel) + '\nfree = ' + str(keepgalmodelfree))
+log.info('\nprefactor = ' + str(gal_prefactor_value) + '\nindex = ' + str(gal_index_value))
+log.info('\n--- isomodel ---')
+log.info('\nmodel = ' + str(isomodel) + '\nfree = ' + str(keepisomodelfree))
+log.info('\nnormalisation = ' + str(iso_normalization_value))
 # get sources
 gta.print_roi()
 sources = gta.get_sources()
 print('target & bkgs before fit1:')
 for src in sources:
-    if src['name'] in (galmodel, isomodel, mysource):
+    if src['name'] in (galmodel, isomodel, target_source):
         print(src)
 
 # execute fit
@@ -132,40 +131,40 @@ prefit = gta.fit(update=True)
 sources = gta.get_sources()
 fname = 'roi1_fit_model'
 gta.write_roi(fname)
-logfile.write('\n\n# 1st fit saved in ---> ' + str(fname))
+log.info('\n\n# 1st fit saved in ---> ' + str(fname))
 
 # ------------------------------------------------------------- delete src ts < 1
-logfile.write('\n\n# delete sources with TS < 1 or TS = nan')
+log.info('\n\n# delete sources with TS < 1 or TS = nan')
 #alternative 1 to eliminate sources. Removed minmax_npred=[-1,4]
 nan_sources = list_nans()
 if len(nan_sources) != 0:
-    deleted_sources = gta.delete_sources(names=nan_sources, exclude=[mysource, isomodel, galmodel])
-deleted_sources = gta.delete_sources(minmax_ts=[None,1], exclude=[mysource, isomodel, galmodel])
+    deleted_sources = gta.delete_sources(names=nan_sources, exclude=[target_source, isomodel, galmodel])
+deleted_sources = gta.delete_sources(minmax_ts=[None,1], exclude=[target_source, isomodel, galmodel])
 
-# check bkgs and mysource are kept
+# check bkgs and target_source are kept
 for d in deleted_sources:
-    if d.name in (isomodel, galmodel, mysource):
-        logfile.write('\n', str(d.name), ' was deleted ---> add back')
+    if d.name in (isomodel, galmodel, target_source):
+        log.info('\n', str(d.name), ' was deleted ---> add back')
         gta.add_source(d.name, d)
         
 # 2nd optimaze 
 opt1 = gta.optimize()
 fname = 'roi2_optimize'
 gta.write_roi(fname)
-logfile.write('\n\n# 2nd optimize saved in ---> ' + str(fname))
+log.info('\n\n# 2nd optimize saved in ---> ' + str(fname))
 
 #manage gal and iso parameters
 manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=keepgalmodelfree, keepisomodelfree=keepisomodelfree, gal_prefactor_value=gal_prefactor_value, gal_index_value=gal_index_value, iso_normalization_value=iso_normalization_value)
 
 print('target & bkgs after optimize2:')
 for src in sources:
-    if src['name'] in (galmodel, isomodel, mysource):
+    if src['name'] in (galmodel, isomodel, target_source):
         print(src)
 
 # ----------------------------------------------------------------------- 1st sed
 if args.skipsed.capitalize() == 'False':
-    logfile.write('\n\n#### SED ---> gta.sed()')
-    gta.sed(mysource, prefix='sed_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, outfile='sed', make_plots=True)
+    log.info('\n\n#### SED ---> gta.sed()')
+    gta.sed(target_source, prefix='sed_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, outfile='sed', make_plots=True)
 
 # ------------------------------------------------------------------------ 2nd fit
 fit_results = gta.fit(update=True)
@@ -174,54 +173,54 @@ print('Fit Status: ',fit_results['fit_status'])
 fname = 'roi2_fit_model'
 gta.write_roi(fname)
 sources = gta.get_sources()
-logfile.write('\n\n# 2nd fit saved in ---> ' + str(fname))
+log.info('\n\n# 2nd fit saved in ---> ' + str(fname))
 print("### Results of roi2_fit_model")
 for src in gta.roi.get_sources():
     print(src.name + " " + str(src['ts']))
-    logfile.write(src.name + " " + str(src['ts']))
+    log.info(src.name + " " + str(src['ts']))
 
 print("target & bkgs after fit2:")
 for src in sources:
-    if src['name'] in (galmodel, isomodel, mysource):
+    if src['name'] in (galmodel, isomodel, target_source):
         print(src)
 
 # ------------------------------------------------------------------------ 1st localise
 if args.skiploc.capitalize() == 'False':
-    logfile.write('\n\n#### UPDATE TARGET POSITION')
+    log.info('\n\n#### UPDATE TARGET POSITION')
     for src in gta.roi.get_sources():
-        if src.name == mysource:
+        if src.name == target_source:
             if src['ts'] > 10:
-                logfile.write('\ntarget TS > 10 ---> gta.localize()')
-                loc = gta.localize(mysource, free_background=True, update=True, make_plots=True, write_fits=False, write_npy=True)
-                logfile.write('\n--- check new position ---')
+                log.info('\ntarget TS > 10 ---> gta.localize()')
+                loc = gta.localize(target_source, free_background=True, update=True, make_plots=True, write_fits=False, write_npy=True)
+                log.info('\n--- check new position ---')
                 if loc.pos_offset < loc.pos_r95:
-                    logfile.write('\nwithin 0.95 confidence radius ---> keep new position')
+                    log.info('\nwithin 0.95 confidence radius ---> keep new position')
                     src.spatial_pars['RA']['value'] = loc.ra
                     src.spatial_pars['DEC']['value'] = loc.dec
                     fname = 'fit_model_loc1'
                     gta.write_roi(fname)
-                    logfile.write('\n # localisation saved in ---> ' + str(fname))
+                    log.info('\n # localisation saved in ---> ' + str(fname))
                     # ------------------------------------------------------- 2nd sed
                     if args.skipsed.capitalize() == 'False':
-                        logfile.write('\n\n#### SED ---> gta.sed()')
-                        gta.sed(mysource, prefix='sed2_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, make_plots=True)
+                        log.info('\n\n#### SED ---> gta.sed()')
+                        gta.sed(target_source, prefix='sed2_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, make_plots=True)
                 else: 
-                    logfile.write('\noutside 0.95 confidence radius ---> revert to previous position')
+                    log.info('\noutside 0.95 confidence radius ---> revert to previous position')
                     src.spatial_pars['RA']['value'] = loc.ra_preloc
                     src.spatial_pars['DEC']['value'] = loc.dec_preloc
             else:
-                logfile.write('\ntarget TS < 10 ---> keep current position')
+                log.info('\ntarget TS < 10 ---> keep current position')
 
 # --------------------------------------------------------------------- lightcurve
 if args.makelc != 0:
     # change the hypothesis of the sources and put all sources with norm fixed
-    logfile.write('\n\n######## LC')
-    logfile.write('\n\n# freeze all sources')
+    log.info('\n\n######## LC')
+    log.info('\n\n# freeze all sources')
     gta.free_sources(pars='norm', free=False)
 
-    # Free normalisation of mysource and source within < 2 deg. Could be between 2 and 5
-    gta.free_source(mysource, distance=2.0, pars='norm', free=True)
-    logfile.write('\n\n# free "norm" for target and sources within 2 deg')
+    # Free normalisation of target_source and source within < 2 deg. Could be between 2 and 5
+    gta.free_source(target_source, distance=2.0, pars='norm', free=True)
+    log.info('\n\n# free "norm" for target and sources within 2 deg')
 
     # variable and extended sources
     for src in gta.roi.get_sources():
@@ -229,12 +228,12 @@ if args.makelc != 0:
         if src.name in variable_sources['Source_Name']:
             # update significance
             variable_sources['Signif_Avg'][variable_sources['Source_Name'].index(src.name)] = float(src['ts'])
-            logfile.write('\n --- variable source ---')
+            log.info('\n --- variable source ---')
             if src['ts'] > 50:
-                logfile.write('\nname = ' + src.name + ' TS > 50 ---> free "norm"')
+                log.info('\nname = ' + src.name + ' TS > 50 ---> free "norm"')
                 gta.free_source(src.name, pars='norm', free=True)
             else:
-                logfile.write('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
+                log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
         if src.name in extended_sources['Extended_Source_Name']:
             index = extended_sources['Extended_Source_Name'].index(src.name)
@@ -242,82 +241,81 @@ if args.makelc != 0:
             norm_error4fgl =  extended_sources['Normalisation_Error'][index]
             norm = float(src.spectral_pars['Prefactor']['value'])
             norm_error = float(src.spectral_pars['Prefactor']['error'])
-            logfile.write('\n --- extended source ---')
+            log.info('\n --- extended source ---')
             if src['ts'] > 10:
-                logfile.write('\nname = ' + src.name + ' TS > 10 ---> check "norm" errors')
+                log.info('\nname = ' + src.name + ' TS > 10 ---> check "norm" errors')
                 if norm > (norm4fgl + 2.0 * norm_error4fgl) or norm < (norm4fgl - 2.0 * norm_error4fgl):
-                    logfile.write('\nerrors outside range ---> revert to 4FGL value')
+                    log.info('\nerrors outside range ---> revert to 4FGL value')
                     src.spectral_pars['Prefactor']['value'] = norm4fgl
                     gta.free_source(src.name, pars='norm', free=False)
                 else:
-                    logfile.write('\nerrors within range ---> keep at current value')
+                    log.info('\nerrors within range ---> keep at current value')
             else:
-                logfile.write('\nname = ' + src.name + ' TS < 10 ---> keep frozen')
+                log.info('\nname = ' + src.name + ' TS < 10 ---> keep frozen')
         # get backgrounds values 
         if src.name == galmodel:
-            logfile.write('\n--- update galmodel ---' )
+            log.info('\n--- update galmodel ---' )
             gal_prefactor_value = float(src.spectral_pars['Prefactor']['value'])
             gal_index_value = float(src.spectral_pars['Index']['value'])
-            logfile.write('\nprefactor = ' + str(gal_prefactor_value) + '\nindex = ' + str(gal_index_value))
+            log.info('\nprefactor = ' + str(gal_prefactor_value) + '\nindex = ' + str(gal_index_value))
         if src.name ==  isomodel:
-            logfile.write('\n--- update isomodel ---' )
+            log.info('\n--- update isomodel ---' )
             iso_normalization_value = float(src.spectral_pars['Normalization']['value'])
-            logfile.write('\nnormalisation = ' + str(iso_normalization_value))
+            log.info('\nnormalisation = ' + str(iso_normalization_value))
 
     # keep gal and iso model parameters fixed
-    logfile.write('\n\n# freeze background parameters')
+    log.info('\n\n# freeze background parameters')
     keepgalmodelfree = False
     keepisomodelfree = False
     manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=keepgalmodelfree, keepisomodelfree=keepisomodelfree, gal_prefactor_value=gal_prefactor_value, gal_index_value=gal_index_value, iso_normalization_value=iso_normalization_value)
 
-    #fix spectral parameters of mysource
-    #gta.free_source(mysource, free=False)
-    #gta.free_source(mysource, free=True, pars='norm')
+    #fix spectral parameters of target_source
+    #gta.free_source(target_source, free=False)
+    #gta.free_source(target_source, free=True, pars='norm')
 
     if args.makelc == 1:
         # prepare time_bins
-        logfile.write('\n\n# prepare time bins')
-        with open(args.fileconfig) as f:
+        log.info('\n\n# prepare time bins')
+        with open(args.fermiconf) as f:
             cfg = yaml.load(f)
         tmin = cfg['selection']['tmin']
         tmax = cfg['selection']['tmax']
-        logfile.write('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
+        log.info('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
         daysfile = args.apfile
         # verify the file exists
         if not isfile(daysfile):
-            logfile.write(str(daysfile), 'not found.')
+            log.info(str(daysfile), 'not found.')
             raise FileNotFoundError(streamplot(daysfile), 'not found.')
         # find time bins
         days = pd.read_csv(daysfile, sep=' ')
         # be carreful on this selection
         bins = days[days['start_met'] >= tmin]
         bins = bins[bins['stop_met'] <= tmax]
-        logfile.write('\nnumber of "good" time bins: ' + str(len(bins)))
+        log.info('\nnumber of "good" time bins: ' + str(len(bins)))
         first = [t for t in bins['start_met']][0]
         last = [t for t in bins['stop_met']][-1]
-        logfile.write('\nfirst bin starts at --->' + str(first))
-        logfile.write('\nlast bin ends at --->' + str(last))
+        log.info('\nfirst bin starts at --->' + str(first))
+        log.info('\nlast bin ends at --->' + str(last))
         time_bins = list(t for t in bins['start_met'])
         time_bins.append(last)
 
         # LIGHTCURVE (bin 1 year-31535000)(1 week- 604800)
-        logfile.write('\n\n#### LIGHTCURVE w/ selected time bins ---> gta.lightcurve()')
-        lc = gta.lightcurve(mysource, time_bins=time_bins, write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
+        log.info('\n\n#### LIGHTCURVE w/ selected time bins ---> gta.lightcurve()')
+        lc = gta.lightcurve(target_source, time_bins=time_bins, write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
 
     elif args.makelc == 2:
-        logfile.write('\n\n#### LIGHTCURVE w/ fixed binsize = ' + str(args.binsize) + ' ---> gta.lightcurve()')
-        lc = gta.lightcurve(mysource, binsz=int(args.binsize), write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
+        log.info('\n\n#### LIGHTCURVE w/ fixed binsize = ' + str(args.binsize) + ' ---> gta.lightcurve()')
+        lc = gta.lightcurve(target_source, binsz=int(args.binsize), write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
     elif args.makelc == 3:
-        logfile.write('\n\n#### LIGHTCURVE w/ selected interval time bin between tmin and tmax ---> gta.lightcurve()')
+        log.info('\n\n#### LIGHTCURVE w/ selected interval time bin between tmin and tmax ---> gta.lightcurve()')
 	# prepare time_bins
-        logfile.write('\n\n# prepare time bins')
-        with open(args.fileconfig) as f:
+        log.info('\n\n# prepare time bins')
+        with open(args.fermiconf) as f:
             cfg = yaml.load(f)
         tmin = cfg['selection']['tmin']
         tmax = cfg['selection']['tmax']
-        logfile.write('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
+        log.info('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
         time_bins = [tmin, tmax]
-        lc = gta.lightcurve(mysource, time_bins=time_bins, write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)	
+        lc = gta.lightcurve(target_source, time_bins=time_bins, write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)	
 
-logfile.write('\n\n#### END ---> run completed, closing logfile\n')
-logfile.close()
+log.info('\n\n#### END ---> run completed, closing logfile\n')
