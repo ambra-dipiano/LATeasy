@@ -28,7 +28,7 @@ selection :
   zmax    : 85
   evclass : 128
   evtype  : 3
-  filter  : '(DATA_QUAL>0)&&(LAT_CONFIG==1)'
+  filter  : (DATA_QUAL>0)&&(LAT_CONFIG==1)
   ra  : 
   dec : 
   tmin    : 
@@ -41,10 +41,10 @@ gtlike:
   edisp_disable : ['isodiff']
 
 model:
-  galdiff  : '/opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/gll_iem_v07.fits'
-  isodiff  : 'iso_P8R3_SOURCE_V2_v1.txt'
+  galdiff  : /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/gll_iem_v07.fits
+  isodiff  : iso_P8R3_SOURCE_V2_v1.txt
   catalogs : 
-    - 
+    - /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL22_IGR_inputmodel_updated.xml
 
 fileio:
-    outdir : 
+    outdir : name_tmin_tmax
