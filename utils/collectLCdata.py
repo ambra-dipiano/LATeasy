@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas as pd
-from convertMJDandMET import met_to_mjd
+from utils.functions import met_to_mjd
 
 
 folder = sys.argv[1]
