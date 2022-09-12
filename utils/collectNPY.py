@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 import pandas as pd
 from os.path import join, isdir, isfile
-from utils.functions import met_to_mjd
+from convertMJDandMET import met_to_mjd
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
 parser.add_argument('-f', '--folder', type=str, required=True, help='of the NPY file with path')
