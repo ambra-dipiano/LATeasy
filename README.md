@@ -6,6 +6,9 @@ This repository is intended as a collection of tools and script to run automated
 
 We provide an environment recipe for [https://www.anaconda.com/products/distribution](anconda). Any variation from it is not granted to work.
 
+- <code>environment-fermipy2.yml</code> for fermpy v0.19 and python v2.7
+- <code>environment-fermipy3.yml</code> for fermipy v1.0 and python v3.7 
+
 The code requires the following environmental variables:
 
 - <code>FERMITOOLS</code> the absolute path where the repository is installed
