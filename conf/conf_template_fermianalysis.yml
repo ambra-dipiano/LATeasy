@@ -1,0 +1,50 @@
+data:
+  evfile : 
+  scfile : 
+
+binning:
+  roiwidth   : 
+  binsz      : 
+  binsperdec : 
+
+components:
+- selection:
+    emin: 
+    zmax: 
+- selection:
+    emax: 
+    emin: 
+    evtype: 
+    zmax: 
+- selection:
+    emax: 
+    emin: 
+    evtype: 
+    zmax: 
+
+selection :
+  emin : 
+  emax : 
+  zmax    :
+  evclass : 
+  evtype  : 
+  filter  : 
+  ra  : 
+  dec : 
+  tmin    : 
+  tmax    : 
+
+gtlike:
+  edisp : 
+  edisp_bins : 
+  irfs : 
+  edisp_disable : 
+
+model:
+  galdiff  :
+  isodiff  :
+  catalogs : 
+    - 
+
+fileio:
+    outdir : 
