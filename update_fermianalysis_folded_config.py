@@ -1,7 +1,10 @@
-# RUNNING THE SCRIPT:
-# $ python configYamlFilters.py CONFIGURATION.yaml YEARS_args.indir
-# example:
-# $ python configYamlFilters.py M10B_294278402_296870402.yaml YEARS5g019
+# *****************************************************************************
+# Copyright (C) 2022 INAF
+# This software is distributed under the terms of the BSD-3-Clause license
+#
+# This software is intended to update the fermipy configuration to run a  
+# folded analysis 
+# *****************************************************************************
 
 import yaml
 import sys

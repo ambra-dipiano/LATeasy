@@ -1,3 +1,12 @@
+# *****************************************************************************
+# Copyright (C) 2022 INAF
+# This software is distributed under the terms of the BSD-3-Clause license
+#
+# This software is intended to generate the fermipy configuration and 
+# other execution scripts to run the analysis
+# *****************************************************************************
+
+
 import sys
 import os
 import pandas as pd

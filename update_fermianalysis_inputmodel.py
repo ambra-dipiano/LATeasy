@@ -1,3 +1,11 @@
+# *****************************************************************************
+# Copyright (C) 2022 INAF
+# This software is distributed under the terms of the BSD-3-Clause license
+#
+# This software is intended to update the input model of the sky region
+# *****************************************************************************
+
+
 import xml.etree.ElementTree as ET
 from astropy.io import fits
 from astropy.coordinates import SkyCoord
