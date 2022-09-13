@@ -20,7 +20,7 @@ The code requires the following environmental variables:
 
 The repository provides two template configuration files in <code>conf</code>. You can find examples of compiled configuration files in the same folder.
 
-- the template for the configuration fermipy analysis: <code>conf_template_fermianalysis.yml</code>
-- the template for the configuration of the pipeline: <code>conf_template_pipe.yml</code>
+- the template for the configuration fermipy analysis: <code>template_fermianalysis.yml</code>
+- the template for the configuration of the pipeline: <code>template_pipe.yml</code>
 
 We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters based on their use case. If one or more fields are not require by the use case, please leave the field empty.
