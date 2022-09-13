@@ -42,3 +42,12 @@ execute:
 
 lightcurve:
   binsize: 86400
+
+makemodel:
+  catalogue: gll_psc_v27.fit
+  data: L20083004141749F5D3C158_PH00.fits
+  output: 4FGL22_IGR_inputmodel.xml 
+  normfree: yes 
+  radius: 5
+  significance: 25 
+  ds9reg: True
