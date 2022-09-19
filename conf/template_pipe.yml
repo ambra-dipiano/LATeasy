@@ -41,12 +41,12 @@ extended_sources:
 # execution option
 execute:
   lc:                         # (bool) perform lightcurve
-  bin_type:                   # (str) how to define time bins < fix|filter|integral >
   sed:                        # (bool) perform sed
   localise:                   # (bool) perform localisation
 
 # lightcurve options
-bin_type_fix:
+lightcurve:
+  bintype:                   # (str) how to define time bins < fix|filter|integral >
   binsize:                    # (int) lightcurve binsize in seconds for fix bins
 
 # make4FGL.py script options
