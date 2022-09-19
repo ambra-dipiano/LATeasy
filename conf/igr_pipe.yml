@@ -19,22 +19,22 @@ background:
 target:
   name: IGRJ17354-3255
 
-variable_sources:
-  name: 4FGL J1802.6-3940
-    ROI_Center_Distance: 8.682
-    Signif_Avg: 65.025505
+# variable_sources:
+#   name: 4FGL J1802.6-3940
+#     ROI_Center_Distance: 8.682
+#     Signif_Avg: 65.025505
 
-extended_sources:
-  name: 4FGL J1745.8-3028e
-    Extended_Source_Name: FGES J1745.8-3028
-    ROI_Center_Distance: 3.31
-    Signif_Avg: 29.66
-    Normalisation: 
-      - 9.332740743411838
-      - 2.2291994
-    Normalisation_Error: 
-      - null
-      - null
+# extended_sources:
+#   name: 4FGL J1745.8-3028e
+#     Extended_Source_Name: FGES J1745.8-3028
+#     ROI_Center_Distance: 3.31
+#     Signif_Avg: 29.66
+#     Normalisation: 
+#       - 9.332740743411838
+#       - 2.2291994
+#     Normalisation_Error: 
+#       - null
+#       - null
 
 execute:
   lc: true
@@ -58,7 +58,7 @@ updatemodel:
   mints: 25
   extmints: 50
   minvariability: 18.48
-  freepars:
+  freeparams:
     - norm
     - Prefactor
   newbkg:

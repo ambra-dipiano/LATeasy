@@ -6,6 +6,7 @@ path:
   galdir:         # (str) folder where the galactic diffuse background is stored
   inputmodel:     # (str) model of all sources in the region
   photometry:     # (str) file contaning the AP exposure output
+  catalogue:      # (str) catalogue file
 
 # define all initial background hypothesis
 background:       
@@ -51,9 +52,6 @@ lightcurve:
 
 # make4FGL.py script options
 makemodel:
-  catalogue:                  # (str) catalogue file
-  data:                       # (str) data file
-  output:                     # (str) output model name
   normfree:                   # (bool) free normalisation
   radius:                     # (float) inner radius for freeing normalisation
   significance:               # (float) minimum significance for freeing normalisation
@@ -66,7 +64,7 @@ updatemodel:
   mints:              # (int) min ts to free sources within radius
   extmints:           # (int) min ts to free sources withint external radius
   minvariability:     # (float) min variability threshold
-  freepars:           # (list) parameters to free, must be a list
+  freeparams:           # (list) parameters to free, must be a list
     - 
   newbkg:             # (list) backgrounds to keep or substitute
     - 
