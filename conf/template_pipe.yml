@@ -58,3 +58,15 @@ makemodel:
   radius:                     # (float) inner radius for freeing normalisation
   significance:               # (float) minimum significance for freeing normalisation
   ds9reg:                     # (bool) make ds9 region file
+
+# update input model
+updatemodel:
+  radius:             # (float) radius within sources are freed
+  extradius:          # (float) external radius within sources are freed by condition
+  mints:              # (int) min ts to free sources within radius
+  extmints:           # (int) min ts to free sources withint external radius
+  minvariability:     # (float) min variability threshold
+  freepars:           # (list) parameters to free, must be a list
+    - 
+  newbkg:             # (list) backgrounds to keep or substitute
+    - 

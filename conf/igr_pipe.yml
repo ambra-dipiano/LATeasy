@@ -1,10 +1,11 @@
 path:
   data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
   output: /data01/projects/IGRJ17354-3255/FERMI/LC
-  target: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL21_IGR_inputmodelwithIGR.xml
+  target: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/IGRJ17354-3255_model.xml
   galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
-  inputmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL22_IGR_inputmodel_updated.xml
+  inputmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL22_IGR_inputmodel.xml
   photometry: /data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out
+  catalogue: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA/gll_psc_v27.fit
 
 background:
   isomodel: iso_P8R3_SOURCE_V2_v1
@@ -45,10 +46,21 @@ lightcurve:
   binsize: 86400
 
 makemodel:
-  catalogue: gll_psc_v27.fit
-  data: L20083004141749F5D3C158_PH00.fits
-  output: 4FGL22_IGR_inputmodel.xml 
+  observation: L20083004141749F5D3C158_PH00.fits
   normfree: yes 
   radius: 5
   significance: 25 
   ds9reg: True
+
+updatemodel:
+  radius: 5
+  extradius: 10
+  mints: 25
+  extmints: 50
+  minvariability: 18.48
+  freepars:
+    - norm
+    - Prefactor
+  newbkg:
+    - gll_iem_v07
+    - iso_P8R3_SOURCE_V3_v1
