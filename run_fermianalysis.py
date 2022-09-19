@@ -48,8 +48,8 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=True, keepisomod
 
 # ---------------------------------------------------------------- input
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
-parser.add_argument('--pipeconf', default="conf_template_fermianalysis.yml",  type=str, required=True, help='configuration file')
-parser.add_argument('--fermiconf', default="conf_template_pipe.yml", type=str, required=True, help='configuration file')
+parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
+parser.add_argument('--fermiconf', type=str, required=True, help='configuration file')
 args = parser.parse_args()
 
 # load yaml configurations
