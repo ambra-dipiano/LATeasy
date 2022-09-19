@@ -1,59 +1,60 @@
 # define all paths for the pipeline
 path:
-  data:           # folder where data is stored        
-  output:         # folder where to store output
-  target:         # model of the target source 
-  galdir:         # folder where the galactic diffuse background is stored
-  inputmodel:     # model of all sources in the region
-  photometry:     # file contaning the AP exposure output
+  data:           # (str) folder where data is stored        
+  output:         # (str) folder where to store output
+  target:         # (str) model of the target source 
+  galdir:         # (str) folder where the galactic diffuse background is stored
+  inputmodel:     # (str) model of all sources in the region
+  photometry:     # (str) file contaning the AP exposure output
 
 # define all initial background hypothesis
 background:       
-  isomodel:        # isothropic background model
-  isofree:         # free isothropic background
-  isonorm:         # normalisation value of the isothropic background
-  galmodel:        # galactic background model
-  galfree:         # free galactic background model
-  galnorm:         # normalisazione value of the galactic background model
-  galindex:        # index value of the galactic background model
+  isomodel:        # (str) isothropic background model
+  isofree:         # (bool) free isothropic background
+  isonorm:         # (float) normalisation value of the isothropic background
+  galmodel:        # (str) galactic background model
+  galfree:         # (bool) free galactic background model
+  galnorm:         # (float) normalisazione value of the galactic background model
+  galindex:        # (float) index value of the galactic background model
 
 # target parameters
 target:
-  name:            # name of the target source
+  name:            # (str) name of the target source
 
 # list all variable sources to be updated 
 variable_sources:
-  name:                       # name of the source
-    ROI_Center_Distance:      # distance from center
-    Signif_Avg:               # significance
+  name:                       # (str) name of the source
+    ROI_Center_Distance:      # (float) distance from center
+    Signif_Avg:               # (float) significance
 
 # list all extended sources to be updated 
 extended_sources:
-  name:                       # name of the source
-    Extended_Source_Name:     # extended catalogue name of the source
-    ROI_Center_Distance:      # distance form the center
-    Signif_Avg:               # significance
-    Normalisation:            # normalisation values
+  name:                       # (str) name of the source
+    Extended_Source_Name:     # (str) extended catalogue name of the source
+    ROI_Center_Distance:      # (int) distance form the center
+    Signif_Avg:               # (float) significance
+    Normalisation:            # (float) normalisation values
       - 
-    Normalisation_Error:      # normalisation errors
+    Normalisation_Error:      # (float) normalisation errors
       - 
 
 # execution option
 execute:
-  lc:                         # perform lightcurve
-  sed:                        # perform sed
-  localise:                   # perform localisation
+  lc:                         # (bool) perform lightcurve
+  bin_type:                   # (str) how to define time bins < fix|filter|integral >
+  sed:                        # (bool) perform sed
+  localise:                   # (bool) perform localisation
 
 # lightcurve options
-lightcurve:
-  binsize:                    # lightcurve binsize in seconds
+bin_type_fix:
+  binsize:                    # (int) lightcurve binsize in seconds for fix bins
 
 # make4FGL.py script options
 makemodel:
-  catalogue:                  # catalogue file
-  data:                       # data file
-  output:                     # output model name
-  normfree:                   # free normalisation
-  radius:                     # inner radius for freeing normalisation
-  significance:               # minimum significance for freeing normalisation
-  ds9reg:                     # make ds9 region file
+  catalogue:                  # (str) catalogue file
+  data:                       # (str) data file
+  output:                     # (str) output model name
+  normfree:                   # (bool) free normalisation
+  radius:                     # (float) inner radius for freeing normalisation
+  significance:               # (float) minimum significance for freeing normalisation
+  ds9reg:                     # (bool) make ds9 region file
