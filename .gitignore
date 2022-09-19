@@ -1,4 +1,5 @@
 # extentions
+*.log
 
 # folders
 __*
