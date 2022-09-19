@@ -93,7 +93,7 @@ else:
     iso_normalization_value = pipeconf['background']['isonorm']
     keepisomodelfree = False
 
-log.info('\n\nSkip SED: ' + args.skipsed.capitalize() + '\nMake LC: ' + str(args.makelc))
+log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']) + "\nExecute LC: " + str(pipeconf['execute']['lc']))
 
 # ----------------------------------------------------------------- analysis
 gta = GTAnalysis(args.fermiconf, logging={'verbosity' : 3})
@@ -162,7 +162,7 @@ for src in sources:
         print(src)
 
 # ----------------------------------------------------------------------- 1st sed
-if args.skipsed.capitalize() == 'False':
+if pipeconf['execute']['sed']:
     log.info('\n\n#### SED ---> gta.sed()')
     gta.sed(target_source, prefix='sed_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, outfile='sed', make_plots=True)
 
@@ -185,7 +185,7 @@ for src in sources:
         print(src)
 
 # ------------------------------------------------------------------------ 1st localise
-if args.skiploc.capitalize() == 'False':
+if pipeconf['execute']['localise']:
     log.info('\n\n#### UPDATE TARGET POSITION')
     for src in gta.roi.get_sources():
         if src.name == target_source:
@@ -201,7 +201,7 @@ if args.skiploc.capitalize() == 'False':
                     gta.write_roi(fname)
                     log.info('\n # localisation saved in ---> ' + str(fname))
                     # ------------------------------------------------------- 2nd sed
-                    if args.skipsed.capitalize() == 'False':
+                    if pipeconf['execute']['sed']:
                         log.info('\n\n#### SED ---> gta.sed()')
                         gta.sed(target_source, prefix='sed2_cl95', free_background=True, free_radius=None, write_fits=False, write_npy=True, make_plots=True)
                 else: 
@@ -212,7 +212,7 @@ if args.skiploc.capitalize() == 'False':
                 log.info('\ntarget TS < 10 ---> keep current position')
 
 # --------------------------------------------------------------------- lightcurve
-if args.makelc != 0:
+if pipeconf['execute']['lc']:
     # change the hypothesis of the sources and put all sources with norm fixed
     log.info('\n\n######## LC')
     log.info('\n\n# freeze all sources')
@@ -273,7 +273,7 @@ if args.makelc != 0:
     #gta.free_source(target_source, free=False)
     #gta.free_source(target_source, free=True, pars='norm')
 
-    if args.makelc == 1:
+    if pipeconf['lightcurve']['bintype'].lower() == 'filter':
         # prepare time_bins
         log.info('\n\n# prepare time bins')
         with open(args.fermiconf) as f:
@@ -303,10 +303,10 @@ if args.makelc != 0:
         log.info('\n\n#### LIGHTCURVE w/ selected time bins ---> gta.lightcurve()')
         lc = gta.lightcurve(target_source, time_bins=time_bins, write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
 
-    elif args.makelc == 2:
-        log.info('\n\n#### LIGHTCURVE w/ fixed binsize = ' + str(args.binsize) + ' ---> gta.lightcurve()')
-        lc = gta.lightcurve(target_source, binsz=int(args.binsize), write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
-    elif args.makelc == 3:
+    elif pipeconf['lightcurve']['bintype'] == 'fix':
+        log.info('\n\n#### LIGHTCURVE w/ fixed binsize = ' + str(pipeconf['lightcurve']['binsize']) + ' ---> gta.lightcurve()')
+        lc = gta.lightcurve(target_source, binsz=pipeconf['lightcurve']['binsize'], write_fits=False, write_npy=True, make_plots=True, save_bin_data=False)
+    elif pipeconf['lightcurve']['bintype'] == 'integral':
         log.info('\n\n#### LIGHTCURVE w/ selected interval time bin between tmin and tmax ---> gta.lightcurve()')
 	# prepare time_bins
         log.info('\n\n# prepare time bins')
