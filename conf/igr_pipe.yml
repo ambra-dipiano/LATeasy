@@ -25,7 +25,7 @@ variable_sources:
 
 extended_sources:
   name: 4FGL J1745.8-3028e
-    Extended_Source_Name: FGES J1745.8-3028 
+    Extended_Source_Name: FGES J1745.8-3028
     ROI_Center_Distance: 3.31
     Signif_Avg: 29.66
     Normalisation: 
@@ -41,6 +41,7 @@ execute:
   localise: false
 
 lightcurve:
+  bintype: fix
   binsize: 86400
 
 makemodel:
