@@ -50,6 +50,7 @@ The configuration file is structure in different tags. The following list provid
   * lc: (bool) perform lightcurve
   * sed: (bool) perform sed
   * localise: (bool) perform localisation
+  * agg_backend: (bool) change matplotlib backent to agg
 
 * lightcurve: this tag will contain all lightcurve options
   * bintype: (str) how to define time bins < fix/filter/integral >

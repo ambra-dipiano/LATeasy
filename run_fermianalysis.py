@@ -15,10 +15,6 @@ from fermipy.gtanalysis import GTAnalysis
 from os. path import isfile
 from matplotlib import streamplot
 
-# switch matplotlib backend
-matplotlib.use('agg')
-plt.switch_backend('agg')
-
 # -------------------------------------------------------- functions
 def list_nans():
     '''Filter out all nan TS sources.'''
@@ -58,6 +54,11 @@ with open(args.pipeconf) as f:
 with open(args.fermiconf) as f:
     fermiconf = yaml.load(f)
 
+# switch matplotlib backend
+if pipeconf['execute']['agg_backend']:
+    matplotlib.use('agg')
+    plt.switch_backend('agg')
+
 # logging
 logname = str(args.fermiconf).replace('.yml','.log')
 log = logging.getLogger()
@@ -73,6 +74,11 @@ log.info('\n#### LOGGING ---> ' + str(logname))
 # free the following sources
 variable_sources = pipeconf['variable_sources']
 extended_sources = pipeconf['extended_sources']
+
+print(variable_sources)
+print(extended_sources)
+
+breakpoint()
 
 # background parameters
 galmodel = pipeconf['background']['galmodel']
