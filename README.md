@@ -16,4 +16,4 @@ The repository provides two template configuration files in <code>template</code
 - the template for the configuration fermipy analysis: <code>templates/template_fermianalysis.yml</code>
 - the template for the configuration of the pipeline: <code>templates/template_pipe.yml</code>
 
-We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [templates/README.md](here)
+We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [here](templates/README.md)
