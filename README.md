@@ -39,3 +39,13 @@ Update the sky region model:
 ```bash
 python update_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
 ```
+
+# Analysis
+
+To run the analysis you will need two configuration files. The one referring to the fermipy configuration, and the on referring to the pipeline configuration. See the above section on configuration file for more information.
+
+Run the fermi analysis:
+```bash
+python run_fermianalysis.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
+```
+
