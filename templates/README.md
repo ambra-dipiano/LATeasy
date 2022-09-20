@@ -42,9 +42,7 @@ The configuration file is structure in different tags. The following list provid
     * ROI_Center_Distance: (int) distance form the center
     * Signif_Avg: (float) significance
     * Normalisation: (list) normalisation values
-      * 
     * Normalisation_Error: (list) normalisation errors
-      * 
 
 * execute: this tag will contain all execution option
   * lc: (bool) perform lightcurve
@@ -69,6 +67,4 @@ The configuration file is structure in different tags. The following list provid
   * extmints: (int) min ts to free sources withint external radius
   * minvariability: (float) min variability threshold
   * freeparams: (list) parameters to free, must be a list
-    * 
   * newbkg: (list) backgrounds to keep or substitute
-    * 
