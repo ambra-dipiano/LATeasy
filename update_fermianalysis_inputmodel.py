@@ -5,31 +5,37 @@
 # This software is intended to update the input model of the sky region
 # *****************************************************************************
 
-
+import argparse
+import yaml
 import xml.etree.ElementTree as ET
 from astropy.io import fits
 from astropy.coordinates import SkyCoord
 
-model = '/data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL27_IGR_inputmodel.xml'
-igrmodel = '/data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/IGRJ17354-3255_model.xml'
-cat = '/data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA/gll_psc_v27.fit'
-new_model = model.replace('.xml', '_updated4.xml')
+parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
+parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
+args = parser.parse_args()
+
+# load yaml configurations
+with open(args.pipeconf) as f:
+    pipeconf = yaml.load(f)
+model = pipeconf['path']['inputmodel']
+igrmodel = pipeconf['path']['target']
+cat = pipeconf['path']['catalogue']
 
 # target coordinates (TO-DO: check frame - negligible difference if iscr <--> fk5)
 target = (263.854022, -32.938505)
 center_J2000 = SkyCoord(ra=target[0], dec=target[1], frame='fk5', unit='deg')
 # thresholds
-radius = 5  # radius within which all sources are kept free
-radius_external = 10  # radius within which all sources are fixed except for variable ones
-min_ts = 25  # minimum TS srcs < radius to free norm
-min_ts_external = 50  # minimum TS srcs < radius_external to free norm
+radius = pipeconf['updatemodel']['radius']  # radius within which all sources are kept free
+radius_external = pipeconf['updatemodel']['extradius']  # radius within which all sources are fixed except for variable ones
+min_ts = pipeconf['updatemodel']['mints']  # minimum TS srcs < radius to free norm
+min_ts_external = pipeconf['updatemodel']['extmints']  # minimum TS srcs < radius_external to free norm
 # min_ts_flag = 10  # minimum TS flagged srcs < radius to free norm (10-16)
-variability_threshold = 18.48  # variability index above which sources have < 1% chance of being steady
+variability_threshold = pipeconf['updatemodel']['minvariability']  # variability index above which sources have < 1% chance of being steady
 # background sources in library
-bkgs = ('gll_iem_v07', 'iso_P8R3_SOURCE_V3_v1')
+bkgs = pipeconf['updatemodel']['newbkg']
 # list of parameters to free
-params_name = ('norm', 'Prefactor')
-#params_name = ('norm', 'Prefactor', 'Index', 'Index1', 'Index2')
+params_name = pipeconf['updatemodel']['freeparams']
 
 # load data from catalogue (point-like and extended)
 with fits.open(cat) as hdul:
@@ -64,8 +70,10 @@ for src in variable_external_bright:
     srcs_variable['Signif_Avg'].append(src['Signif_Avg'])
 
 # find variable sources match between catalogue and source library and set them free (only norm parameter)
-mysource = ET.parse(igrmodel).getroot().find('source[@name="IGRJ17354-3255"]')
-src_lib = ET.parse(model)
+with open(igrmodel, 'rb') as f:
+    mysource = ET.parse(f).getroot().find('source[@name="IGRJ17354-3255"]')
+with open(model, 'rb') as f:
+    src_lib = ET.parse(model)
 root = src_lib.getroot()
 nsources, near, freed, dof = 0, 0, 0, 0
 for src in root.findall('source[@type="PointSource"]'):
@@ -93,15 +101,16 @@ spc.set('file', '$(FERMI_DIR)/refdata/fermi/galdiffuse/iso_P8R3_SOURCE_V2_v1.txt
 
 # update source library and append mysource model
 root.insert(0, mysource)
-src_lib.write(new_model)
+with open(model, 'wb') as f:
+    src_lib.write(model)
 print('Freed all sources within', radius, 'deg')
 print('Freed variable srcs with TS >', min_ts_external, 'within', radius_external, 'deg')
 print('Total freed sources', nsources, 'with parameters:', params_name)
 # remove withe lines
-with open(new_model) as xmlfile:
-    lines = [line for line in xmlfile if line.strip() is not ""]
-with open(new_model, "w") as xmlfile:
-    xmlfile.writelines(lines)
+with open(model) as f:
+    lines = [line for line in f if line.strip() is not ""]
+with open(model, "w") as f:
+    f.writelines(lines)
 
 bkgs = ('gll_iem_v07', 'iso_P8R3_SOURCE_V2_v1')
 
@@ -124,6 +133,6 @@ for src in srcs_extended['Extended_Source_Name']:
 # print dictionaries
 print('Bright Variable (within', radius_external, 'deg) dict:', srcs_variable)
 print('Extended (within ', radius,' deg) dict:', srcs_extended)
-print(f"Near srcs: {near}")
-print(f"Freed srcs: {freed}")
-print(f"DOF: {dof}")
+print("Near srcs:", near)
+print("Freed srcs:", freed)
+print("DOF:", dof)
