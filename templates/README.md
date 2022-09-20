@@ -68,6 +68,6 @@ The configuration file is structure in different tags. The following list provid
   - extmints: (int) min ts to free sources withint external radius
   - minvariability: (float) min variability threshold
   - freeparams: (list) parameters to free, must be a list
-    - 
+    1.
   - newbkg: (list) backgrounds to keep or substitute
-    -  
+    1. 
