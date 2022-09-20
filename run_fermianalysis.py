@@ -229,9 +229,10 @@ if pipeconf['execute']['lc']:
     # variable and extended sources
     for src in gta.roi.get_sources():
         # for variable srcs, put norm true if ts > 50
-        if src.name in variable_sources['Source_Name']:
+        variables_names = [variable_sources[name] for name in variable_sources.keys()]
+        if src.name in variables_names:
             # update significance
-            variable_sources['Signif_Avg'][variable_sources['Source_Name'].index(src.name)] = float(src['ts'])
+            variable_sources[src.name]['Signif_Avg'] = float(src['ts'])
             log.info('\n --- variable source ---')
             if src['ts'] > 50:
                 log.info('\nname = ' + src.name + ' TS > 50 ---> free "norm"')
