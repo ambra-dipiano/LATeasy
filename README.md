@@ -16,4 +16,26 @@ The repository provides two template configuration files in <code>template</code
 - the template for the configuration fermipy analysis: <code>templates/template_fermianalysis.yml</code>
 - the template for the configuration of the pipeline: <code>templates/template_pipe.yml</code>
 
-We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [here](templates/README.md)
+We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [here](templates/README.md).
+
+# Sky region models
+
+To perform the analysis two sets of models other than the background are required. First of all is the target model, secondly is the model of the sky region. 
+
+## Generate the sky region model
+
+To generate the sky region model we will make use of a Fermi user contribution script, the [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py). To better understand the used parameters, please refer to the official [readme](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/readme_make4FGLxml.txt). To this model, if required, the target source model will be added.
+
+Generate the sky region model:
+```bash
+python generate_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
+```
+
+## Update the sky region model
+
+To update the sky region model we will make use of the catalogue combined with the previously generated sky region model. Be sure to have both stored under the correct path. Note also that the user requires writing access to the generated file, thus we suggest to always generate your own model with the previous script.
+
+Update the sky region model:
+```bash
+python update_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
+```
