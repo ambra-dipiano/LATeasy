@@ -62,11 +62,11 @@ The configuration file is structure in different tags. The following list provid
   - ds9reg: (bool) make ds9 region file
 
 * updatemodel: this tag will contain all to update the sky region
-  - radius:             # (float) radius within sources are freed
-  - extradius:          # (float) external radius within sources are freed by condition
-  - mints:              # (int) min ts to free sources within radius
-  - extmints:           # (int) min ts to free sources withint external radius
-  - minvariability:     # (float) min variability threshold
+  - radius: (float) radius within sources are freed
+  - extradius: (float) external radius within sources are freed by condition
+  - mints: (int) min ts to free sources within radius
+  - extmints: (int) min ts to free sources withint external radius
+  - minvariability: (float) min variability threshold
   - freeparams: (list) parameters to free, must be a list
     - 
   - newbkg: (list) backgrounds to keep or substitute
