@@ -6,7 +6,6 @@ Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/l
 
 The configuration file is structure in different tags. The following list provides a complete description of all parameters, as can also be found commented in the template file.
 
-[list]
 * path: this tag will contain all paths
   - data: (str) folder where data is stored        
   - models: (str) folder where models are stored
@@ -53,7 +52,7 @@ The configuration file is structure in different tags. The following list provid
   - localise: (bool) perform localisation
 
 * lightcurve: this tag will contain all lightcurve options
-  - bintype: (str) how to define time bins < fix|filter|integral >
+  - bintype: (str) how to define time bins < fix/filter/integral >
   - binsize: (int) lightcurve binsize in seconds for fix bins
 
 * makemodel: this tag will contain all make4FGL.py script options
@@ -69,7 +68,6 @@ The configuration file is structure in different tags. The following list provid
   - extmints: (int) min ts to free sources withint external radius
   - minvariability: (float) min variability threshold
   - freeparams: (list) parameters to free, must be a list
-    - 
+    1. 
   - newbkg: (list) backgrounds to keep or substitute
-    - 
-[/list]
+    1. 
