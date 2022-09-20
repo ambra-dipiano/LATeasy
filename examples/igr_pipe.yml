@@ -1,9 +1,9 @@
 path:
   data: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA             
+  models: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/
+  galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
   output: /data01/projects/IGRJ17354-3255/FERMI/LC
   target: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/IGRJ17354-3255_model.xml
-  galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
-  inputmodel: /data01/projects/IGRJ17354-3255/FERMI/FERMI_MODELS/4FGL22_IGR_inputmodel.xml
   photometry: /data01/projects/IGRJ17354-3255/FERMI/LC/igrDaysMET_filtered.out
   catalogue: /data01/projects/IGRJ17354-3255/FERMI/FERMI_DATA/gll_psc_v27.fit
 
@@ -47,6 +47,7 @@ lightcurve:
 
 makemodel:
   observation: L20083004141749F5D3C158_PH00.fits
+  output: 4FGL_inputmodel.xml
   normfree: yes 
   radius: 5
   significance: 25 

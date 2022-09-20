@@ -1,12 +1,12 @@
 # define all paths for the pipeline
 path:
   data:           # (str) folder where data is stored        
-  output:         # (str) folder where to store output
-  target:         # (str) model of the target source 
+  models:         # (str) folder where models are stored
   galdir:         # (str) folder where the galactic diffuse background is stored
-  inputmodel:     # (str) model of all sources in the region
-  photometry:     # (str) file contaning the AP exposure output
-  catalogue:      # (str) catalogue file
+  output:         # (str) folder where to store output
+  target:         # (str) absolute path to model of the target source 
+  photometry:     # (str) absolute path to file contaning the AP exposure output
+  catalogue:      # (str) absolute path to catalogue file
 
 # define all initial background hypothesis
 background:       
@@ -52,6 +52,8 @@ lightcurve:
 
 # make4FGL.py script options
 makemodel:
+  observation:                # (str) name of the data file
+  output:                     # (str) name of the output file
   normfree:                   # (bool) free normalisation
   radius:                     # (float) inner radius for freeing normalisation
   significance:               # (float) minimum significance for freeing normalisation
