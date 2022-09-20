@@ -6,6 +6,7 @@ Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/l
 
 The configuration file is structure in different tags. The following list provides a complete description of all parameters, as can also be found commented in the template file.
 
+[list]
 * path: this tag will contain all paths
   - data: (str) folder where data is stored        
   - models: (str) folder where models are stored
@@ -71,3 +72,4 @@ The configuration file is structure in different tags. The following list provid
     - 
   - newbkg: (list) backgrounds to keep or substitute
     - 
+[/list]
