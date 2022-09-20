@@ -9,18 +9,11 @@ We provide an environment recipe for [https://www.anaconda.com/products/distribu
 - <code>environment-fermipy2.yml</code> for fermpy v0.19 and python v2.7
 - <code>environment-fermipy3.yml</code> for fermipy v1.0 and python v3.7 
 
-The code requires the following environmental variables:
-
-- <code>FERMITOOLS</code> the absolute path where the repository is installed
-- <code>FERMIDATA</code> the absolute path where Fermi data are stored
-- <code>FERMIMODEL</code> the absolute path where Fermi source models are stored
-- <code>FERMI_DIFFUSE_DIR</code> the absolute path where Fermi diffuse model is stored
-
 ## Configuration files
 
-The repository provides two template configuration files in <code>conf</code>. You can find examples of compiled configuration files in the same folder.
+The repository provides two template configuration files in <code>template</code>. You can find examples of compiled configuration files in the <code>examples</code> folder.
 
-- the template for the configuration fermipy analysis: <code>template_fermianalysis.yml</code>
-- the template for the configuration of the pipeline: <code>template_pipe.yml</code>
+- the template for the configuration fermipy analysis: <code>templates/template_fermianalysis.yml</code>
+- the template for the configuration of the pipeline: <code>templates/template_pipe.yml</code>
 
-We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters based on their use case. If one or more fields are not require by the use case, please leave the field empty.
+We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [templates/README.md](here)
