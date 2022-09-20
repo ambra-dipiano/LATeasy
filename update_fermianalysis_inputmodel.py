@@ -10,6 +10,7 @@ import yaml
 import xml.etree.ElementTree as ET
 from astropy.io import fits
 from astropy.coordinates import SkyCoord
+from os.path import join
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
@@ -18,9 +19,9 @@ args = parser.parse_args()
 # load yaml configurations
 with open(args.pipeconf) as f:
     pipeconf = yaml.load(f)
-model = pipeconf['path']['inputmodel']
-igrmodel = pipeconf['path']['target']
-cat = pipeconf['path']['catalogue']
+model = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
+igrmodel = join(pipeconf['path']['models'], pipeconf['file']['target'])
+cat = join(pipeconf['path']['data'], pipeconf['file']['catalogue'])
 
 # target coordinates (TO-DO: check frame - negligible difference if iscr <--> fk5)
 target = (263.854022, -32.938505)
