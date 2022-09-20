@@ -78,8 +78,6 @@ extended_sources = pipeconf['extended_sources']
 print(variable_sources)
 print(extended_sources)
 
-breakpoint()
-
 # background parameters
 galmodel = pipeconf['background']['galmodel']
 isomodel = pipeconf['background']['isomodel']
@@ -106,7 +104,7 @@ gta = GTAnalysis(args.fermiconf, logging={'verbosity' : 3})
 log.info('\n\n#### SETUP ---> gta.setup()')
 gta.print_roi()
 gta.setup()
-# 1st optimaze 
+# 1st optimaze m,,mmjn
 opt1 = gta.optimize()
 gta.print_roi()
 fname = 'roi1_optimize'
@@ -241,10 +239,11 @@ if pipeconf['execute']['lc']:
             else:
                 log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
-        if src.name in extended_sources['Extended_Source_Name']:
-            index = extended_sources['Extended_Source_Name'].index(src.name)
-            norm4fgl = extended_sources['Normalisation'][index]
-            norm_error4fgl =  extended_sources['Normalisation_Error'][index]
+        extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
+        if src.name in extended_names:
+            index = extended_sources[src.name]['Extended_Source_Name'].index(src.name)
+            norm4fgl = extended_sources[src.name]['Normalisation'][index]
+            norm_error4fgl =  extended_sources[src.names]['Normalisation_Error'][index]
             norm = float(src.spectral_pars['Prefactor']['value'])
             norm_error = float(src.spectral_pars['Prefactor']['error'])
             log.info('\n --- extended source ---')
