@@ -12,7 +12,7 @@ import matplotlib
 import pandas as pd
 import matplotlib.pyplot as plt
 from fermipy.gtanalysis import GTAnalysis
-from os. path import isfile
+from os.path import isfile, join
 from matplotlib import streamplot
 
 # -------------------------------------------------------- functions
@@ -42,6 +42,15 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=True, keepisomod
     else:
         gta.free_source(isomodel, free=False)
 
+def set_logger(filename, level):
+    log = logging.getLogger()
+    fileHandler = logging.FileHandler(filename)
+    log.addHandler(fileHandler)
+    consoleHandler = logging.StreamHandler()
+    log.addHandler(consoleHandler)
+    log.setLevel(level)
+    return log
+
 # ---------------------------------------------------------------- input
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
@@ -60,17 +69,13 @@ if pipeconf['execute']['agg_backend']:
     plt.switch_backend('agg')
 
 # logging
-logname = str(args.fermiconf).replace('.yml','.log')
-log = logging.getLogger()
-fileHandler = logging.FileHandler(logname)
-log.addHandler(fileHandler)
-consoleHandler = logging.StreamHandler()
-log.addHandler(consoleHandler)
-log.setLevel(pipeconf['execute']['loglevel'])
+logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
 # ---------------------------------------------------------------- setup
 target_source = pipeconf['target']['name']
 log.info('\n#### LOGGING ---> ' + str(logname))
+print(logname)
 
 # free the following sources
 variable_sources = pipeconf['variable_sources']
@@ -98,7 +103,12 @@ else:
     iso_normalization_value = pipeconf['background']['isonorm']
     keepisomodelfree = False
 
-log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']) + "\nExecute LC: " + str(pipeconf['execute']['lc']))
+log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']))
+log.info("Execute LOC: " + str(pipeconf['execute']['localise']))
+log.info("Execute LC: " + str(pipeconf['execute']['lc']))
+
+breakpoint()
+
 
 # ----------------------------------------------------------------- analysis
 gta = GTAnalysis(args.fermiconf, logging={'verbosity' : pipeconf['execute']['verbose']})
@@ -271,8 +281,6 @@ if pipeconf['execute']['lc']:
             log.info('\n--- update isomodel ---' )
             iso_normalization_value = float(src.spectral_pars['Normalization']['value'])
             log.info('\nnormalisation = ' + str(iso_normalization_value))
-
-    breakpoint()
 
     # keep gal and iso model parameters fixed
     log.info('\n\n# freeze background parameters')
