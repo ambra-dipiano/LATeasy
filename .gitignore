@@ -1,6 +1,7 @@
 # extentions
 *.log
 *.ll
+*.sh
 
 # folders
 __*
