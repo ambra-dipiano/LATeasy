@@ -100,7 +100,7 @@ else:
 log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']) + "\nExecute LC: " + str(pipeconf['execute']['lc']))
 
 # ----------------------------------------------------------------- analysis
-gta = GTAnalysis(args.fermiconf, logging={'verbosity' : pipeconf['execute']['verbosity']})
+gta = GTAnalysis(args.fermiconf, logging={'verbosity' : pipeconf['execute']['verbose']})
 log.info('\n\n#### SETUP ---> gta.setup()')
 gta.print_roi()
 gta.setup()
