@@ -9,7 +9,33 @@ We provide an environment recipe for [https://www.anaconda.com/products/distribu
 - <code>environment-fermipy2.yml</code> for fermpy v0.19 and python v2.7
 - <code>environment-fermipy3.yml</code> for fermipy v1.0 and python v3.7 
 
-## Configuration files
+You can create such environments like this:
+
+```bach
+conda create env -n <name> -f <environment-file.yml>
+```
+
+## Installation
+
+Please activate the conda environment beforehand:
+
+```bash
+conda activate <name>
+```
+
+To install the software:
+
+```bash
+pip install .
+```
+
+For developers, you can install in editable mode:
+
+```bash
+pip install -e .
+```
+
+# Configuration files
 
 The repository provides two template configuration files in <code>template</code>. You can find examples of compiled configuration files in the <code>examples</code> folder.
 
