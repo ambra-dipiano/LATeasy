@@ -5,6 +5,7 @@
 # This software contains an ensable of utility functions
 # *****************************************************************************
 
+import logging
 import xml.etree.ElementTree as ET
 
 def mjd_to_met(time):
@@ -22,3 +23,12 @@ def get_target_coords(model, name):
     ra = mysource.find('spatialModel/parameter[@name=RA]').get('value')
     dec = mysource.find('spatialModel/parameter[@name=DEC]').get('value')
     return ra, dec
+
+def set_logger(filename, level):
+    log = logging.getLogger()
+    fileHandler = logging.FileHandler(filename)
+    log.addHandler(fileHandler)
+    consoleHandler = logging.StreamHandler()
+    log.addHandler(consoleHandler)
+    log.setLevel(level)
+    return log
