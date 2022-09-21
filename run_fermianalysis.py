@@ -76,8 +76,8 @@ log.info('\n#### LOGGING ---> ' + str(logname))
 variable_sources = pipeconf['variable_sources']
 extended_sources = pipeconf['extended_sources']
 
-print(variable_sources)
-print(extended_sources)
+log.debug('variable sources:', variable_sources)
+log.debug('extended sources:', extended_sources)
 
 # background parameters
 galmodel = pipeconf['background']['galmodel']
@@ -126,10 +126,10 @@ log.info('\nnormalisation = ' + str(iso_normalization_value))
 # get sources
 gta.print_roi()
 sources = gta.get_sources()
-print('target & bkgs before fit1:')
+log.debug('target & bkgs before fit1:')
 for src in sources:
     if src['name'] in (galmodel, isomodel, target_source):
-        print(src)
+        log.debug(src)
 
 # execute fit
 prefit = gta.fit(update=True)
@@ -161,10 +161,10 @@ log.info('\n\n# 2nd optimize saved in ---> ' + str(fname))
 #manage gal and iso parameters
 manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=keepgalmodelfree, keepisomodelfree=keepisomodelfree, gal_prefactor_value=gal_prefactor_value, gal_index_value=gal_index_value, iso_normalization_value=iso_normalization_value)
 
-print('target & bkgs after optimize2:')
+log.debug('target & bkgs after optimize2:')
 for src in sources:
     if src['name'] in (galmodel, isomodel, target_source):
-        print(src)
+        log.debug(src)
 
 # ----------------------------------------------------------------------- 1st sed
 if pipeconf['execute']['sed']:
@@ -173,21 +173,21 @@ if pipeconf['execute']['sed']:
 
 # ------------------------------------------------------------------------ 2nd fit
 fit_results = gta.fit(update=True)
-print('Fit Quality: ',fit_results['fit_quality'])
-print('Fit Status: ',fit_results['fit_status'])
+log.debug('Fit Quality: ',fit_results['fit_quality'])
+log.debug('Fit Status: ',fit_results['fit_status'])
 fname = 'roi2_fit_model'
 gta.write_roi(fname)
 sources = gta.get_sources()
 log.info('\n\n# 2nd fit saved in ---> ' + str(fname))
-print("### Results of roi2_fit_model")
+log.debug("### Results of roi2_fit_model")
 for src in gta.roi.get_sources():
-    print(src.name + " " + str(src['ts']))
+    log.debug(src.name + " " + str(src['ts']))
     log.info(src.name + " " + str(src['ts']))
 
-print("target & bkgs after fit2:")
+log.debug("target & bkgs after fit2:")
 for src in sources:
     if src['name'] in (galmodel, isomodel, target_source):
-        print(src)
+        log.debug(src)
 
 # ------------------------------------------------------------------------ 1st localise
 if pipeconf['execute']['localise']:
@@ -231,7 +231,7 @@ if pipeconf['execute']['lc']:
     for src in gta.roi.get_sources():
         # for variable srcs, put norm true if ts > 50
         variables_names = [variable_sources[name] for name in variable_sources.keys()]
-        print(variables_names)
+        log.debug(variables_names)
         if src.name in variables_names:
             # update significance
             variable_sources[src.name]['Signif_Avg'] = float(src['ts'])
@@ -243,7 +243,7 @@ if pipeconf['execute']['lc']:
                 log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
         extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
-        print(extended_names)
+        log.debug(extended_names)
         if src.name in extended_names:
             index = extended_sources[src.name]['Extended_Source_Name'].index(src.name)
             norm4fgl = extended_sources[src.name]['Normalisation'][index]
