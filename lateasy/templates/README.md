@@ -26,11 +26,11 @@ The configuration file is structure in different tags. The following list provid
 * background: this tag will contain all initial background hypothesis
   * isomodel: (str) isothropic background model
   * isofree: (bool) free isothropic background
-  * isonorm: (float) normalisation value of the isothropic background
+  * isonorm: (float) normalisation value of the isothropic background model, if null takes default
   * galmodel: (str) galactic background model
   * galfree: (bool) free galactic background model
-  * galnorm: (float) normalisazione value of the galactic background model
-  * galindex: (float) index value of the galactic background model
+  * galnorm: (float) normalisazione value of the galactic background model, if null takes default
+  * galindex: (float) index value of the galactic background model, if null takes default
 
 * target: this tag will contain all parameters related to the target source
   * name: (str) name of the target source

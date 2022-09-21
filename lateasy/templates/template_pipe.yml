@@ -17,11 +17,11 @@ file:
 background:       
   isomodel:        # (str) isothropic background model
   isofree:         # (bool) free isothropic background
-  isonorm:         # (float) normalisation value of the isothropic background
+  isonorm:         # (float) normalisation value of the isothropic background model, if null takes default
   galmodel:        # (str) galactic background model
   galfree:         # (bool) free galactic background model
-  galnorm:         # (float) normalisazione value of the galactic background model
-  galindex:        # (float) index value of the galactic background model
+  galnorm:         # (float) normalisazione value of the galactic background model, if null takes default
+  galindex:        # (float) index value of the galactic background model, if null takes default
 
 # target parameters
 target:
