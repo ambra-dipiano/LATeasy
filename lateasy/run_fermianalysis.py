@@ -99,8 +99,6 @@ log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']))
 log.info("Execute LOC: " + str(pipeconf['execute']['localise']))
 log.info("Execute LC: " + str(pipeconf['execute']['lc']))
 
-breakpoint()
-
 
 # ----------------------------------------------------------------- analysis
 gta = GTAnalysis(args.fermiconf, logging={'verbosity' : pipeconf['execute']['verbose']})
