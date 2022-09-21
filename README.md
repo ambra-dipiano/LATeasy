@@ -2,8 +2,6 @@
 
 This repository is intended as a collection of tools and script to run automated analysis of Fermi/LAT data with fermipy analysis tool. 
 
-[toc]
-
 ## Environment requirements 
 
 We provide an environment recipe for [https://www.anaconda.com/products/distribution](anconda). Any variation from it is not granted to work.

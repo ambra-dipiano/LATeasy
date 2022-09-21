@@ -1,6 +1,6 @@
 # Configuration files
 
-[toc]
+Specifics on the configuration files.
 
 ## Fermi analysis configuration
 
