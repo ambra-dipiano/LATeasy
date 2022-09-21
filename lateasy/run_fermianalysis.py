@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from fermipy.gtanalysis import GTAnalysis
 from os.path import isfile, join
 from matplotlib import streamplot
+from lateasy.utils.functions import set_logger
 
 # -------------------------------------------------------- functions
 def list_nans():
@@ -42,14 +43,6 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=True, keepisomod
     else:
         gta.free_source(isomodel, free=False)
 
-def set_logger(filename, level):
-    log = logging.getLogger()
-    fileHandler = logging.FileHandler(filename)
-    log.addHandler(fileHandler)
-    consoleHandler = logging.StreamHandler()
-    log.addHandler(consoleHandler)
-    log.setLevel(level)
-    return log
 
 # ---------------------------------------------------------------- input
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
