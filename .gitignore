@@ -2,10 +2,12 @@
 *.log
 *.ll
 *.sh
+*egg-info
 
 # folders
 __*
 igrJ17354-3255
+
 
 # files
 make4FGL*.py
