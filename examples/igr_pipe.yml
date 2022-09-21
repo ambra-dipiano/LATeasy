@@ -42,8 +42,8 @@ extended_sources:
 
 execute:
   lc: true
-  sed: false
-  localise: false
+  sed: true
+  localise: true
   agg_backend: false
 
 lightcurve:
