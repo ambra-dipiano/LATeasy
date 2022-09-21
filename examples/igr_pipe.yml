@@ -45,6 +45,7 @@ execute:
   sed: true
   localise: true
   agg_backend: false
+  verbose: 0
 
 lightcurve:
   bintype: fix

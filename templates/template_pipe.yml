@@ -50,6 +50,7 @@ execute:
   sed:                        # (bool) perform sed
   localise:                   # (bool) perform localisation
   agg_backend:                # (bool) change matplotlib backent to agg
+  verbose:                    # (int) value of fermipy verbosity
 
 # lightcurve options
 lightcurve:

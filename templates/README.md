@@ -49,6 +49,7 @@ The configuration file is structure in different tags. The following list provid
   * sed: (bool) perform sed
   * localise: (bool) perform localisation
   * agg_backend: (bool) change matplotlib backent to agg
+  * verbose: (int) value of fermipy verbosity
 
 * lightcurve: this tag will contain all lightcurve options
   * bintype: (str) how to define time bins < fix/filter/integral >
