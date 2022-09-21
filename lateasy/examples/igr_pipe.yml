@@ -1,8 +1,8 @@
 path:
-  data: /data01/homes/dipiano/FermiTools/igrJ17354-3255/data            
-  models: /data01/homes/dipiano/FermiTools/igrJ17354-3255/models
+  data: /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/data            
+  models: /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/models
   galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
-  output: /data01/homes/dipiano/FermiTools/igrJ17354-3255/output
+  output: /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/output
 
 file: 
   observation: L20083004141749F5D3C158_PH00.fits

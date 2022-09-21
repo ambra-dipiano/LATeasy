@@ -1,6 +1,6 @@
 data:
-  evfile : /data01/homes/dipiano/FermiTools/igrJ17354-3255/data/events.txt
-  scfile : /data01/homes/dipiano/FermiTools/igrJ17354-3255/data/SC00.fits
+  evfile : /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/data/events.txt
+  scfile : /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/data/SC00.fits
 
 binning:
   roiwidth   : 15.0
@@ -44,7 +44,7 @@ model:
   galdiff  : /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/gll_iem_v07.fits
   isodiff  : iso_P8R3_SOURCE_V2_v1.txt
   catalogs : 
-    - /data01/homes/dipiano/FermiTools/igrJ17354-3255/models/4FGL_inputmodel.xml
+    - /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/models/4FGL_inputmodel.xml
 
 fileio:
-    outdir : /data01/homes/dipiano/FermiTools/igrJ17354-3255/output
+    outdir : /data01/homes/dipiano/FermiTools/lateasy/igrJ17354-3255/output
