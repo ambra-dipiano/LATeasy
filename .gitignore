@@ -3,6 +3,7 @@
 *.ll
 *.sh
 *egg-info
+*.pyc
 
 # folders
 __*
