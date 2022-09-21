@@ -66,6 +66,7 @@ fileHandler = logging.FileHandler(logname)
 log.addHandler(fileHandler)
 consoleHandler = logging.StreamHandler()
 log.addHandler(consoleHandler)
+log.setLevel(pipeconf['execute']['loglevel'])
 
 # ---------------------------------------------------------------- setup
 target_source = pipeconf['target']['name']
@@ -230,6 +231,7 @@ if pipeconf['execute']['lc']:
     for src in gta.roi.get_sources():
         # for variable srcs, put norm true if ts > 50
         variables_names = [variable_sources[name] for name in variable_sources.keys()]
+        print(variables_names)
         if src.name in variables_names:
             # update significance
             variable_sources[src.name]['Signif_Avg'] = float(src['ts'])
@@ -241,6 +243,7 @@ if pipeconf['execute']['lc']:
                 log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
         extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
+        print(extended_names)
         if src.name in extended_names:
             index = extended_sources[src.name]['Extended_Source_Name'].index(src.name)
             norm4fgl = extended_sources[src.name]['Normalisation'][index]
@@ -268,6 +271,8 @@ if pipeconf['execute']['lc']:
             log.info('\n--- update isomodel ---' )
             iso_normalization_value = float(src.spectral_pars['Normalization']['value'])
             log.info('\nnormalisation = ' + str(iso_normalization_value))
+
+    breakpoint()
 
     # keep gal and iso model parameters fixed
     log.info('\n\n# freeze background parameters')

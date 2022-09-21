@@ -50,6 +50,7 @@ The configuration file is structure in different tags. The following list provid
   * localise: (bool) perform localisation
   * agg_backend: (bool) change matplotlib backent to agg
   * verbose: (int) value of fermipy verbosity
+  * loglevel: (int) level of pipeline logging: 0=none, 10=debug, 20=info, 30=warning, 40=error, 50=critical
 
 * lightcurve: this tag will contain all lightcurve options
   * bintype: (str) how to define time bins < fix/filter/integral >
