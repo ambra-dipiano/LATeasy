@@ -74,13 +74,13 @@ python $PYCODE/slurmIndexMonths.py $DATA/YEARS5j
 ```
 
 
-## cmd6fermi.py
+## run_fermianalysis.py
 
 ### Opzioni d'esecuzione
 Di default tutte le opzioni sono <code>False</code>.
 
 ```bash
-python $PYCODE/cmd6fermi.py -f config.yaml -- isofree <True|False|None|float> --galfree <True|False|None|float> --makelc <0|1|2> --skip_sed <True|False> 
+python $PYCODE/run_fermianalysis.py -f config.yaml -- isofree <True|False|None|float> --galfree <True|False|None|float> --makelc <0|1|2> --skip_sed <True|False> 
 ```
 
 Il parametro <code>makelc</code> accetta le seguenti opzioni:
@@ -92,7 +92,7 @@ Il parametro <code>makelc</code> accetta le seguenti opzioni:
 ### Esempio
 
 ```bash
-python $PYCODE/cmd6fermi.py -f config.yaml --skipsed True --makelc 1
+python $PYCODE/run_fermianalysis.py -f config.yaml --skipsed True --makelc 1
 ```
 
 
