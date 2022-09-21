@@ -1,8 +1,8 @@
-[toc]
-
 # Introduction
 
 This repository is intended as a collection of tools and script to run automated analysis of Fermi/LAT data with fermipy analysis tool. 
+
+[toc]
 
 ## Environment requirements 
 

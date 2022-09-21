@@ -1,10 +1,12 @@
+# Configuration files
+
 [toc]
 
-# Fermi analysis configuration
+## Fermi analysis configuration
 
 Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/latest/).
 
-# Pipeline configuration
+## Pipeline configuration
 
 The configuration file is structure in different tags. The following list provides a complete description of all parameters, as can also be found commented in the template file.
 
