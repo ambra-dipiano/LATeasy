@@ -1,3 +1,5 @@
+[toc]
+
 # Fermi analysis configuration
 
 Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/latest/).
