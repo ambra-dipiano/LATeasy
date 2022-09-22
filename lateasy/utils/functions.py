@@ -26,9 +26,12 @@ def get_target_coords(model, name):
 
 def set_logger(filename, level):
     log = logging.getLogger()
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fileHandler = logging.FileHandler(filename)
-    log.addHandler(fileHandler)
+    fileHandler.setFormatter(formatter)
     consoleHandler = logging.StreamHandler()
+    consoleHandler.setFormatter(formatter)
+    log.addHandler(fileHandler)
     log.addHandler(consoleHandler)
     log.setLevel(level)
     return log
