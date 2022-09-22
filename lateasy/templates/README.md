@@ -85,3 +85,4 @@ The configuration file is structure in different tags. The following list provid
   * emax: (int) maximum energy
   * mode: (str) execution mode relative to size of time bin: <hour|fix|integral>
   * queue: (str) slurm partition
+  * sbatch: (bool) to submit jobs after creating them
