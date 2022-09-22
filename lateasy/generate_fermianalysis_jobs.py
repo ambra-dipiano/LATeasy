@@ -37,6 +37,10 @@ def generate(name, tmin, tmax, emax, queue, data):
     ymlname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".yml")
     llname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".ll")
     shname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".sh")
+    log.info('Job directory:', dirname)
+    log.info('Job fermipy configuration:', ymlname)
+    log.info('Job bash executable:', shname)
+    log.info('Job slurm script:', llname)
     
     # complete fermipy configuration
     fermiconf['selection']['emax'] = emax
@@ -108,6 +112,7 @@ if pipeconf['slurm']['bkgresults'] is not None and isfile(join(pipeconf['path'][
     f = pipeconf['slurm']['bkgresults']
     data = pd.read_csv(f, header=0, sep=" ")
 else:
+    # create empty data
     column_names = ["a", "b", "c"]
     data = pd.DataFrame(columns = column_names)
 
@@ -121,6 +126,7 @@ emax = pipeconf['slurm']['emax']
 queue = pipeconf['slurm']['queue']
 
 # submitt jobs based on "mode"
+log.info('Slurm job generator mode:', mode)
 if mode.lower() == 'hours':
     # compute at hours timescale from 1 day prior tmin to 1 day after tmax
     for i in range(tmin-86400, tmax+86400, 3600):
@@ -134,6 +140,7 @@ elif mode.lower() == 'integral':
     generate(name, tmin, tmax, emax, queue, data)
 else:
     # invalid "mode" configuration
+    log.error('Invalid "mode" configuration:', mode.lower())
     raise ValueError('Invalid "mode" configuration:', mode.lower())
 
 
