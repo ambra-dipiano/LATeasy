@@ -37,10 +37,10 @@ def generate(name, tmin, tmax, emax, queue, data):
     ymlname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".yml")
     llname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".ll")
     shname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".sh")
-    log.info('Job directory:', dirname)
-    log.info('Job fermipy configuration:', ymlname)
-    log.info('Job bash executable:', shname)
-    log.info('Job slurm script:', llname)
+    log.debug('Job directory:' + dirname)
+    log.debug('Job fermipy configuration:' + ymlname)
+    log.debug('Job bash executable:' + shname)
+    log.debug('Job slurm script:' + llname)
     
     # complete fermipy configuration
     fermiconf['selection']['emax'] = emax
@@ -140,7 +140,7 @@ elif mode.lower() == 'integral':
     generate(name, tmin, tmax, emax, queue, data)
 else:
     # invalid "mode" configuration
-    log.error('Invalid "mode" configuration:', mode.lower())
+    log.error('Invalid "mode" configuration:' + mode.lower())
     raise ValueError('Invalid "mode" configuration:', mode.lower())
 
 
