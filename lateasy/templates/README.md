@@ -66,7 +66,7 @@ The configuration file is structure in different tags. The following list provid
   * significance: (float) minimum significance for freeing normalisation
   * ds9reg: (bool) make ds9 region file
 
-* updatemodel: this tag will contain all to update the sky region  
+* updatemodel: this tag will contain all parameters to update the sky region  
   * radius: (float) radius within sources are freed
   * extradius: (float) external radius within sources are freed by condition
   * mints: (int) min ts to free sources within radius
@@ -74,3 +74,14 @@ The configuration file is structure in different tags. The following list provid
   * minvariability: (float) min variability threshold
   * freeparams: (list) parameters to free, must be a list
   * newbkg: (list) backgrounds to keep or substitute
+
+* slurm: this tag will contain all slurm job submission parameters 
+  * envname: (str) virtual environment to activate
+  * template: (str) path to slurm job submission template to launch
+  * bkgresults: (str) path to LC results file to extract background parameter if needed
+  * name: (str) basename of the analysis
+  * tmin: (float) start time 
+  * tmax: (float) stop time
+  * emax: (int) maximum energy
+  * mode: (str) execution mode relative to size of time bin: <hour|fix|integral>
+  * queue: (str) slurm partition

@@ -70,3 +70,15 @@ updatemodel:
   newbkg:
     - gll_iem_v07
     - iso_P8R3_SOURCE_V3_v1
+
+slurm:
+  envname: fermipy2
+  template: /data01/homes/dipiano/FermiTools/lateasy/examples/igr_slurm.ll
+  bkgresults: 
+  name: D07
+  tmin: 276652802
+  tmax: 276739202
+  emax: 300000
+  mode: integral
+  queue: large
+

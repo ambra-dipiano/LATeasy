@@ -72,7 +72,18 @@ updatemodel:
   mints:              # (int) min ts to free sources within radius
   extmints:           # (int) min ts to free sources withint external radius
   minvariability:     # (float) min variability threshold
-  freeparams:           # (list) parameters to free, must be a list
+  freeparams:         # (list) parameters to free, must be a list
     - 
   newbkg:             # (list) backgrounds to keep or substitute
     - 
+
+slurm:
+  envname:            # (str) virtual environment to activate
+  template:           # (str) path to slurm job submission template to launch
+  bkgresults:         # (str) path to LC results file to extract background parameter if needed
+  name:               # (str) basename of the analysis
+  tmin:               # (float) start time 
+  tmax:               # (float) stop time
+  emax:               # (int) maximum energy
+  mode:               # (str) execution mode relative to size of time bin: <hour|fix|integral>
+  queue:              # (str) slurm partition
