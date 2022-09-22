@@ -75,7 +75,7 @@ slurm:
   envname: fermipy2
   template: /data01/homes/dipiano/FermiTools/lateasy/examples/igr_slurm.ll
   bkgresults: 
-  name: D07
+  name: TEST
   tmin: 276652802
   tmax: 276739202
   timebin: 86400
