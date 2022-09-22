@@ -82,6 +82,7 @@ The configuration file is structure in different tags. The following list provid
   * name: (str) basename of the analysis
   * tmin: (float) start time 
   * tmax: (float) stop time
+  * timebin: (float) time bin size of distinct analysis
   * emax: (int) maximum energy
   * mode: (str) execution mode relative to size of time bin: <hour|fix|integral>
   * queue: (str) slurm partition

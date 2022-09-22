@@ -116,7 +116,7 @@ name = pipeconf['slurm']['name']
 tmin =  pipeconf['slurm']['tmin']
 tmax =  pipeconf['slurm']['tmax']
 mode =  pipeconf['slurm']['mode']
-binsize = pipeconf['lightcurve']['binsize']
+binsize = pipeconf['slurm']['timebin']
 emax = pipeconf['slurm']['emax']
 queue = pipeconf['slurm']['queue']
 
