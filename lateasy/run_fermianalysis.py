@@ -290,7 +290,7 @@ if pipeconf['execute']['lc']:
         tmin = cfg['selection']['tmin']
         tmax = cfg['selection']['tmax']
         log.info('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
-        daysfile = args.apfile
+        daysfile = join(pipeconf['path']['data'], pipeconf['file']['photometry'])
         # verify the file exists
         if not isfile(daysfile):
             log.info(str(daysfile), 'not found.')
