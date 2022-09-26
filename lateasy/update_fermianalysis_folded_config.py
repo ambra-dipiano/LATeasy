@@ -33,10 +33,13 @@ if not isfile(timetable):
 times = load_data(timetable)
 tstart = times['tstart']
 tstop = times['tstop']
+log.info('Time start:' + str(tstart))
+log.info('Time stop:' + str(tstop))
 
 # update fermiconf
 if pipeconf['folded']['bins'] == 0:
     pipeconf['folded']['bins'] = int(len(times) - 1)
+log.info('Number of bins:' + str(pipeconf['folded']['bins']))
 filters = str(fermiconf['selection']['filter']).strip()
 filters += '&&'
 for i in range(pipeconf['folded']['bins']):
@@ -59,6 +62,7 @@ with open(args.fermiconf, 'w+') as f:
 # update pipeconf
 pipeconf['execute']['sed'] = False
 pipeconf['execute']['loc'] = False
+log.info('Execution of LOC and SED are set FALSE for folded analysis')
 
 # save new pipeconf
 with open(args.fermiconf, 'w+') as f:
