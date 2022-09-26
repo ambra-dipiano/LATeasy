@@ -50,7 +50,7 @@ def generate(name, tmin, tmax, emax, queue, data):
 
     # write fermipy yaml configuration
     with open(ymlname, 'w') as f:
-        yaml.dump(fermiconf, f)
+        yaml.dump(fermiconf, f, default_flow_style=False)
 
     # define background values
     if not data.empty:
