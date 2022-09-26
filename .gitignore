@@ -1,7 +1,5 @@
 # extentions
 *.log
-*.ll
-*.sh
 *egg-info
 *.pyc
 
