@@ -10,7 +10,6 @@ import argparse
 import yaml
 from os.path import join, isfile
 from lateasy.utils.functions import set_logger, load_data
-from macpath import basename
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
 parser.add_argument('--pipeconf',  type=str, required=True, help='fermiconfuration file')
