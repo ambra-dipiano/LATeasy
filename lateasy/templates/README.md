@@ -24,7 +24,6 @@ The configuration file is structure in different tags. The following list provid
   * inputmodel: (str) name of analysis model 
   * folded8: (str) name of folded time intervals
 
-
 * background: this tag will contain all initial background hypothesis
   * isomodel: (str) isothropic background model
   * isofree: (bool) free isothropic background
