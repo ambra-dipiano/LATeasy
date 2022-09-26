@@ -36,7 +36,7 @@ tstart = times['tstart']
 tstop = times['tstop']
 
 # update fermiconf
-if pipeconf['folded']['bins'] == 'all':
+if pipeconf['folded']['bins'] == 0:
     pipeconf['folded']['bins'] = int(len(times) - 1)
 filters = str(fermiconf['selection']['filter']).strip()
 filters += '&&'

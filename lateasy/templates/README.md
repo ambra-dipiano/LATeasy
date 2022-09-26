@@ -22,6 +22,8 @@ The configuration file is structure in different tags. The following list provid
   * catalogue: (str) name of catalogue file
   * observation: (str) name of data file
   * inputmodel: (str) name of analysis model 
+  * folded8: (str) name of folded time intervals
+
 
 * background: this tag will contain all initial background hypothesis
   * isomodel: (str) isothropic background model
@@ -87,3 +89,6 @@ The configuration file is structure in different tags. The following list provid
   * mode: (str) execution mode relative to size of time bin: <hour|fix|integral>
   * queue: (str) slurm partition
   * sbatch: (bool) to submit jobs after creating them
+
+* folded: this tag will contain all folded analysis options
+  * bins: (int) number of bins, 0 if all

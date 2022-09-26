@@ -10,6 +10,7 @@ file:
   inputmodel: 4FGL_inputmodel.xml
   catalogue: gll_psc_v27.fit
   photometry: igrDaysMET_filtered.out
+  folded8: 
 
 background:
   isomodel: iso_P8R3_SOURCE_V2_v1
@@ -83,4 +84,7 @@ slurm:
   mode: integral
   queue: large
   sbatch: false
+
+folded:
+  bins: 0
 
