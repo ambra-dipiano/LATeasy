@@ -6,6 +6,7 @@
 # *****************************************************************************
 
 import logging
+import pandas as pd
 import xml.etree.ElementTree as ET
 
 def mjd_to_met(time):
@@ -35,3 +36,10 @@ def set_logger(filename, level):
     log.addHandler(consoleHandler)
     log.setLevel(level)
     return log
+
+def load_data(filename):
+    try:
+        data = pd.read_csv(filename, sep=" ", header=0)
+    except:
+        raise ValueError(filename, 'is empty')
+    return data
