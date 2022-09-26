@@ -66,6 +66,24 @@ Update the sky region model:
 python update_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
 ```
 
+# Job submission
+
+It is possible to parallelise multiple analyses through slurm. We provide a script to automatically update the fermipy configuration file (.yaml), create the executable bash script (.sh) and create the Slurm submission job (.ll). The script can directly submit the jobs after creation.
+
+Slurm job creation and submission:
+```bash
+python generate_fermianalysis_jobs.py --pipeconf <your_pipe.yml> --fermicon <your_fermianalysis.yml>
+```
+
+## Specifics on the folded analysis
+
+Prior to create the Slurm job submission, if a folded analysis is require we provide a script to appropriately update the fermipy configuration filters. You should execute this script **PRIOR** to the Slurm job submission. You are required to provide a data file with the time intervals of the folded analysis.
+
+Folded configuration update:
+```bash
+python update_fermianalysis_folded_config.py --pipeconf <your_pipe.yml> --fermicon <your_fermianalysis.yml>
+```
+
 # Analysis
 
 To run the analysis you will need two configuration files. The one referring to the fermipy configuration, and the on referring to the pipeline configuration. See the above section on configuration file for more information.
