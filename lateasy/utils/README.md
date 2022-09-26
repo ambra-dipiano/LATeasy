@@ -73,29 +73,6 @@ python $PYCODE/slurmIndexMonths.py $DATA/FOLDER_ANALYSIS
 python $PYCODE/slurmIndexMonths.py $DATA/YEARS5j
 ```
 
-
-## run_fermianalysis.py
-
-### Opzioni d'esecuzione
-Di default tutte le opzioni sono <code>False</code>.
-
-```bash
-python $PYCODE/run_fermianalysis.py -f config.yaml -- isofree <True|False|None|float> --galfree <True|False|None|float> --makelc <0|1|2> --skip_sed <True|False> 
-```
-
-Il parametro <code>makelc</code> accetta le seguenti opzioni:
-
-- 0, salta la lightcurve
-- 1, esegue la lightcurve selezionando i time bins da un file di aperture photometry (se non fornito viene sollevato un errore)
-- 2, esegue la lightcurve con fisso binsize (il default è 86400)
-
-### Esempio
-
-```bash
-python $PYCODE/run_fermianalysis.py -f config.yaml --skipsed True --makelc 1
-```
-
-
 ## collectLC.py
 Questo script permette di estrarre i dati (tmin, tmax, ts, flux, flux_err, flux_ul95) dagli output della gta.lightcurve. 
 
