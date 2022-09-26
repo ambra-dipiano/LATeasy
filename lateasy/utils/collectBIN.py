@@ -11,12 +11,6 @@ parser = argparse.ArgumentParser(description='Collect data from a single NPY out
 parser.add_argument('-f', '--file', type=str, required=True, help='the NPY file completed with path')
 parser.add_argument('-t', '--type', type=str, required=True, help='type of the NPY: roi, sed, lc, loc, fit')
 parser.add_argument('--source', type=str, default='IGRJ17354-3255', help='source name')
-# parser.add_argument('--rootpath', type=str, default='/data01/projects/IGRJ17354-3255/FERMI', help='root of all paths')
-# parser.add_argument('--analysis-folder', type=str, default='folded8', help='analysis directory in rootpath')
-# parser.add_argument('--year', type=str, default='2020', help='year folder')
-# parser.add_argument('--range', type=str, default='100-10000', help='range folder')
-# parser.add_argument('--bin', type=str, default='BIN1', help='bin folder')
-# parser.add_argument('--data-folder', type=str, default='SUM', help='data folder')
 args = parser.parse_args()
 
 # lightcurves
