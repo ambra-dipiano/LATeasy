@@ -72,7 +72,7 @@ It is possible to parallelise multiple analyses through slurm. We provide a scri
 
 Slurm job creation and submission:
 ```bash
-python generate_fermianalysis_jobs.py --pipeconf <your_pipe.yml> --fermicon <your_fermianalysis.yml>
+python generate_fermianalysis_jobs.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
 ## Specifics on the folded analysis
@@ -81,7 +81,7 @@ Prior to create the Slurm job submission, if a folded analysis is require we pro
 
 Folded configuration update:
 ```bash
-python update_fermianalysis_folded_config.py --pipeconf <your_pipe.yml> --fermicon <your_fermianalysis.yml>
+python update_fermianalysis_folded_config.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
 # Analysis
