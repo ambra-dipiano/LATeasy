@@ -149,7 +149,6 @@ def collect_loc(filename, columns=('ra', 'ra_err', 'dec', 'dec_err', 'ra_preloc'
         outputfile = filename.replace('.npy', '_collected.txt')
     if isfile(outputfile):
         os.remove(outputfile)
-    print('Data will be saved in ', outputfile)
 
     data = np.load(filename, allow_pickle=True, encoding='latin1', fix_imports=True).flat[0]
     if columns == 'all':
@@ -178,7 +177,6 @@ def collect_sed(filename, columns=('e_min', 'e_max', 'ts', 'flux', 'flux_err', '
         outputfile = filename.replace('.npy', '_collected.txt')
     if isfile(outputfile):
         os.remove(outputfile)
-    print('Data will be saved in ', outputfile)
 
     data = np.load(filename, allow_pickle=True, encoding='latin1', fix_imports=True).flat[0]
     pars = ('param_values', 'param_errors')
@@ -215,7 +213,6 @@ def collect_roi(filename, src='IGRJ17354-3255', columns=('ts', 'flux', 'flux_err
         outputfile = filename.replace('.npy', '_collected.txt')
     if isfile(outputfile):
         os.remove(outputfile)
-    print('Data will be saved in ', outputfile)
 
     data = np.load(filename, allow_pickle=True, encoding='latin1', fix_imports=True).flat[0]
     pars = ('param_values', 'param_errors')
@@ -247,7 +244,7 @@ def collect_roi(filename, src='IGRJ17354-3255', columns=('ts', 'flux', 'flux_err
 # merge output 
 def merge_data(bins, filename, mergefile, folder):
     if len(bins) == 0:
-        raise IndexError(f'The analysis did not produce any output of the kind: {filename}')
+        raise IndexError('The analysis did not produce any output of the kind:' + filename)
     mf = open(join('.', mergefile), 'w+') 
     for i, b in enumerate(bins):
         with open(join('.', folder, b, filename)) as f:
