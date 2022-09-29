@@ -9,8 +9,6 @@ import yaml
 import argparse
 import matplotlib
 import pandas as pd
-import matplotlib.pyplot as plt
-from fermipy.gtanalysis import GTAnalysis
 from os.path import isfile, join
 from matplotlib import streamplot
 from lateasy.utils.functions import set_logger
@@ -51,14 +49,17 @@ args = parser.parse_args()
 
 # load yaml configurations
 with open(args.pipeconf) as f:
-    pipeconf = yaml.load(f)
+    pipeconf = yaml.safe_load(f)
 with open(args.fermiconf) as f:
-    fermiconf = yaml.load(f)
+    fermiconf = yaml.safe_load(f)
 
-# switch matplotlib backend
+# switch matplotlib backend and complete imports
 if pipeconf['execute']['agg_backend']:
     matplotlib.use('agg')
-    plt.switch_backend('agg')
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+from fermipy.gtanalysis import GTAnalysis
+
 
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
@@ -286,7 +287,7 @@ if pipeconf['execute']['lc']:
         # prepare time_bins
         log.info('\n\n# prepare time bins')
         with open(args.fermiconf) as f:
-            cfg = yaml.load(f)
+            cfg = yaml.safe_load(f)
         tmin = cfg['selection']['tmin']
         tmax = cfg['selection']['tmax']
         log.info('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))
@@ -320,7 +321,7 @@ if pipeconf['execute']['lc']:
 	# prepare time_bins
         log.info('\n\n# prepare time bins')
         with open(args.fermiconf) as f:
-            cfg = yaml.load(f)
+            cfg = yaml.safe_load(f)
         tmin = cfg['selection']['tmin']
         tmax = cfg['selection']['tmax']
         log.info('\ntime interval from ' + str(tmin) + ' to ' + str(tmax))

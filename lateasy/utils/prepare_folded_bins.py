@@ -20,7 +20,7 @@ args = parser.parse_args()
 
 # load yaml configurations
 with open(args.pipeconf) as f:
-    pipeconf = yaml.load(f)
+    pipeconf = yaml.safe_load(f)
 
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))

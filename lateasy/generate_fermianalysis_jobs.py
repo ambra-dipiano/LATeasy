@@ -22,9 +22,9 @@ args = parser.parse_args()
 
 # load yaml configurations
 with open(args.pipeconf) as f:
-    pipeconf = yaml.load(f)
+    pipeconf = yaml.safe_load(f)
 with open(args.fermiconf) as f:
-    fermiconf = yaml.load(f)
+    fermiconf = yaml.safe_load(f)
 
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
@@ -77,10 +77,10 @@ def generate(name, tmin, tmax, emax, queue, data):
     'source activate ' + pipeconf['slurm']['envname'],
     '\nexport FERMIDATA=' + pipeconf['path']['data'],
     '\nexport FERMI_DIFFUSE_DIR=' + pipeconf['path']['galdir'],
-    '\npython ' + join(abspath(lateasy.__file__).replace('/__init__.pyc', ''), 'run_fermianalysis.py') + ' --fermiconf ' + ymlname + ' --pipeconf ' + args.pipeconf, 
+    '\npython ' + join(abspath(__file__).replace(__file__, ''), 'run_fermianalysis.py') + ' --fermiconf ' + ymlname + ' --pipeconf ' + args.pipeconf, 
     '\ncp ' + dirname + '.* ' + dirname,
     '\ncd ' + dirname,
-    '\npython ' + join(abspath(lateasy.__file__).replace('/__init__.pyc', ''), 'run_sensitivity.py'),
+    '\npython ' + join(abspath(__file__).replace(__file__, ''), 'run_sensitivity.py'),
     '\nmv ' + join(dirname, 'ltcube_00.fits') + ' ' + join(dirname, 'ltcube_00.fits.tmp'),
     '\nrm ' + join(dirname, '*.fits'),
     '\nmv ' + join(dirname, 'ltcube_00.fits.tmp') + ' ' + join(dirname, 'ltcube_00.fits'),

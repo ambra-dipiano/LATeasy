@@ -18,9 +18,9 @@ args = parser.parse_args()
 
 # load yaml fermiconfurations
 with open(args.pipeconf) as f:
-    pipeconf = yaml.load(f)
+    pipeconf = yaml.safe_load(f)
 with open(args.fermiconf) as f:
-    fermiconf = yaml.load(f)
+    fermiconf = yaml.safe_load(f)
 
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
