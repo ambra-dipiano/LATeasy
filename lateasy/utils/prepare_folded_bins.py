@@ -1,81 +1,75 @@
+# *****************************************************************************
+# Copyright (C) 2022 INAF
+# This software is distributed under the terms of the BSD-3-Clause license
+#
+# This software converts MJD time intervals in MET
+# *****************************************************************************
+
+import yaml
+import argparse
 import pandas as pd
 import numpy as np
+from os.path import join
+from lateasy.utils.functions import mjd_to_met, set_logger
 
-def mjd_to_met(time):
-    """Convert mean julian date to mission elapse time."""
-    correction = 0.0006962818548948615
-    return (86400. + correction)* (time - 51910) 
+parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
+parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
+parser.add_argument('--data', type=str, required=True, help='basename of MJD data file')
+parser.add_argument('--min-cts', type=int, default=100, help='minumum counts in bin')
+args = parser.parse_args()
 
+# load yaml configurations
+with open(args.pipeconf) as f:
+    pipeconf = yaml.load(f)
 
-path = '/data01/projects/IGRJ17354-3255/FERMI/LC/'
+# logging
+logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
-infile = path + 'igrDaysMJD.out'
-outfile = path + 'igrDaysMET.out'
+# file names
+path = pipeconf['path']['data']
+infile = join(path, args.data)
+outfile = join(path, args.data + '.MET')
 
-time = 51910
-ssdc = 0.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-time = 54683
-ssdc = 239587201.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-time = 56426
-ssdc = 390182403.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-time = 57000
-ssdc = 439776003.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-time = 58700
-ssdc = 586656005.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-time = 59091
-ssdc = 620438405.
-print(f'check conversion: {time} MJD = {np.around(mjd_to_met(time))} MET = {ssdc} SSDC') 
-print(f'diff: {np.around(mjd_to_met(time))-ssdc}')
-
-diff_met = 5
-diff_mjd = diff_met / (59091 - 51910)
-print(diff_mjd)
-
+# load data
 lc=pd.read_csv(infile, names=['time', 'f1', 'f2', 'f3', 'f4', 'exp', 'cts'], sep=' ')
+start_day_mjd = np.array(lc['time'] - 0.5) 
+stop_day_mjd = np.array(lc['time'] + 0.5)
 
-start_day_mjd = np.array(lc['time'] - 0.5) #- 43200
-stop_day_mjd = np.array(lc['time'] + 0.5) #+ 43200
-
-start_day_met = np.around(mjd_to_met(start_day_mjd))#.astype('int')
-stop_day_met = np.around(mjd_to_met(stop_day_mjd))#.astype('int')
+# round days
+start_day_met = np.around(mjd_to_met(start_day_mjd))
+stop_day_met = np.around(mjd_to_met(stop_day_mjd))
 exp = np.array(lc['exp'])
 cts = np.array(lc['cts'])
 
-data_dict = {'start_met': start_day_met, 'stop_met': stop_day_met, 'exposure': exp, 'counts': cts} # {'f1': lc['f1'], 'f2': lc['f2'], 'f3': lc['f3'], 'f4': lc['f4']}
+# save data
+data_dict = {'start_met': start_day_met, 'stop_met': stop_day_met, 'exposure': exp, 'counts': cts} 
 data = pd.DataFrame(data_dict)
 data.to_csv(outfile, sep=' ', header=True, index=False)
-print(f'rows in data: {len(data)}')
+log.info('rows in data: ' + (str(len(data))))
 
-filtered = data[cts > 100]
-print(f'rows in filtered: {len(filtered)}')
-print(f'delated {len(data)-len(filtered)} rows')
-print(f'min exposure in filtered: {filtered["exposure"].min()}')
+# keep only bins above 100 counts
+filtered = data[cts > args.min_cts]
+log.info('filter days above ' + args.min_cts + ' counts')
+log.info('remaining rows: ' + str(len(filtered)))
+log.info('min exposure in filtered: ' + str(filtered["exposure"].min()))
 
-outfile = path + 'igrDaysMET_filtered.out'
+outfile = outfile.replace('.MET', '.MET_filtered')
 filtered.to_csv(outfile, sep=' ', header=True, index=False)
 
-bad_days = data[cts < 100]
-print(f'bad days: {len(bad_days)}')
+bad_days = data[cts < args.min_cts]
+log.info('remove days below ' + args.min_cts + ' counts')
+log.info('removed rows: ' + str(len(bad_days)))
 
-outfile = path + 'igrDaysMET_removed.out'
+outfile = outfile.replace('.MET', '.MET_removed')
 bad_days.to_csv(outfile, sep=' ', header=True, index=False)
 
 # --------------------------------------------------- folded periods
 
-print('------------- use folded time intervals -------------')
+log.info('------------- use folded time intervals -------------')
 
-infile = path + 'igrMonthsMET.out'
-outfile = path + 'igrMonthsMET_failed.out'
+infile = join(path, args.data + '.MET')
+outfile = outfile.replace('.MET', '.MET_failed')
 
 months = pd.read_csv(infile, sep=' ', names=['start', 'stop'])
 
