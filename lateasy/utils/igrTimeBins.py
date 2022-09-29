@@ -3,7 +3,7 @@ import pandas as pd
 
 cfgfile = '/data01/projects/IGRJ17354-3255/FERMI/LC/YEARS5test/TEST_MONTH.yaml'
 with open(cfgfile) as f:
-    cfg = yaml.load(f)
+    cfg = yaml.safe_load(f)
 tmin = cfg['selection']['tmin']
 tmax = cfg['selection']['tmax']
 
