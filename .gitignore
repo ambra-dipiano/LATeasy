@@ -2,6 +2,7 @@
 *.log
 *egg-info
 *.pyc
+*.out
 
 # folders
 __*
