@@ -115,8 +115,12 @@ if iso is not None:
 
 # update source library and append mysource model
 if root.find('source[@name="' + pipeconf['target']['name'] + '"]') == None:
-    root.insert(0, mysource)
-    log.info('Add target model')
+    try:
+        root.insert(0, mysource)
+        log.info('Add target model')
+    except Exception as e:
+        log.error(e)
+        raise FileNotFoundError(e)
 else:
     log.info('Target model already in sky region model')
 
