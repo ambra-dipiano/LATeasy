@@ -231,9 +231,9 @@ if pipeconf['execute']['lc']:
     # variable and extended sources
     for src in gta.roi.get_sources():
         # for variable srcs, put norm true if ts > 50
-        variables_names = [variable_sources[name] for name in variable_sources.keys()]
-        log.debug(variables_names)
-        if src.name in variables_names:
+        variable_names = [variable_sources[name] for name in variable_sources.keys()]
+        log.debug(variable_names)
+        if src.name in variable_names:
             # update significance
             variable_sources[src.name]['Signif_Avg'] = float(src['ts'])
             log.info('\n --- variable source ---')
@@ -246,9 +246,8 @@ if pipeconf['execute']['lc']:
         extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
         log.debug(extended_names)
         if src.name in extended_names:
-            index = extended_sources[src.name]['Extended_Source_Name'].index(src.name)
-            norm4fgl = extended_sources[src.name]['Normalisation'][index]
-            norm_error4fgl =  extended_sources[src.names]['Normalisation_Error'][index]
+            norm4fgl = extended_sources[src.name]['Normalisation']
+            norm_error4fgl =  extended_sources[src.names]['Normalisation_Error']
             norm = float(src.spectral_pars['Prefactor']['value'])
             norm_error = float(src.spectral_pars['Prefactor']['error'])
             log.info('\n --- extended source ---')
