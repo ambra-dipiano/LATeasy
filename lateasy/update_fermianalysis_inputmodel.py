@@ -114,7 +114,7 @@ if iso is not None:
     log.warning('Change isomodel with: ' + pipeconf['background']['isomodel'])
 
 # update source library and append mysource model
-if root.find('source[@name="' + pipeconf['target']['name'] + '"]') == None:
+if root.find('source[@name="' + pipeconf['target']['4FGLname'] + '"]') == None:
     try:
         root.insert(0, mysource)
         log.info('Add target model')
