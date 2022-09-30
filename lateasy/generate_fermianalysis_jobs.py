@@ -126,7 +126,7 @@ emax = pipeconf['slurm']['emax']
 queue = pipeconf['slurm']['queue']
 
 # submitt jobs based on "mode"
-log.info('Slurm job generator mode:', mode)
+log.info('Slurm job generator mode:' + mode)
 if mode.lower() == 'hours':
     # compute at hours timescale from 1 day prior tmin to 1 day after tmax
     for i in range(tmin-86400, tmax+86400, 3600):
@@ -141,6 +141,6 @@ elif mode.lower() == 'integral':
 else:
     # invalid "mode" configuration
     log.error('Invalid "mode" configuration:' + mode.lower())
-    raise ValueError('Invalid "mode" configuration:', mode.lower())
+    raise ValueError('Invalid "mode" configuration:' + mode.lower())
 
 

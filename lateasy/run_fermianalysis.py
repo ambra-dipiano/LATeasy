@@ -76,9 +76,22 @@ log.info('\n#### LOGGING ---> ' + str(logname))
 # free the following sources
 variable_sources = pipeconf['variable_sources']
 extended_sources = pipeconf['extended_sources']
-
-log.debug('variable sources:', variable_sources)
-log.debug('extended sources:', extended_sources)
+# variables
+if variable_sources is None:
+    variable_names = []
+else:
+    variable_names = [variable_sources[name] for name in variable_sources.keys()]
+    log.debug('variable sources:')
+    for var in variable_names:
+        log.debug(var)
+# extended
+if extended_sources is None:
+    extended_names = []
+else:
+    extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
+    log.debug('extended sources:')
+    for ext in extended_names:
+        log.debug(ext)
 
 # background parameters
 galmodel = pipeconf['background']['galmodel']
@@ -234,8 +247,6 @@ if pipeconf['execute']['lc']:
     # variable and extended sources
     for src in gta.roi.get_sources():
         # for variable srcs, put norm true if ts > 50
-        variable_names = [variable_sources[name] for name in variable_sources.keys()]
-        log.debug(variable_names)
         if src.name in variable_names:
             # update significance
             variable_sources[src.name]['Signif_Avg'] = float(src['ts'])
@@ -246,8 +257,6 @@ if pipeconf['execute']['lc']:
             else:
                 log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
-        extended_names = [extended_sources[name]['Extended_Source_Name'] for name in extended_sources.keys()]
-        log.debug(extended_names)
         if src.name in extended_names:
             norm4fgl = extended_sources[src.name]['Normalisation']
             norm_error4fgl =  extended_sources[src.names]['Normalisation_Error']
