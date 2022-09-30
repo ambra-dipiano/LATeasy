@@ -62,13 +62,16 @@ from fermipy.gtanalysis import GTAnalysis
 
 
 # logging
-logname = join(pipeconf['path']['output'], pipeconf['target']['name'] + '_' + fermiconf['selection']['tmin'] + '_' + fermiconf['selection']['tmax'] + '.log')
+if pipeconf['slurm']['name'] is None:
+    logname = join(pipeconf['path']['output'], pipeconf['target']['name'] + '_' + str(fermiconf['selection']['tmin']) + '_' + str(fermiconf['selection']['tmax']) + '.log')
+else:
+    logname = join(pipeconf['path']['output'], pipeconf['slurm']['name'] + '_' + str(pipeconf['slurm']['tmin']) + '_' + str(pipeconf['slurm']['tmax']) + '.log')
+
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
 # ---------------------------------------------------------------- setup
 target_source = pipeconf['target']['name']
 log.info('\n#### LOGGING ---> ' + str(logname))
-print(logname)
 
 # free the following sources
 variable_sources = pipeconf['variable_sources']
