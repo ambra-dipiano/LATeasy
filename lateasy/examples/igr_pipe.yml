@@ -23,6 +23,7 @@ background:
 
 target:
   name: IGRJ17354-3255
+  4FGLname: no
 
 variable_sources:
   4FGL J1802.6-3940:

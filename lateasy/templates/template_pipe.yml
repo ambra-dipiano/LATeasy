@@ -27,6 +27,7 @@ background:
 # target parameters
 target:
   name:            # (str) name of the target source
+  4FGLname:        # (str) name of the target source in 4FGL cat
 
 # list all variable sources to be updated 
 variable_sources:

@@ -35,6 +35,7 @@ The configuration file is structure in different tags. The following list provid
 
 * target: this tag will contain all parameters related to the target source
   * name: (str) name of the target source
+  * 4FGLname: (str) name of the target source in 4FGL cat
 
 * variable_sources: this tag will contain a list of all variable sources to check 
   * <SOURCE_NAME>: replace this tag with the source name, you can add as many as needed
