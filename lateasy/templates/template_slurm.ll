@@ -1,8 +1,10 @@
 #!/bin/sh
     # Please creare your own slurm template based on your configuration.
-    # The pipeline only requires the keyword $BASH_NAME$ representing the execution bash script for the analysis.
-    # The $BASH_NAME$ will be automatically generated and replaced based on the values specified by the user in the pipe.yml configuration file.
-    #
+    # The pipeline only requires the keyword $BASH_NAME$ representing 
+    # the execution bash script for the analysis.
+    # The $BASH_NAME$ will be automatically generated and replaced based 
+    # on the values specified by the user in the pipe.yml configuration file.
+
     #@ shell = /bin/bash
     #@ job_name = test
     #@ job_type = serial
