@@ -62,7 +62,7 @@ from fermipy.gtanalysis import GTAnalysis
 
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], pipeconf['target']['name'] + '_' + fermiconf['selection']['tmin'] + '_' + fermiconf['selection']['tmax'] + '.log')
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
 # ---------------------------------------------------------------- setup
