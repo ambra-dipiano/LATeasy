@@ -31,13 +31,13 @@ target:
 
 # list all variable sources to be updated 
 variable_sources:
-  name:                       # (str) name of the source
+  <source>:                   # replace <source> with the name of the source
     ROI_Center_Distance:      # (float) distance from center
     Signif_Avg:               # (float) significance
 
 # list all extended sources to be updated 
 extended_sources:
-  name:                       # (str) name of the source
+  <source>:                   # replace <source> with the name of the source
     Extended_Source_Name:     # (str) extended catalogue name of the source
     ROI_Center_Distance:      # (int) distance form the center
     Signif_Avg:               # (float) significance
