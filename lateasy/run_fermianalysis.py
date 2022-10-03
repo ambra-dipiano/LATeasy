@@ -258,6 +258,7 @@ if pipeconf['execute']['lc']:
                 log.info('\nname = ' + src.name + ' TS < 50 ---> keep frozen')
         # for extended srcs (<ROI), if the difference of the parameters with respect to the catalog value is too much, fix the parameter source at 4FGL value
         if src.name in extended_names:
+            name4fgl = [name for name in extended_sources.keys() if extended_sources['Extended_Source_Name'] == src.name][0]
             norm4fgl = extended_sources[src.name]['Normalisation']
             norm_error4fgl =  extended_sources[src.names]['Normalisation_Error']
             norm = float(src.spectral_pars['Prefactor']['value'])
