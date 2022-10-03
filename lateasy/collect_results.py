@@ -3,9 +3,8 @@ import os
 import yaml
 import argparse
 import pandas as pd
-from os.path import join, isdir, isfile
+from os.path import join, isdir, isfile, basename
 from lateasy.utils.functions import *
-from warnings import WarningMessage
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
@@ -53,9 +52,9 @@ elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
 # collect single LC bins data
 binfiles = []
 for b in bins:
-    binfilename = join('.', folder, b, filename)
-    outputfile = join('.', folder, b, output)
-    roi = join('.', folder, b, roiname)
+    binfilename = join(folder, b, filename)
+    outputfile = join(folder, b, output)
+    roi = join(folder, b, roiname)
     if isfile(binfilename):
         binfiles.append(b)
         if pipeconf['postprocessing']['collect'].upper() == 'LC':
@@ -70,7 +69,7 @@ for b in bins:
         log.warning(binfilename + ' not found.')
 
 # merge single LC bins data
-mergefile = folder + '_' + str(pipeconf['postprocessing']['collect'].upper()) + '.txt'
+mergefile = join(folder, basename(folder) + '_' + str(pipeconf['postprocessing']['collect'].upper()) + '.txt')
 merge_data(binfiles, output, mergefile, folder)
 log.info('merge output ' + mergefile)
 
@@ -81,4 +80,4 @@ data = pd.read_csv(mergefile, sep=' ')
 data_above = data[data['ts'] >= float(ts)]
 log.info('detections above ts=' + str(ts) + ':' + str(len(data_above)))
 data_above.to_csv(outfile, sep=' ', header=True, index=False)
-print('output above ts threshold ', outfile)
+log.info('output above ts threshold ' + outfile)
