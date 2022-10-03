@@ -93,3 +93,8 @@ slurm:
 
 folded:
   bins:               # (int) number of bins, 0 if all
+
+postprocessing:
+  collect:            # (str) which results to collect data from <LC|LOC|ROI|SED>
+  mints:              # (int) minimum ts threshold for significant signal
+  plot:               # (bool) compute default plot for collected data

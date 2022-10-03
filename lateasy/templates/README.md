@@ -91,3 +91,8 @@ The configuration file is structure in different tags. The following list provid
 
 * folded: this tag will contain all folded analysis options
   * bins: (int) number of bins, 0 if all
+
+* postprocessing: this tag will contain all post-processing options
+  * collect: (str) which results to collect data from <LC|LOC|ROI|SED>
+  * mints: (int) minimum ts threshold for significant signal
+  * plot: (bool) compute default plot for collected data
