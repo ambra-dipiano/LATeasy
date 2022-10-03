@@ -28,7 +28,7 @@ with open(args.fermiconf) as f:
 # logging
 logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
-log.info('Logging -->' + logname)
+log.info('Logging: ' + logname)
 
 # generate all execution scripts and configuration
 def generate(name, tmin, tmax, emax, queue, data):
