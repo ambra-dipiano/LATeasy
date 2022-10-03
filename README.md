@@ -12,7 +12,7 @@ We provide an environment recipe for [https://www.anaconda.com/products/distribu
 You can create such environments like this:
 
 ```bach
-conda create env -n <name> -f <environment-file.yml>
+conda env create -n <name> -f <environment-file.yml>
 ```
 
 ## Installation
