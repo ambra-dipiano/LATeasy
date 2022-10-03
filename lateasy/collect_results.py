@@ -9,8 +9,6 @@ from lateasy.utils.functions import *
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
-parser.add_argument('--type', type=str, default='LC', help='collect by type: ROI, LC, SED, LOC')
-parser.add_argument('--ts', type=float, default=9, help='minimum ts threshold')
 args = parser.parse_args()
 
 # load yaml configurations
@@ -20,10 +18,11 @@ with open(args.pipeconf) as f:
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
+log.info('Logging: ' + logname)
 
-folder = args.folder
-source = args.source
-print('collect from ', args.type.upper())
+folder = pipeconf['path']['output']
+source = pipeconf['target']['name']
+log.info('collect from ' + pipeconf['postprocessing']['collect'].upper())
 # check folder existance
 if not os.path.isdir(folder):
     raise ValueError('directory', folder, 'not found')
@@ -36,21 +35,21 @@ for d in os.listdir(folder):
         bins.append(d)
 bins = sorted(bins)
 # sort files
-if args.type.upper() not in ('LC', 'SED', 'ROI', 'LOC'):
-    raise ValueError('Invalid "type" parameter. Please chose between: roi, sed, lc. Default is ROI.')
+if pipeconf['postprocessing']['collect'].upper() not in ('LC', 'SED', 'ROI', 'LOC'):
+    raise ValueError('Invalid "type" parameter. Please chose between <ROI|SED|LC|LOC>')
 # check type
 roiname = 'roi2_fit_model.npy'
-output = str(args.source.upper()) + '_' + str(args.type.lower()) + '.txt'
-if args.type.upper() == 'ROI':
+output = str(source.upper()) + '_' + str(pipeconf['postprocessing']['collect'].lower()) + '.txt'
+if pipeconf['postprocessing']['collect'].upper() == 'ROI':
     filename = roiname
     #raise ValueError('Option not implemented yet.')
-elif args.type.upper() == 'SED':
+elif pipeconf['postprocessing']['collect'].upper() == 'SED':
     filename = 'sed.npy'
     #raise ValueError('Option not implemented yet.')
-elif args.type.upper() == 'LC':
-    filename = f'{args.source.lower()}_lightcurve.npy'
-elif args.type.upper() == 'LOC':
-    filename = f'{args.source.lower()}_loc.npy'
+elif pipeconf['postprocessing']['collect'].upper() == 'LC':
+    filename = f'{source.lower()}_lightcurve.npy'
+elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
+    filename = f'{source.lower()}_loc.npy'
 # collect single LC bins data
 binfiles = []
 for b in bins:
@@ -59,28 +58,28 @@ for b in bins:
     roi = join('.', folder, b, roiname)
     if isfile(binfilename):
         binfiles.append(b)
-        if args.type.upper() == 'LC':
+        if pipeconf['postprocessing']['collect'].upper() == 'LC':
             collect_lc(binfilename, outputfile, roi, keys, source, relpath=join(folder, b))
-        elif args.type.upper() == 'SED':
+        elif pipeconf['postprocessing']['collect'].upper() == 'SED':
             collect_sed(binfilename, outputfile=outputfile)
-        elif args.type.upper() == 'LOC':
+        elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
             collect_loc(binfilename, outputfile=outputfile)
-        elif args.type.upper() == 'ROI':
+        elif pipeconf['postprocessing']['collect'].upper() == 'ROI':
             collect_roi(binfilename, outputfile=outputfile)
     else:
-        print(binfilename, 'not found.')
+        log.warning(binfilename + 'not found.')
+        raise Warning(binfilename + 'not found.')
 
-print(len(binfiles), len(bins))
 # merge single LC bins data
-mergefile = folder + '_' + str(args.type.upper()) + '.txt'
+mergefile = folder + '_' + str(pipeconf['postprocessing']['collect'].upper()) + '.txt'
 merge_data(binfiles, output, mergefile, folder)
-print('merge output ', mergefile)
+log.info('merge output ' + mergefile)
 
 # keep only ts >= 9
-ts = args.ts
+ts = pipeconf['postprocessing']['mints']
 outfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
 data = pd.read_csv(mergefile, sep=' ')
-data9 = data[data['ts'] >= float(ts)]
-print('detections above ts=', ts, ':', len(data9))
-data9.to_csv(outfile, sep=' ', header=True, index=False)
+data_above = data[data['ts'] >= float(ts)]
+log.info('detections above ts=' + str(ts) + ':' + str(len(data_above)))
+data_above.to_csv(outfile, sep=' ', header=True, index=False)
 print('output above ts threshold ', outfile)
