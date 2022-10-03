@@ -10,7 +10,7 @@ import yaml
 import xml.etree.ElementTree as ET
 from astropy.io import fits
 from astropy.coordinates import SkyCoord
-from os.path import join
+from os.path import join, basename
 from lateasy.utils.functions import set_logger, get_target_coords
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
@@ -22,9 +22,9 @@ with open(args.pipeconf) as f:
     pipeconf = yaml.safe_load(f)
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
-log.info('Logging -->' + logname)
+log.info('Logging: ' + logname)
 
 # file shortcuts
 model = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
@@ -98,13 +98,14 @@ for src in root.findall('source[@type="PointSource"]'):
         else:
             near += 1
         # if near or bright variable then free norm and index
-        if near_srcs[near_srcs['Source_Name'] == src.attrib['name']]['Signif_Avg'] >= min_ts:
-            freed += 1
-            for prm in src.findall('spectrum/parameter'):
-                if prm.attrib['name'] in params_name:
-                    #print(prm.attrib['name'])
-                    prm.set('free', '1')
-                    dof += 1
+        if near_srcs[near_srcs['Source_Name'] == src.attrib['name']]['Signif_Avg'].size > 0:
+            if near_srcs[near_srcs['Source_Name'] == src.attrib['name']]['Signif_Avg'] >= min_ts:
+                freed += 1
+                for prm in src.findall('spectrum/parameter'):
+                    if prm.attrib['name'] in params_name:
+                        #print(prm.attrib['name'])
+                        prm.set('free', '1')
+                        dof += 1
 
 # change iso from V3 to V2
 iso = root.find('source[@name="iso_P8R3_SOURCE_V3_v1"]')
@@ -134,7 +135,7 @@ log.info('Total freed sources ' + str(nsources))
 
 # remove withe lines
 with open(model) as f:
-    lines = [line for line in f if line.strip() is not ""]
+    lines = [line for line in f if line.strip() != ""]
 with open(model, "w") as f:
     f.writelines(lines)
 
