@@ -8,7 +8,7 @@
 
 import argparse
 import yaml
-from os.path import join, isfile
+from os.path import join, isfile, basename
 from lateasy.utils.functions import set_logger, load_data
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
@@ -23,9 +23,9 @@ with open(args.fermiconf) as f:
     fermiconf = yaml.safe_load(f)
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
-log.info('Logging -->' + logname)
+log.info('Logging: ' + logname)
 
 # folded intervals
 timetable = join(pipeconf['path']['data'], pipeconf['file']['folded8'])

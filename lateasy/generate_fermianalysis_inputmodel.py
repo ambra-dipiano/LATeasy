@@ -9,7 +9,7 @@ import sys
 import yaml
 import argparse
 from os import system
-from os.path import join
+from os.path import join, basename
 from lateasy.utils.functions import set_logger
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
@@ -21,9 +21,9 @@ with open(args.pipeconf) as f:
     pipeconf = yaml.safe_load(f)
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
-log.info('Logging -->' + logname)
+log.info('Logging: ' + logname)
 
 # download script
 # newest version: https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py
