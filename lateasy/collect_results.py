@@ -2,10 +2,10 @@
 import os
 import yaml
 import argparse
-import numpy as np
 import pandas as pd
 from os.path import join, isdir, isfile
 from lateasy.utils.functions import *
+from warnings import WarningMessage
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
@@ -47,9 +47,9 @@ elif pipeconf['postprocessing']['collect'].upper() == 'SED':
     filename = 'sed.npy'
     #raise ValueError('Option not implemented yet.')
 elif pipeconf['postprocessing']['collect'].upper() == 'LC':
-    filename = f'{source.lower()}_lightcurve.npy'
+    filename = source.lower() + '_lightcurve.npy'
 elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
-    filename = f'{source.lower()}_loc.npy'
+    filename = source.lower() +'_loc.npy'
 # collect single LC bins data
 binfiles = []
 for b in bins:
@@ -67,8 +67,7 @@ for b in bins:
         elif pipeconf['postprocessing']['collect'].upper() == 'ROI':
             collect_roi(binfilename, outputfile=outputfile)
     else:
-        log.warning(binfilename + 'not found.')
-        raise Warning(binfilename + 'not found.')
+        log.warning(binfilename + ' not found.')
 
 # merge single LC bins data
 mergefile = folder + '_' + str(pipeconf['postprocessing']['collect'].upper()) + '.txt'
