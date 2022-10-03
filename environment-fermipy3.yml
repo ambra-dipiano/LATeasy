@@ -57,9 +57,9 @@ dependencies:
   - entrypoints=0.3=py37_0
   - expat=2.2.10=he6710b0_2
   - f2c=0.0.2=h14c3975_0
-  - fermitools=2.0.0=hf484d3e_0
+  - fermitools=2.2.0=hf484d3e_0
   - fermitools-data=0.18=0
-  - fermitools-dependencies=2.0.0=0
+  - fermitools-dependencies=2.2.0=0
   - fftw=3.3.8=h7b6447c_3
   - font-ttf-dejavu-sans-mono=2.37=h6964260_0
   - font-ttf-inconsolata=2.001=hcb22688_0
