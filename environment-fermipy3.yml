@@ -57,7 +57,6 @@ dependencies:
   - entrypoints=0.3=py37_0
   - expat=2.2.10=he6710b0_2
   - f2c=0.0.2=h14c3975_0
-  - fermipy=1.0.0=py37h7b7c402_0
   - fermitools=2.0.0=hf484d3e_0
   - fermitools-data=0.18=0
   - fermitools-dependencies=2.0.0=0
@@ -301,4 +300,5 @@ dependencies:
   - zipp=3.4.0=pyhd3eb1b0_0
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.5=h9ceee32_0
-prefix: /data01/home_rt/.conda/envs/fermipy3
+  - pip:
+    - fermipy==1.2

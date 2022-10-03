@@ -114,5 +114,4 @@ dependencies:
   - yaml=0.1.7=h470a237_1
   - zlib=1.2.8=3
   - pip:
-    - fermipy==0.19.0
-prefix: /data01/home_rt/.conda/envs/fermipy2
+    - fermipy==0.19
