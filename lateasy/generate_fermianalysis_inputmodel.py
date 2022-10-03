@@ -23,6 +23,7 @@ with open(args.pipeconf) as f:
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
+log.info('Logging -->' + logname)
 
 # download script
 # newest version: https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py

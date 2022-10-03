@@ -11,7 +11,7 @@ import argparse
 import yaml
 import pandas as pd
 from os import system
-from os.path import join, abspath, isfile
+from os.path import join, abspath, isfile, basename
 from lateasy.utils.functions import set_logger
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
@@ -26,8 +26,9 @@ with open(args.fermiconf) as f:
     fermiconf = yaml.safe_load(f)
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
+log.info('Logging -->' + logname)
 
 # generate all execution scripts and configuration
 def generate(name, tmin, tmax, emax, queue, data):
@@ -48,7 +49,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     fermiconf['fileio']['outdir'] = dirname
 
     # write fermipy yaml configuration
-    with open(ymlname, 'w') as f:
+    with open(ymlname, "w+") as f:
         yaml.dump(fermiconf, f, default_flow_style=False)
 
     # define background values
@@ -87,7 +88,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     ]
 
     # write bash executable script
-    with open(shname, "w") as sh:
+    with open(shname, "w+") as sh:
         sh.writelines(job)
 
     # load slurm job submission template
@@ -98,7 +99,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     job = job.replace('$BASH_NAME$', shname)
 
     # write job submission script
-    with open(llname, "w") as ll:
+    with open(llname, "w+") as ll:
         ll.write(job)
 
     # submit job to slurm

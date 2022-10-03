@@ -24,6 +24,7 @@ with open(args.pipeconf) as f:
 # logging
 logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
+log.info('Logging -->' + logname)
 
 # file shortcuts
 model = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
