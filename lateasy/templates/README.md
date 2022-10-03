@@ -44,7 +44,6 @@ The configuration file is structure in different tags. The following list provid
 
 * extended_sources: this tag will contain a list of all extended sources to check 
   * <SOURCE_NAME>: replace this tag with the source name, you can add as many as needed
-    * Extended_Source_Name: (str) extended catalogue name of the source
     * ROI_Center_Distance: (int) distance form the center
     * Signif_Avg: (float) significance
     * Normalisation: (list) normalisation values

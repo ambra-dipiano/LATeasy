@@ -38,7 +38,6 @@ variable_sources:
 # list all extended sources to be updated 
 extended_sources:
   <source>:                   # replace <source> with the name of the source
-    Extended_Source_Name:     # (str) extended catalogue name of the source
     ROI_Center_Distance:      # (int) distance form the center
     Signif_Avg:               # (float) significance
     Normalisation:            # (float) normalisation values
