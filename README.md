@@ -39,8 +39,9 @@ pip install -e .
 
 The repository provides two template configuration files in <code>template</code>. You can find examples of compiled configuration files in the <code>examples</code> folder.
 
-- the template for the configuration fermipy analysis: <code>templates/template_fermianalysis.yml</code>
-- the template for the configuration of the pipeline: <code>templates/template_pipe.yml</code>
+- the template for the configuration fermipy analysis: [template_fermianalysis.yml](./lateasy/templates/template_fermianalysis.yml)
+- the template for the configuration of the pipeline: [template_fermianalysis.yml](./lateasy/templates/template_pipe.yml)
+- the template for the slurm job submission of the pipeline: [template_fermianalysis.yml](./lateasy/templates/template_slurm.ll)
 
 We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further informazione on the configuration can be found [here](lateasy/templates/README.md).
 
