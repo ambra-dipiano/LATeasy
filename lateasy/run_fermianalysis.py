@@ -190,8 +190,8 @@ if pipeconf['execute']['sed']:
 
 # ------------------------------------------------------------------------ 2nd fit
 fit_results = gta.fit(update=True)
-log.debug('Fit Quality: ',fit_results['fit_quality'])
-log.debug('Fit Status: ',fit_results['fit_status'])
+log.debug('Fit Quality: ' + fit_results['fit_quality'])
+log.debug('Fit Status: ' + fit_results['fit_status'])
 fname = 'roi2_fit_model'
 gta.write_roi(fname)
 sources = gta.get_sources()
