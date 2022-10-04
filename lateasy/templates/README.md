@@ -50,14 +50,25 @@ The tag "background" of the configuration file, collects all initial will contai
 | galnorm        | float | normalisazione value of the galactic background model, if null takes default |
 | galindex       | float | index value of the galactic background model, if null takes default |
 
-* target: this tag will contain all parameters related to the target source
-  * name: (str) name of the target source
-  * 4FGLname: (str) name of the target source in 4FGL cat
+### Section: "target"
 
-* variable_sources: this tag will contain a list of all variable sources to check 
-  * <SOURCE_NAME>: replace this tag with the source name, you can add as many as needed
-    * ROI_Center_Distance: (float) distance from center
-    * Signif_Avg: (float) significance
+The tag "target" of the configuration file, collects all parameters relevant to the target itself. Beware that the model information will not be duplicated in this section, but should provided in a proper XML file containing both spectral and spatial models of the source.
+
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| name           | str  | name of the target source              |
+| 4FGLname       | str  | name of the target source in 4FGL cat, if missing or equal to the "name" then please duplicate the value here |
+
+### Section: "variable_sources"
+
+The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You can add as many as you need, so long as you replicate the same format.
+
+| <SOURCE_NAME>  | substitute this tag with the source catalogue name |
+|----------------|------|----------------------------------------|
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| ROI_Center_Distance | float | distance from the sky region center in degrees |
+| Signif_Avg          | float | significance reported in the catalogue |
 
 * extended_sources: this tag will contain a list of all extended sources to check 
   * <SOURCE_NAME>: replace this tag with the source name, you can add as many as needed
