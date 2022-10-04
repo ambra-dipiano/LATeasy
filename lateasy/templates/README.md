@@ -4,11 +4,11 @@ Specifics on the configuration files.
 
 ## Fermi analysis configuration
 
-Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/latest/).
+Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/latest/). We provide a [template](./template_fermianalysis.yml) that you can fill out to your needs.
 
 ## Pipeline configuration
 
-The configuration file is structure in different tags. The following list provides a complete description of all parameters, which can also be found commented in the template file. We suggest to make a copy of the template provided and fill out all section required by your specific use case.
+The configuration file is structure in different tags. The following list provides a complete description of all parameters, which can also be found commented in the template file. We suggest to make a copy of the [template](./template_pipe.yml) provided and fill out all section required by your specific use case.
 
 In the following we present a description of the parameters pertainin to each section of the configuration file.
 
@@ -277,6 +277,8 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 | mode           | str | execution mode relative to size of time bin; options: <code>hour</code>, <code>fix</code>, <code>integral</code>      |
 | queue          | str | slurm partition name                   |
 | sbatch         | bool | submit jobs after creating them       |
+
+We also provide a [template](template_slurm.ll) example for the job submission script. Please follow the specified instruction within it.
 
 In exemple:
 
