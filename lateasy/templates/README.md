@@ -61,7 +61,7 @@ The tag <code>target</code> of the configuration file, collects all parameters r
 
 ### Section: <code>variable_sources</code>
 
-The tag <code>variable_sources<code> of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
+The tag <code>variable_sources</code> of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
@@ -71,7 +71,7 @@ The tag <code>variable_sources<code> of the configuration file, should be compil
 
 ### Section: <code>extended_sources</code>
 
-The tag <code>variable_sources</code> of the configuration file, should be compiled using the 4FGL name of all extended sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
+The tag <code>extended_sources</code> of the configuration file, should be compiled using the 4FGL name of all extended sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
