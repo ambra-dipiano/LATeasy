@@ -71,13 +71,13 @@ for b in bins:
 # merge single LC bins data
 mergefile = join(folder, basename(folder) + '_' + str(pipeconf['postprocessing']['collect'].upper()) + '.txt')
 merge_data(binfiles, output, mergefile, folder)
-log.info('merge output ' + mergefile)
+log.info('merge output: ' + mergefile)
 
 # keep only ts >= 9
 ts = pipeconf['postprocessing']['mints']
 outfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
 data = pd.read_csv(mergefile, sep=' ')
 data_above = data[data['ts'] >= float(ts)]
-log.info('detections above ts=' + str(ts) + ':' + str(len(data_above)))
+log.info('detections above ts=' + str(ts) + ': ' + str(len(data_above)))
 data_above.to_csv(outfile, sep=' ', header=True, index=False)
-log.info('output above ts threshold ' + outfile)
+log.info('output above ts threshold: ' + outfile)
