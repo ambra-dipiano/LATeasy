@@ -61,10 +61,10 @@ The tag "target" of the configuration file, collects all parameters relevant to 
 
 ### Section: "variable_sources"
 
-The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You can add as many as you need, so long as you replicate the same format.
+The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format.
 
-| <SOURCE_NAME>  | substitute this tag with the source catalogue name |
-|----------------|------|----------------------------------------|
+For each <SOURCE_NAME> children tag you will need the following parameters.
+
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
 | ROI_Center_Distance | float | distance from the sky region center in degrees |
