@@ -12,9 +12,9 @@ The configuration file is structure in different tags. The following list provid
 
 In the following we present a description of the parameters pertainin to each section of the configuration file.
 
-### Section: "path"
+### Section: <code>path</code>
 
-The tag "path" of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity.
+The tag <code>path</code> of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity. This section is always required to be compiled.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
@@ -23,45 +23,45 @@ The tag "path" of the configuration file, collects all absolute paths poiting to
 | galdir         | str  | folder where the galactic diffuse background is stored |
 | output         | str  | folder where to store output           |
 
-### Section: "file"
+### Section: <code>file</code>
 
-The tag "file" of the configuration file, collects all file names which will be used during the analysis. Beware that here you should only fill the file name, without path, and you should make sure that the file is placed in the correct folder which is indicated by the following description.
+The tag <code>file</code> of the configuration file, collects all file names which will be used during the analysis. Beware that here you should only fill the file name, without path, and you should make sure that the file is placed in the correct folder which is indicated by the following description. This section is always required to be compiled.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
 | target         | str  | name of the target source model, it must be place in "models" from the previous section |
-| photometry     | str  | name of file contaning the AP exposure, it must be place in "data" from the previous section |
-| catalogue      | str  | name of catalogue FITS file, it must be place in "data" from the previous section |
-| observation    | str  | name of events file to create the sky region model, it must be place in "data" from the previous section |
+| photometry     | str  | name of file contaning the AP exposure, it must be place in <code>data</code> from the previous section |
+| catalogue      | str  | name of catalogue FITS file, it must be place in <code>data</code> from the previous section |
+| observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section |
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
-| folded8        | str  | name of folded time intervals data file, if needed it must be placed in "data" from the previous section |
+| folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section |
 
-### Section: "background"
+### Section: <code>background</code>
 
-The tag "background" of the configuration file, collects all initial will contain all initial background hypothesis. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your "galdir" folder from the "path" section of the configuration file. 
+The tag <code>background</code> of the configuration file, collects all initial will contain all initial background hypothesis. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your <code>galdir</code> folder from the <code>path</code> section of the configuration file. This section is always required to be compiled.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
-| isomodel       | str  | name of the isothropic background model, it must be placed in  "galdir" from the previous section |
+| isomodel       | str  | name of the isothropic background model, it must be placed in  <code>galdir</code> from the previous section |
 | isofree        | bool | free isothropic background during analysis |
 | isonorm        | float | normalisation value of the isothropic background model, if null takes default |
-| galmodel       | str  | name of the galactic background model, it must be placed in  "galdir" from the previous section |
+| galmodel       | str  | name of the galactic background model, it must be placed in  <code>galdir</code> from the previous section |
 | galfree        | bool | free galactic background model during analysis |
 | galnorm        | float | normalisazione value of the galactic background model, if null takes default |
 | galindex       | float | index value of the galactic background model, if null takes default |
 
-### Section: "target"
+### Section: <code>target</code>
 
-The tag "target" of the configuration file, collects all parameters relevant to the target itself. Beware that the model information will not be duplicated in this section, but should provided in a proper XML file containing both spectral and spatial models of the source.
+The tag <code>target</code> of the configuration file, collects all parameters relevant to the target itself. Beware that the model information will not be duplicated in this section, but should provided in a proper XML file containing both spectral and spatial models of the source. This section is always required to be compiled.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
 | name           | str  | name of the target source              |
 | 4FGLname       | str  | name of the target source in 4FGL cat, if missing or equal to the "name" then please duplicate the value here |
 
-### Section: "variable_sources"
+### Section: <code>variable_sources</code>
 
-The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update.
+The tag <code>variable_sources<code> of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
@@ -69,9 +69,9 @@ The tag "variable_sources" of the configuration file, should be compiled using t
 | Signif_Avg          | float | significance reported in the catalogue |
 
 
-### Section: "extended_sources"
+### Section: <code>extended_sources</code>
 
-The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all extended sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update.
+The tag <code>variable_sources</code> of the configuration file, should be compiled using the 4FGL name of all extended sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update. If not required, please put the <code>variable_sources</code> tag to <code>NULL</code>
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
@@ -80,19 +80,27 @@ The tag "variable_sources" of the configuration file, should be compiled using t
 | Normalisation       | list  | normalisation values of the source model |
 | Normalisation_Error | list  | normalisation errors of the source model |
 
+### Section: <code>execute</code>
 
+The tag <code>execute</code> of the configuration file, collects all execution option of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts.
 
-* execute: this tag will contain all execution option
-  * lc: (bool) perform lightcurve
-  * sed: (bool) perform sed
-  * localise: (bool) perform localisation
-  * agg_backend: (bool) change matplotlib backent to agg
-  * verbose: (int) value of fermipy verbosity
-  * loglevel: (int) level of pipeline logging: 0=none, 10=debug, 20=info, 30=warning, 40=error, 50=critical
+| keyword        | type  | description                            |
+|----------------|-------|----------------------------------------|
+| lc             | bool  | perform lightcurve                     |
+| sed            | bool  | perform sed                            |
+| localise       | bool  | perform localisation                   |
+| agg_backend    | bool  | change matplotlib backent to <code>agg</code> |
+| verbose        | int   | value of fermipy verbosity             |
+| loglevel       | int   | level of pipeline logging; options are <code>0=none</code>, <code>10=debug</code>, <code>20=info</code>, <code>30=warning</code>, <code>40=error</code>, <code>50=critical</code> |
 
-* lightcurve: this tag will contain all lightcurve options
-  * bintype: (str) how to define time bins < fix/filter/integral >
-  * binsize: (int) lightcurve binsize in seconds for fix bins
+### Section: <code>lightcurve</code>
+
+The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts.
+
+| keyword        | type  | description                            |
+|----------------|-------|----------------------------------------|
+| bintype        | str   | how to define time bins; options: <code>fix</code>, <code>filter</code>, <code>integral</code> |
+| binsize        | int   | lightcurve binsize in seconds when <code>bintype=fix</code> |
 
 * makemodel: this tag will contain all make4FGL.py script options
   * normfree: (bool) free normalisation
