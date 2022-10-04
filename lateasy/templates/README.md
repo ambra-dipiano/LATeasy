@@ -8,13 +8,23 @@ Please, refer to the [fermipy documentation](https://fermipy.readthedocs.io/en/l
 
 ## Pipeline configuration
 
-The configuration file is structure in different tags. The following list provides a complete description of all parameters, as can also be found commented in the template file.
+The configuration file is structure in different tags. The following list provides a complete description of all parameters, which can also be found commented in the template file. We suggest to make a copy of the template provided and fill out all section required by your specific use case.
 
-* path: this tag will contain all paths
-  * data: (str) folder where data is stored        
-  * models: (str) folder where models are stored
-  * galdir: (str) folder where the galactic diffuse background is stored
-  * output: (str) folder where to store output
+In the following we present a description of the parameters pertainin to each section of the configuration file.
+
+## Section: "path"
+
+The section "path" of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity.
+
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| data           | str  | folder where data is stored            |   
+|----------------|------|----------------------------------------|
+| models         | str  | folder where models are stored         |
+|----------------|------|----------------------------------------|
+| galdir         | str  | folder where the galactic diffuse background is stored |
+|----------------|------|----------------------------------------|
+| output         | str  | folder where to store output           |
 
 * file: this tag will contain all files name relative to the previously defined path
   * target: (str) name of model of target source 
