@@ -14,25 +14,27 @@ In the following we present a description of the parameters pertainin to each se
 
 ## Section: "path"
 
-The section "path" of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity.
+The tag "path" of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
 | data           | str  | folder where data is stored            |   
-|----------------|------|----------------------------------------|
 | models         | str  | folder where models are stored         |
-|----------------|------|----------------------------------------|
 | galdir         | str  | folder where the galactic diffuse background is stored |
-|----------------|------|----------------------------------------|
 | output         | str  | folder where to store output           |
 
-* file: this tag will contain all files name relative to the previously defined path
-  * target: (str) name of model of target source 
-  * photometry: (str) name of file contaning the AP exposure 
-  * catalogue: (str) name of catalogue file
-  * observation: (str) name of data file
-  * inputmodel: (str) name of analysis model 
-  * folded8: (str) name of folded time intervals
+## Section: "file"
+
+The tag "file" of the configuration file, collects all file names which will be used during the analysis. Beware that here you should only fill the file name, without path, and you should make sure that the file is placed in the correct folder which is indicated by the following description.
+
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| target         | str  | name of the target source model, it must be place in "models" from the previous section |
+| photometry     | str  | name of file contaning the AP exposure, it must be place in "data" from the previous section |
+| catalogue      | str  | name of catalogue FITS file, it must be place in "data" from the previous section |
+| observation    | str  | name of events file to create the sky region model, it must be place in "data" from the previous section |
+| inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
+| folded8        | str  | name of folded time intervals data file, if needed it must be placed in "data" from the previous section |
 
 * background: this tag will contain all initial background hypothesis
   * isomodel: (str) isothropic background model
