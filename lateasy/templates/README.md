@@ -61,21 +61,26 @@ The tag "target" of the configuration file, collects all parameters relevant to 
 
 ### Section: "variable_sources"
 
-The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format.
-
-For each <SOURCE_NAME> children tag you will need the following parameters.
+The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all variabls sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
 | ROI_Center_Distance | float | distance from the sky region center in degrees |
 | Signif_Avg          | float | significance reported in the catalogue |
 
-* extended_sources: this tag will contain a list of all extended sources to check 
-  * <SOURCE_NAME>: replace this tag with the source name, you can add as many as needed
-    * ROI_Center_Distance: (int) distance form the center
-    * Signif_Avg: (float) significance
-    * Normalisation: (list) normalisation values
-    * Normalisation_Error: (list) normalisation errors
+
+### Section: "extended_sources"
+
+The tag "variable_sources" of the configuration file, should be compiled using the 4FGL name of all extended sources that you want to check during the analysis as children tags. You must substitute the <code><SOURCE_NAME></code> tag with the source catalogue name. You can add as many as you need, so long as you replicate the same format. For each children tag you will need the following parameters. During the analysis these parameters will be use to check the parameters fit update.
+
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| ROI_Center_Distance | float | distance from the sky region center in degrees |
+| Signif_Avg          | float | significance reported in the catalogue |
+| Normalisation       | list  | normalisation values of the source model |
+| Normalisation_Error | list  | normalisation errors of the source model |
+
+
 
 * execute: this tag will contain all execution option
   * lc: (bool) perform lightcurve
