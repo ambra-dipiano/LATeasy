@@ -127,23 +127,38 @@ The tag <code>updatemodel</code> of the configuration file, collects the paramet
 | freeparams     | list  | parameters to free                     |
 | newbkg         | list  | backgrounds to substitute in the model |
 
-* slurm: this tag will contain all slurm job submission parameters 
-  * envname: (str) virtual environment to activate
-  * template: (str) path to slurm job submission template to launch
-  * bkgresults: (str) path to LC results file to extract background parameter if needed
-  * name: (str) basename of the analysis
-  * tmin: (float) start time 
-  * tmax: (float) stop time
-  * timebin: (float) time bin size of distinct analysis
-  * emax: (int) maximum energy
-  * mode: (str) execution mode relative to size of time bin: <hour|fix|integral>
-  * queue: (str) slurm partition
-  * sbatch: (bool) to submit jobs after creating them
+### Section: <code>slurm</code>
 
-* folded: this tag will contain all folded analysis options
-  * bins: (int) number of bins, 0 if all
+The tag <code>slurm</code> of the configuration file, collects all slurm parallelisation parameters. This section is required to be completed only if the analysis are submitted to slurm for execution.
 
-* postprocessing: this tag will contain all post-processing options
-  * collect: (str) which results to collect data from <LC|LOC|ROI|SED>
-  * mints: (int) minimum ts threshold for significant signal
-  * plot: (bool) compute default plot for collected data
+| keyword        | type  | description                            |
+|----------------|-------|----------------------------------------|
+| envname        | str   | virtual environment to activate        |
+| template       | str   | absolute path to slurm job submission template |
+| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter, if null takes default values from <code>background</code> section |
+| name           | str   | rootname of the analysis job         |
+| tmin           | int | start time of the analysis job in MET  |
+| tmax           | int | stop time of the analysis job in MET   |
+| timebin        | int | time bin size of the job submission in seconds |
+| emax           | int | maximum energy of the analysis         |
+| mode           | str | execution mode relative to size of time bin; options: <code>hour</code>, <code>fix</code>, <code>integral</code>      |
+| queue          | str | slurm partition name                   |
+| sbatch         | bool | submit jobs after creating them       |
+
+### Section: <code>folded</code>
+
+The tag <code>folded</code> of the configuration file, collects the parameters required to run folded analyses. This section is required only to submit folded analysis job.
+
+| keyword        | type  | description                            |
+|----------------|-------|----------------------------------------|
+| bins           | int   | number of bins, 0 to select all available ones |
+
+### Section: <code>postprocessing</code>
+
+The tag <code>postprocessing</code> of the configuration file, collects the parameters required to run the postprocessing script. This script gathers all results in a single file, based on the type of output you want to collect. This section is required only to to run the postprocessing script.
+
+| keyword        | type  | description                            |
+|----------------|-------|----------------------------------------|
+| collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>       |
+| mints          | int   | minimum ts threshold for detection     |
+| plot           | bool  | compute default plot for collected data, only if <code>collect=LC</code> |
