@@ -12,7 +12,7 @@ The configuration file is structure in different tags. The following list provid
 
 In the following we present a description of the parameters pertainin to each section of the configuration file.
 
-## Section: "path"
+### Section: "path"
 
 The tag "path" of the configuration file, collects all absolute paths poiting to directories required by the analysis. It is important that you provide absolute path, without relative pointers or environmental variable to avoid ambiguity.
 
@@ -23,7 +23,7 @@ The tag "path" of the configuration file, collects all absolute paths poiting to
 | galdir         | str  | folder where the galactic diffuse background is stored |
 | output         | str  | folder where to store output           |
 
-## Section: "file"
+### Section: "file"
 
 The tag "file" of the configuration file, collects all file names which will be used during the analysis. Beware that here you should only fill the file name, without path, and you should make sure that the file is placed in the correct folder which is indicated by the following description.
 
@@ -36,7 +36,7 @@ The tag "file" of the configuration file, collects all file names which will be 
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
 | folded8        | str  | name of folded time intervals data file, if needed it must be placed in "data" from the previous section |
 
-## Section: "background"
+### Section: "background"
 
 The tag "background" of the configuration file, collects all initial will contain all initial background hypothesis. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your "galdir" folder from the "path" section of the configuration file. 
 
