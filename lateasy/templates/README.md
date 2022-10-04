@@ -23,6 +23,16 @@ The tag <code>path</code> of the configuration file, collects all absolute paths
 | galdir         | str  | folder where the galactic diffuse background is stored |
 | output         | str  | folder where to store output           |
 
+In exemple:
+
+```yaml
+path:
+  data: /data01/homes/dipiano/FermiTools/lateasy/crab/data            
+  models: /data01/homes/dipiano/FermiTools/lateasy/crab/models
+  galdir: /opt/anaconda3/envs/fermi/share/fermitools/refdata/fermi/galdiffuse/
+  output: /data01/homes/dipiano/FermiTools/lateasy/crab/output
+```
+
 ### Section: <code>file</code>
 
 The tag <code>file</code> of the configuration file, collects all file names which will be used during the analysis. Beware that here you should only fill the file name, without path, and you should make sure that the file is placed in the correct folder which is indicated by the following description. This section is always required to be compiled.
@@ -35,6 +45,18 @@ The tag <code>file</code> of the configuration file, collects all file names whi
 | observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section |
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
 | folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section |
+
+In exemple:
+
+```yaml
+file: 
+  observation: L220930045127B298B5DA45_PH00.fits
+  target: crab.xml
+  inputmodel: 4FGL_inputmodel.xml
+  catalogue: gll_psc_v27.fit
+  photometry: 
+  folded8: 
+```
 
 ### Section: <code>background</code>
 
@@ -50,6 +72,19 @@ The tag <code>background</code> of the configuration file, collects all initial 
 | galnorm        | float | normalisazione value of the galactic background model, if null takes default |
 | galindex       | float | index value of the galactic background model, if null takes default |
 
+In exemple:
+
+```yaml
+background:
+  isomodel: iso_P8R3_SOURCE_V2_v1
+  isofree: true
+  isonorm: 1
+  galmodel: gll_iem_v07
+  galfree: true
+  galnorm: 1 
+  galindex: 0
+```
+
 ### Section: <code>target</code>
 
 The tag <code>target</code> of the configuration file, collects all parameters relevant to the target itself. Beware that the model information will not be duplicated in this section, but should provided in a proper XML file containing both spectral and spatial models of the source. This section is always required to be compiled.
@@ -58,6 +93,22 @@ The tag <code>target</code> of the configuration file, collects all parameters r
 |----------------|------|----------------------------------------|
 | name           | str  | name of the target source              |
 | 4FGLname       | str  | name of the target source in 4FGL cat, if missing or equal to the "name" then please duplicate the value here |
+
+In exemple:
+
+```yaml
+target:
+  name: Crab
+  4FGLname: 4FGL J0534.5+2200
+```
+
+or 
+
+```yaml
+target:
+  name: IGRJ17354-3255
+  4FGLname: IGRJ17354-3255
+```
 
 ### Section: <code>variable_sources</code>
 
@@ -68,6 +119,20 @@ The tag <code>variable_sources</code> of the configuration file, should be compi
 | ROI_Center_Distance | float | distance from the sky region center in degrees |
 | Signif_Avg          | float | significance reported in the catalogue |
 
+In exemple:
+
+```yaml
+variable_sources: null
+```
+
+or
+
+```yaml
+variable_sources:
+  4FGL J1802.6-3940:
+    ROI_Center_Distance: 8.682
+    Signif_Avg: 65.025505
+```
 
 ### Section: <code>extended_sources</code>
 
@@ -79,6 +144,27 @@ The tag <code>extended_sources</code> of the configuration file, should be compi
 | Signif_Avg          | float | significance reported in the catalogue |
 | Normalisation       | list  | normalisation values of the source model |
 | Normalisation_Error | list  | normalisation errors of the source model |
+
+In exemple:
+
+```yaml
+extended_sources: null
+```
+
+or
+
+```yaml
+extended_sources:
+  FGES J1745.8-3028:
+    ROI_Center_Distance: 3.31
+    Signif_Avg: 29.66
+    Normalisation: 
+      - 9.332740743411838
+      - 2.2291994
+    Normalisation_Error: 
+      - null
+      - null
+```
 
 ### Section: <code>execute</code>
 
@@ -93,6 +179,18 @@ The tag <code>execute</code> of the configuration file, collects all execution o
 | verbose        | int   | value of fermipy verbosity             |
 | loglevel       | int   | level of pipeline logging; options are <code>0=none</code>, <code>10=debug</code>, <code>20=info</code>, <code>30=warning</code>, <code>40=error</code>, <code>50=critical</code> |
 
+In exemple:
+
+```yaml
+execute:
+  lc: true
+  sed: true
+  localise: true
+  agg_backend: true
+  verbose: 1
+  loglevel: 10
+```
+
 ### Section: <code>lightcurve</code>
 
 The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts.
@@ -101,6 +199,14 @@ The tag <code>lightcurve</code> of the configuration file, collects all lightcur
 |----------------|-------|----------------------------------------|
 | bintype        | str   | how to define time bins; options: <code>fix</code>, <code>filter</code>, <code>integral</code> |
 | binsize        | int   | lightcurve binsize in seconds when <code>bintype=fix</code> |
+
+In exemple:
+
+```yaml
+lightcurve:
+  bintype: fix
+  binsize: 86400
+```
 
 ### Section: <code>makemodel</code>
 
@@ -112,6 +218,16 @@ The tag <code>makemodel</code> of the configuration file, collects all options t
 | radius         | float | inner radius for freeing normalisation |
 | significance   | float | minimum significance for freeing normalisation |
 | ds9reg         | bool  | make ds9 region file                   |
+
+In exemple:
+
+```yaml
+makemodel:
+  normfree: yes 
+  radius: 5
+  significance: 25 
+  ds9reg: True
+```
 
 ### Section: <code>updatemodel</code>
 
@@ -126,6 +242,23 @@ The tag <code>updatemodel</code> of the configuration file, collects the paramet
 | minvariability | float | min variability threshold              |
 | freeparams     | list  | parameters to free                     |
 | newbkg         | list  | backgrounds to substitute in the model |
+
+In exemple:
+
+```yaml
+updatemodel:
+  radius: 5
+  extradius: 10
+  mints: 25
+  extmints: 50
+  minvariability: 18.48
+  freeparams:
+    - norm
+    - Prefactor
+  newbkg:
+    - gll_iem_v07
+    - iso_P8R3_SOURCE_V3_v1
+```
 
 ### Section: <code>slurm</code>
 
@@ -145,6 +278,23 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 | queue          | str | slurm partition name                   |
 | sbatch         | bool | submit jobs after creating them       |
 
+In exemple:
+
+```yaml
+slurm:
+  envname: fermipy2
+  template: /data01/homes/dipiano/FermiTools/lateasy/crab/conf/slurm.ll
+  bkgresults: 
+  name: PY2
+  tmin: 276652802
+  tmax: 276739202
+  timebin: 86400
+  emax: 300000
+  mode: fix
+  queue: large
+  sbatch: true
+```
+
 ### Section: <code>folded</code>
 
 The tag <code>folded</code> of the configuration file, collects the parameters required to run folded analyses. This section is required only to submit folded analysis job.
@@ -152,6 +302,13 @@ The tag <code>folded</code> of the configuration file, collects the parameters r
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
 | bins           | int   | number of bins, 0 to select all available ones |
+
+In exemple:
+
+```yaml
+folded:
+  bins: 0
+```
 
 ### Section: <code>postprocessing</code>
 
@@ -162,3 +319,13 @@ The tag <code>postprocessing</code> of the configuration file, collects the para
 | collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>       |
 | mints          | int   | minimum ts threshold for detection     |
 | plot           | bool  | compute default plot for collected data, only if <code>collect=LC</code> |
+
+In exemple:
+
+```yaml
+postprocessing:
+  collect: lc
+  mints: 9
+  plot: false
+```
+
