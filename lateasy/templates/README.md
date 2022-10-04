@@ -36,14 +36,19 @@ The tag "file" of the configuration file, collects all file names which will be 
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
 | folded8        | str  | name of folded time intervals data file, if needed it must be placed in "data" from the previous section |
 
-* background: this tag will contain all initial background hypothesis
-  * isomodel: (str) isothropic background model
-  * isofree: (bool) free isothropic background
-  * isonorm: (float) normalisation value of the isothropic background model, if null takes default
-  * galmodel: (str) galactic background model
-  * galfree: (bool) free galactic background model
-  * galnorm: (float) normalisazione value of the galactic background model, if null takes default
-  * galindex: (float) index value of the galactic background model, if null takes default
+## Section: "background"
+
+The tag "background" of the configuration file, collects all initial will contain all initial background hypothesis. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your "galdir" folder from the "path" section of the configuration file. 
+
+| keyword        | type | description                            |
+|----------------|------|----------------------------------------|
+| isomodel       | str  | name of the isothropic background model, it must be placed in  "galdir" from the previous section |
+| isofree        | bool | free isothropic background during analysis |
+| isonorm        | float | normalisation value of the isothropic background model, if null takes default |
+| galmodel       | str  | name of the galactic background model, it must be placed in  "galdir" from the previous section |
+| galfree        | bool | free galactic background model during analysis |
+| galnorm        | float | normalisazione value of the galactic background model, if null takes default |
+| galindex       | float | index value of the galactic background model, if null takes default |
 
 * target: this tag will contain all parameters related to the target source
   * name: (str) name of the target source
