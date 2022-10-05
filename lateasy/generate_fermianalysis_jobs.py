@@ -74,7 +74,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     # compose bash executable script
     job = [
     '#!/bin/bash\n\n',
-    'source activate ' + pipeconf['slurm']['envname'],
+    pipeconf['slurm']['activation'] + ' activate ' + pipeconf['slurm']['envname'],
     '\nexport FERMIDATA=' + pipeconf['path']['data'],
     '\nexport FERMI_DIFFUSE_DIR=' + pipeconf['path']['galdir'],
     '\npython ' + join(abspath(__file__).replace(basename(__file__), ''), 'run_fermianalysis.py') + ' --fermiconf ' + ymlname + ' --pipeconf ' + args.pipeconf, 
@@ -97,6 +97,7 @@ def generate(name, tmin, tmax, emax, queue, data):
 
     # replace executable bash filename 
     job = job.replace('$BASH_NAME$', shname)
+    job = job.replace('$OUTPUT$', pipeconf['path']['output'])
 
     # write job submission script
     with open(llname, "w+") as ll:

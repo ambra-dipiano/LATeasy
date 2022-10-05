@@ -90,6 +90,7 @@ slurm:
   mode:               # (str) execution mode relative to size of time bin: <hour|fix|integral>
   queue:              # (str) slurm partition
   sbatch:             # (bool) to submit jobs after creating them
+  activation:         # (str) environment activation: <conda|source>
 
 folded:
   bins:               # (int) number of bins, 0 if all

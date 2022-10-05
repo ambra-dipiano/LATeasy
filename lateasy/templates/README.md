@@ -277,6 +277,7 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 | mode           | str | execution mode relative to size of time bin; options: <code>hour</code>, <code>fix</code>, <code>integral</code>      |
 | queue          | str | slurm partition name                   |
 | sbatch         | bool | submit jobs after creating them       |
+| activation     | str | conda activation keyword; options: <code>conda</code>, <code>source</code> |
 
 We also provide a [template](template_slurm.ll) example for the job submission script. Please follow the specified instruction within it.
 
@@ -295,6 +296,7 @@ slurm:
   mode: fix
   queue: large
   sbatch: true
+  activation: conda
 ```
 
 ### Section: <code>folded</code>
