@@ -70,7 +70,7 @@ else:
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
 # ---------------------------------------------------------------- setup
-target_source = pipeconf['target']['name']
+target_source = pipeconf['target']['4FGLname']
 log.info('\n#### LOGGING ---> ' + str(logname))
 
 # free the following sources
