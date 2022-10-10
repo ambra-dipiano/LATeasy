@@ -5,6 +5,7 @@ import argparse
 import pandas as pd
 from os.path import join, isdir, isfile, basename
 from lateasy.utils.functions import *
+from lateasy.utils.plotting import Plotting
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
@@ -75,9 +76,44 @@ log.info('merge output: ' + mergefile)
 
 # keep only ts >= 9
 ts = pipeconf['postprocessing']['mints']
-outfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
+detfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
 data = pd.read_csv(mergefile, sep=' ')
 data_above = data[data['ts'] >= float(ts)]
 log.info('detections above ts=' + str(ts) + ': ' + str(len(data_above)))
-data_above.to_csv(outfile, sep=' ', header=True, index=False)
-log.info('output above ts threshold: ' + outfile)
+data_above.to_csv(detfile, sep=' ', header=True, index=False)
+log.info('output above ts threshold: ' + detfile)
+
+if pipeconf['postprocessing']['collect'].lower() == 'lc' and pipeconf['postprocessing']['plot']:
+    filename_full = mergefile
+    filename_bin = pipeconf['target']['name'] + '_lightcurve_collected.txt'
+    path = pipeconf['path']['output']
+
+    # list of subdir in path
+    bins = []
+    for d in os.listdir(path):
+        if os.path.isdir(path + '/' + d):
+            bins.append(d)
+    bins = sorted(bins)
+
+    # plot monthly
+    log.info('Plot single lc')
+    plotname_bin = filename_bin.replace('.txt', '.png')
+    for b in bins:
+        filepath = os.path.join(path, b, filename_bin)
+        if os.path.exists(filepath):
+            png = Plotting(args.pipeconf)
+            data = png.load_data(filepath)
+            png.plot_lc(data, plotname_bin)
+        else:
+            print('bin', b, 'missing LC ==> skipped')
+
+    # plot year
+    log.info('Plot merged lc')
+    plotname_full = filename_full.replace('.txt', '.png')
+    filepath = os.path.join(path, filename_full)
+    png = Plotting(args.pipeconf)
+    data = png.load_data(filepath)
+    png.plot_lc(data, plotname_full)
+
+else:
+    log.warning('Plotting skipped. Not implemented for ' + pipeconf['postprocessing']['collect'].upper())

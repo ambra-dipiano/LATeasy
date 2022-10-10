@@ -5,63 +5,75 @@
 # This software is intended to plot the fermipy collected lightcurve data
 # *****************************************************************************
 
-
-import sys
-import os
+import yaml
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
 import pandas as pd
+from os.path import join, abspath
+from lateasy.utils.functions import set_logger
 
-def load_data(filename):
-    data = pd.read_csv(filename, sep=" ", header=0)
-    return data
+class Plotting():
+    def __init__(self, pipeconf):
+        # load yaml configurations
+        with open(pipeconf) as f:
+            self.pipeconf = yaml.safe_load(f)
 
-def plot_lc(data, filename):
+        # logging
+        logname = join(self.pipeconf['path']['output'], abspath(__file__).replace('.py','.log'))
+        self.log = set_logger(filename=logname, level=self.pipeconf['execute']['loglevel'])
+        self.log.info('Logging: ' + logname)
 
-    ts = np.array(data['ts'])
-    t = (((np.array(data['tmin']) + np.array(data['tmax'])) / 2) - data['tmin'][0]) * 86400
-    terr = ((np.array(data['tmax']) - np.array(data['tmin'])) / 2) * 86400
-    f = np.array(data['flux'])
-    ferr = np.array(data['flux_err'])
-    fup = np.array(data['flux_ul95'])
+        # switch matplotlib backend and complete imports
+        if self.pipeconf['execute']['agg_backend']:
+            matplotlib.use('agg')
+        import matplotlib.pyplot as plt
+        plt.switch_backend('agg')
+        self.log.info('Switch to AGG backend')
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
-    ax1.errorbar(t, f, xerr=terr, yerr=ferr)
-    ax2.plot(t, ts)
-    fig.savefig(filename)
-    print('plotting', filename)
+    def load_data(self, filename):
+        data = pd.read_csv(filename, sep=" ", header=0)
+        return data
+
+    def plot_lc(self, data, filename, fontsize=20):
+        # get data
+        ts = np.array(data['ts'])
+        t = (((np.array(data['tmin_mjd']) + np.array(data['tmax_mjd'])) / 2)) 
+        terr = ((np.array(data['tmax_mjd']) - np.array(data['tmin_mjd'])) / 2) 
+        f = np.array(data['flux'])
+        ferr = np.array(data['flux_err'])
+
+        # get upper limits
+        upl = []
+        for idx, (v, e, tv) in enumerate(zip(f, ferr, ts)):
+            if e > 2*v or tv < self.pipeconf['postprocessing']['mints']:
+                upl.append(True)
+                ferr[idx] = v/2
+            else:
+                upl.append(False)
+        
+        # get detections
+        detection = [f[i] for i in range(len(f)) if not upl[i]]
+        detection_err = [ferr[i] for i in range(len(ferr)) if not upl[i]]
+        detection_time = [t[i] for i in range(len(t)) if not upl[i]]
+        detection_ts = [ts[i] for i in range(len(ts)) if not upl[i]]
+        self.log.debug('Number of detection above TS=' + str(self.pipeconf['postprocessing']['mints']) + ' : ' + str(len(detection)))
+
+        # plot
+        fig, (ax1, ax2) = matplotlib.pyplot.subplots(2, 1, sharex=True, figsize=(10,8))
+        ax1.set_title(self.pipeconf['target']['name'] + ' lightcurve', fontsize=fontsize)
+        ax1.errorbar(t, f, xerr=terr, yerr=ferr, ls=' ', marker='o', markeredgecolor='k', uplims=upl, color='b', zorder=0)
+        ax1.errorbar(detection_time, detection, xerr=0, yerr=detection_err, ls=' ', marker='o', markeredgecolor='k', color='r', zorder=10)
+        ax1.set_ylabel('flux (ph/cm2/s)', fontsize=fontsize)
+        ax1.set_yscale('log')
+        ax2.errorbar(t, ts, xerr=terr, ls=' ', marker='o', markeredgecolor='k', color='b')
+        ax2.errorbar(detection_time, detection_ts, xerr=0, ls=' ', marker='o', markeredgecolor='k', color='r')
+        ax2.axhline(self.pipeconf['postprocessing']['mints'], ls='-.', color='r')
+        ax2.set_xlabel('time (MJD)', fontsize=fontsize)
+        ax2.set_ylabel('TS', fontsize=fontsize)
+        matplotlib.pyplot.tight_layout()
+        fig.savefig(filename)
+        matplotlib.pyplot.close()
+        self.log.info('plotting' + filename)
+        return self
 
 
-
-filename_full = 'igrj17354-3255_lightcurve_fullLC.txt'
-filename_bin = 'igrj17354-3255_lightcurve_collected.txt'
-if len(sys.argv) > 1:
-    folder = str(sys.argv[1])
-else:
-    folder = 'YEARS5'
-if len(sys.argv) > 2:
-    abspath = str(sys.argv[2]) + folder + '/'
-else:
-    abspath = '/data01/projects/IGRJ17354-3255/FERMI/LC/' + folder + '/'
-# list of subdir in abspath
-bins = []
-for d in os.listdir(abspath):
-    if os.path.isdir(abspath + '/' + d):
-        bins.append(d)
-bins = sorted(bins)
-# plot monthly
-plotname_bin = filename_bin.replace('.txt', '.png')
-for b in bins:
-    filepath = os.path.join(abspath, b, filename_bin)
-    if os.path.exists(filepath):
-        data = load_data(filepath)
-        plot_lc(data, plotname_bin)
-    else:
-        print('bin', b, 'missing LC ==> skipped')
-
-# plot year
-plotname_full = filename_full.replace('.txt', '.png')
-filepath = os.path.join(abspath, filename_full)
-data = load_data(filepath)
-plot_lc(data, plotname_full)
