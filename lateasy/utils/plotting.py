@@ -9,7 +9,7 @@ import yaml
 import numpy as np
 import matplotlib
 import pandas as pd
-from os.path import join, abspath
+from os.path import join, basename
 from lateasy.utils.functions import set_logger
 
 class Plotting():
@@ -19,7 +19,7 @@ class Plotting():
             self.pipeconf = yaml.safe_load(f)
 
         # logging
-        logname = join(self.pipeconf['path']['output'], abspath(__file__).replace('.py','.log'))
+        logname = join(self.pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
         self.log = set_logger(filename=logname, level=self.pipeconf['execute']['loglevel'])
         self.log.info('Logging: ' + logname)
 
