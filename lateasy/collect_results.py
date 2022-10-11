@@ -21,7 +21,7 @@ log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 log.info('Logging: ' + logname)
 
 folder = pipeconf['path']['output']
-source = pipeconf['target']['name']
+source = pipeconf['target']['4FGLname']
 log.info('collect from ' + pipeconf['postprocessing']['collect'].upper())
 # check folder existance
 if not os.path.isdir(folder):
@@ -50,6 +50,8 @@ elif pipeconf['postprocessing']['collect'].upper() == 'LC':
     filename = source.lower() + '_lightcurve.npy'
 elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
     filename = source.lower() +'_loc.npy'
+filename = filename.replace(' ', '_')
+log.info('Collect from:' + filename)
 # collect single LC bins data
 binfiles = []
 for b in bins:
@@ -85,7 +87,7 @@ log.info('output above ts threshold: ' + detfile)
 
 if pipeconf['postprocessing']['collect'].lower() == 'lc' and pipeconf['postprocessing']['plot']:
     filename_full = mergefile
-    filename_bin = pipeconf['target']['name'] + '_lightcurve_collected.txt'
+    filename_bin = pipeconf['target']['4FGLname'] + '_lightcurve_collected.txt'
     path = pipeconf['path']['output']
 
     # list of subdir in path

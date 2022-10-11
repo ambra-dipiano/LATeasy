@@ -244,7 +244,7 @@ def collect_roi(filename, src='IGRJ17354-3255', columns=('ts', 'flux', 'flux_err
 # merge output 
 def merge_data(bins, filename, mergefile, folder):
     if len(bins) == 0:
-        raise FileNotFoundError('The analysis did not produce any output of the kind: ' + filename)
+        raise Exception('The analysis did not produce any output of the kind: ' + filename)
     mf = open(join('.', mergefile), 'w+') 
     for i, b in enumerate(bins):
         with open(join('.', folder, b, filename)) as f:
