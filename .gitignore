@@ -3,13 +3,16 @@
 *egg-info
 *.pyc
 *.out
+*.sh
+*.lc
+*.ipynb
 
 # folders
 __*
+.*
 igrJ17354-3255
 crab
 galdiffuse
-monitoring
 
 # files
 make4FGL*.py
