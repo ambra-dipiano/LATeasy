@@ -67,7 +67,7 @@ for b in bins:
     if isfile(binfilename):
         binfiles.append(b)
         if pipeconf['postprocessing']['collect'].upper() == 'LC':
-            collect_lc(binfilename, outputfile, roi, keys, source, relpath=join(folder, b))
+            collect_lc(binfilename, outputfile, roi, keys, source, relpath=join(folder, b), isomodel=pipeconf['background']['isomodel'], galmodel=pipeconf['background']['galmodel'])
         elif pipeconf['postprocessing']['collect'].upper() == 'SED':
             collect_sed(binfilename, outputfile=outputfile)
         elif pipeconf['postprocessing']['collect'].upper() == 'LOC':

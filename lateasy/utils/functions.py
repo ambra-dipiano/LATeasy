@@ -67,7 +67,7 @@ def get_phase(tmin, tmax):
     return ph
 
 # get lightcurves
-def collect_lc(filename, outputfile, roiname, keys, source, relpath):
+def collect_lc(filename, outputfile, roiname, keys, source, relpath, isomodel, galmodel):
     if isfile(outputfile):
         os.remove(outputfile)
     lc = np.load(filename, allow_pickle=True, encoding='latin1', fix_imports=True).flat[0]
@@ -92,17 +92,17 @@ def collect_lc(filename, outputfile, roiname, keys, source, relpath):
             elif 'iso' in key or 'gal' in key:
                 hdr += ' ' + str(key)
                 if 'Prefactor_value' in key:
-                    line += ' ' + str(roi['sources']['gll_iem_v07']['param_values'][0])
+                    line += ' ' + str(roi['sources'][galmodel]['param_values'][0])
                 if 'Prefactor_error' in key:
-                    line += ' ' + str(roi['sources']['gll_iem_v07']['param_errors'][0])
+                    line += ' ' + str(roi['sources'][galmodel]['param_errors'][0])
                 if 'Index_value' in key:
-                    line += ' ' + str(roi['sources']['gll_iem_v07']['param_values'][1])
+                    line += ' ' + str(roi['sources'][galmodel]['param_values'][1])
                 if 'Index_error' in key:
-                    line += ' ' + str(roi['sources']['gll_iem_v07']['param_errors'][1])
+                    line += ' ' + str(roi['sources'][galmodel]['param_errors'][1])
                 if 'Normalization_value' in key:
-                    line += ' ' + str(roi['sources']['iso_P8R3_SOURCE_V2_v1']['param_values'][0])
+                    line += ' ' + str(roi['sources'][isomodel]['param_values'][0])
                 if 'Normalization_error' in key:
-                    line += ' ' + str(roi['sources']['iso_P8R3_SOURCE_V2_v1']['param_errors'][0])
+                    line += ' ' + str(roi['sources'][isomodel]['param_errors'][0])
             # source params from lc and from roi
             elif 'source' in key:
                 hdr += ' ' + str(key)
