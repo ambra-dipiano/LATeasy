@@ -11,7 +11,7 @@ from os import listdir, system
 from os.path import isfile, join, basename
 from lateasy.utils.functions import set_logger
 
-parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
+parser = argparse.ArgumentParser(description='Rename slurm jobs')
 parser.add_argument('--pipeconf',  type=str, required=True, help='configuration file')
 args = parser.parse_args()
 
