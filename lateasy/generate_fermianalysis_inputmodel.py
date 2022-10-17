@@ -57,5 +57,5 @@ if pipeconf['makemodel']['ds9reg']:
 
 log.debug(commandline)
 system(commandline)
-system('mv ROI_4FGL_inputmodel.reg ' + pipeconf['path']['models'])
+system('mv ROI_*.reg ' + pipeconf['path']['models'])
 system('chmod 777 ' + join(pipeconf['path']['models'], pipeconf['file']['inputmodel']))
