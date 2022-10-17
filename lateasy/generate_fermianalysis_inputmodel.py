@@ -9,7 +9,7 @@ import sys
 import yaml
 import argparse
 from os import system
-from os.path import join, basename
+from os.path import join, basename, isfile
 from lateasy.utils.functions import set_logger
 
 parser = argparse.ArgumentParser(description='Fermi/LAT data analysis pipeline')
@@ -25,8 +25,12 @@ logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.lo
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 log.info('Logging: ' + logname)
 
+# remove script if present
+if isfile('make4FGLxml.py'):
+    system('rm make4FGLxml.py')
+
 # download script
-# newest version: https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py
+# newest version: https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py [bug]
 try:
     if sys.version_info[0] < 3:
         system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml_v01r06.py2')
