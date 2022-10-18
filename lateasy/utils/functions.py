@@ -10,7 +10,7 @@ import logging
 import numpy as np
 import pandas as pd
 import xml.etree.ElementTree as ET
-from os.path import join, exists, isfile
+from os.path import join, exists, isfile, dirname, isdir
 
 def mjd_to_met(time):
     """Convert mean julian date to mission elapse time."""
@@ -29,6 +29,8 @@ def get_target_coords(model, name):
     return ra, dec
 
 def set_logger(filename, level):
+    if not isdir(dirname(filename)):
+        os.makedirs(dirname(filename))
     log = logging.getLogger()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fileHandler = logging.FileHandler(filename)
