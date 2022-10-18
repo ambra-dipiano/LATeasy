@@ -147,4 +147,5 @@ else:
     log.error('Invalid submission mode:' + mode.lower())
     raise ValueError('Invalid submission mode:' + mode.lower())
 
-
+log.info('Copy pipeline configuration in output folder.')
+system('cp ' + args.pipeconf + ' ' + pipeconf['path']['output'])
