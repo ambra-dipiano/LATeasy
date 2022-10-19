@@ -35,11 +35,15 @@ try:
     if sys.version_info[0] < 3:
         system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml_v01r06.py2')
         system('mv make4FGLxml_v01r06.py2 make4FGLxml.py')
-        log.info('Download python2 version')
-    else: 
+        log.info('Download python2 version 1r06')
+    elif any(['v22', 'v23', 'v24', 'v25', 'v26', 'v27']) in pipeconf['file']['catalogue']: 
         system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml_v01r06.py')
         system('mv make4FGLxml_v01r06.py make4FGLxml.py')
-        log.info('Download python3 version')
+        log.info('Download python3 version 1r06')
+    else: 
+        system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py')
+        system('mv make4FGLxml_v01r06.py make4FGLxml.py')
+        log.info('Download python3 latest version')
 except Exception as e:
     log.error(e)
     raise SystemError(e)
