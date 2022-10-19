@@ -36,7 +36,7 @@ try:
         system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml_v01r06.py2')
         system('mv make4FGLxml_v01r06.py2 make4FGLxml.py')
         log.info('Download python2 version 1r06')
-    elif any(['v22', 'v23', 'v24', 'v25', 'v26', 'v27']) in pipeconf['file']['catalogue']: 
+    elif int(pipeconf['file']['catalogue'][-6:-4]) < 30: 
         system('wget https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml_v01r06.py')
         system('mv make4FGLxml_v01r06.py make4FGLxml.py')
         log.info('Download python3 version 1r06')
