@@ -6,6 +6,9 @@
 *.sh
 *.lc
 *.ipynb
+*.fit
+*.fits
+*.xml
 
 # folders
 __*
