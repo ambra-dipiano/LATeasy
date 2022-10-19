@@ -7,8 +7,6 @@ Run the fermi analysis:
 python run_fermianalysis.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
-Furthermore provide also a [presentation](https://docs.google.com/presentation/d/1eTz8FA4qTjW9XyVesUEjY7dBzDi_E-pEzzoXDrhe6dQ/edit?usp=sharing) of the proceedure description step by step.
-
 ## Background estimation
 
 Unless you have previous knowledge about the background, proper estimation with this tool should be configured as follows:
