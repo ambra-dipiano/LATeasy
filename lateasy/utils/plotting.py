@@ -111,7 +111,7 @@ class Plotting():
         self.log.info('Filter LAT data for time < ' + str(max(t)))
         data_fermi['START'] = met_to_mjd(data_fermi['START'])
         data_fermi['STOP'] = met_to_mjd(data_fermi['STOP'])
-        data_fermi = data_fermi[((data_fermi['START']) >= np.min(t)) & (data_fermi['STOP'] <= np.max(t))]
+        data_fermi = data_fermi[((data_fermi['START']) >= np.min(data_lc['tmin_mjd'])) & (data_fermi['STOP'] <= np.max(data_lc['tmax_mjd']))]
         self.log.info('Length of intersection:' + str(len(data_fermi)))
 
         # get data_fermi
