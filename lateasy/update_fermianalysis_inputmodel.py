@@ -28,11 +28,11 @@ log.info('Logging: ' + logname)
 
 # file shortcuts
 model = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
-igrmodel = join(pipeconf['path']['models'], pipeconf['file']['target'])
+mymodel = join(pipeconf['path']['models'], pipeconf['file']['target'])
 cat = join(pipeconf['path']['data'], pipeconf['file']['catalogue'])
 
 # target coordinates 
-target = get_target_coords(igrmodel, pipeconf['target']['name'])
+target = get_target_coords(mymodel, pipeconf['target']['name'])
 log.info('Target Coordinates: (RA, DEC) = (' + str(target[0]) + ', ' + str(target[1]) + ') deg' )
 center_J2000 = SkyCoord(ra=target[0], dec=target[1], frame='fk5', unit='deg')
 
@@ -83,8 +83,8 @@ for src in variable_external_bright:
     srcs_variable['Signif_Avg'].append(src['Signif_Avg'])
 
 # find variable sources match between catalogue and source library and set them free 
-with open(igrmodel, 'rb') as f:
-    mysource = ET.parse(f).getroot().find('source[@name="IGRJ17354-3255"]')
+with open(mymodel, 'rb') as f:
+    mysource = ET.parse(f).getroot().find('source[@name="' + pipeconf['target']['name'] + '"]')
 with open(model, 'rb') as f:
     src_lib = ET.parse(model)
 root = src_lib.getroot()
