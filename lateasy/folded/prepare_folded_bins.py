@@ -9,7 +9,7 @@ import yaml
 import argparse
 import pandas as pd
 import numpy as np
-from os.path import join
+from os.path import join, basename
 from lateasy.utils.functions import mjd_to_met, set_logger
 
 parser = argparse.ArgumentParser(description='Collect data from multiple NPY outputs')
@@ -23,7 +23,7 @@ with open(args.pipeconf) as f:
     pipeconf = yaml.safe_load(f)
 
 # logging
-logname = join(pipeconf['path']['output'], str(__file__).replace('.py','.log'))
+logname = join(pipeconf['path']['output'], basename(__file__).replace('.py','.log'))
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
 # file names
