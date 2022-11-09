@@ -1,166 +1,108 @@
-# Istruzioni per lanciare gli script
+# LATeasy
 
-Le variabili d'ambiente usate negli esempi di questo README sono:
+This repository is intended as a collection of tools and script to run automated analysis of Fermi/LAT data with fermipy analysis tool. 
 
-```bash
-export PYCODE=/data01/projects/IGRJ17354-3255/FERMI/pycode
-export DATA=/data01/projects/IGRJ17354-3255/FERMI/LC
+## Environment requirements 
+
+We provide an environment recipe for [anaconda](https://www.anaconda.com/products/distribution). Any variation from it is not granted to work.
+
+- [environment-fermipy2.yml](./environment-fermipy2.yml) for fermpy v0.19 and python v2.7
+- [environment-fermipy3.yml](./environment-fermipy3.yml) for fermipy v1.2 and python v3.9 
+
+You can create such environments like this:
+
+```bach
+conda env create -n <name> -f <environment-file.yml>
 ```
 
-## collectNPY.py
-Questo script permette la raccolta di una serie di parametri a partire dagli output npy di un'analisi. Se l'analisi è composta da bin (es lightcurve) oltre a raccogliere i dati dei singoli periodi effettua un merge di tutti i risultati. 
-Un secondo output con le detection sopra una soglia di TS viene creato contestualmente al merge.
+## Installation
 
-### Output
-Nella stessa folder degli output file.npy viene salvato il .txt della singola run di analysis. Nella cartella LC viene salvato il merge di tutte le run appartenenti ad una data analisi, più l'output contenente solo le detection sopra una data soglia di TS
-
-### Istruzioni esecuzione
-Dalla folder "parent" di cui si vogliono raccogliere i risultati di ogni analisi contenuta. 
+Please activate the conda environment beforehand:
 
 ```bash
-python $PYCODE/collectNPY.py -f $DATA/ANALYSIS_FOLDER -t type
-```
-oppure
-```bash
-python $PYCODE/collectNPY.py --folder $DATA/ANALYSIS_FOLDER --type type
+conda activate <name>
 ```
 
-Dove type può essere LC/SED/ROI/LOC
-
-### Esempio
+To install the software:
 
 ```bash
-python $PYCODE/collectNPY.py -f $DATA/TEST -t SED
+pip install .
 ```
 
-## collectBIN.py
-Questo script permette la raccolta di una serie di parametri a partire dagli output npy di un'analisi di un singolo bin. Se l'analisi è composta da bin (es lightcurve) lo script deve essere lanciato per ogni bin, e non provvede al merging di tutte le informazioni.
-
-### Output
-Nella stessa folder degli output file.npy viene salvato il .txt della singola run di analysis, con suffisso *_collected.txt al file di output.
-
-### Istruzioni esecuzione
-E' necessario specificare il file di cui si vuole raccogliere i dati.
+For developers, you can install in editable mode:
 
 ```bash
-python $PYCODE/collecBIN.py -f $DATA/TEST/TEST/file.npy -t type
+pip install -e .
 ```
-oppure
+
+# Configuration files
+
+The repository provides two template configuration files in <code>template</code>. You can find examples of compiled configuration files in the <code>examples</code> folder.
+
+- the template for the configuration fermipy analysis: [template_fermianalysis.yml](./lateasy/templates/template_fermianalysis.yml)
+- the template for the configuration of the pipeline: [template_pipe.yml](./lateasy/templates/template_pipe.yml)
+- the template for the slurm job submission of the pipeline: [template_slurm.ll](./lateasy/templates/template_slurm.ll)
+
+We ask the user to <b>NOT</b> remove any fields in the configuration files, and update accordingly the input parameters. If one or more fields are not require by the use case, please leave the field empty. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
+
+# Sky region models
+
+To perform the analysis two sets of models other than the background are required. First of all is the target model, secondly is the model of the sky region. 
+
+## Generate the sky region model
+
+To generate the sky region model we will make use of a Fermi user contribution script, the [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py). To better understand the used parameters, please refer to the official [readme](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/readme_make4FGLxml.txt). To this model, if required, the target source model will be added. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
+
+Generate the sky region model:
 ```bash
-python $PYCODE/collecBIN.py --folder $DATA/TEST/TEST/file.npy --type type
+python generate_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
 ```
 
-Dove type può essere LC/SED/ROI/LOC
+## Update the sky region model
 
-### Esempio
+To update the sky region model we will make use of the catalogue combined with the previously generated sky region model. Be sure to have both stored under the correct path. Note also that the user requires writing access to the generated file, thus we suggest to always generate your own model with the previous script. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
 
+Update the sky region model:
 ```bash
-python $PYCODE/collecBIN.py -f $DATA/TEST/TEST/roi2_optimize.npy -t ROI
+python update_fermianalysis_inputmodel.py --pipeconf <your_pipe.yml>
 ```
 
-## slurmIndexMonths.py
-Questo script rinomina tutti i log slurm-IDJOB.out in slurm-MONTH.out contenuti in una cartella d'analisi.
+# Job submission
 
-### Istruzioni d'esecuzione
+It is possible to parallelise multiple analyses through slurm. We provide a script to automatically update the fermipy configuration file (.yaml), create the executable bash script (.sh) and create the Slurm submission job (.ll). The script can directly submit the jobs after creation. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
 
+Slurm job creation and submission:
 ```bash
-python $PYCODE/slurmIndexMonths.py $DATA/FOLDER_ANALYSIS
+python generate_fermianalysis_jobs.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
-### Esempio
+## Specifics on the folded analysis
 
+Prior to create the Slurm job submission, if a folded analysis is require we provide a script to appropriately update the fermipy configuration filters. You should execute this script **PRIOR** to the Slurm job submission. You are required to provide a data file with the time intervals of the folded analysis. See the above section on configuration file for more information. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
+
+Folded configuration update:
 ```bash
-python $PYCODE/slurmIndexMonths.py $DATA/YEARS5j
+python update_fermianalysis_folded_config.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
+# Analysis
 
-## cmd6fermi.py
+To run the analysis you will need two configuration files. The one referring to the fermipy configuration, and the on referring to the pipeline configuration. Further information on the configuration can be found in this [README](lateasy/templates/README.md). Further information about the analysis itself can be found in this [README](lateasy/README.md).
 
-### Opzioni d'esecuzione
-Di default tutte le opzioni sono <code>False</code>.
-
+Run the fermi analysis:
 ```bash
-python $PYCODE/cmd6fermi.py -f config.yaml -- isofree <True|False|None|float> --galfree <True|False|None|float> --makelc <0|1|2> --skip_sed <True|False> 
+python run_fermianalysis.py --pipeconf <your_pipe.yml> --fermiconf <your_fermianalysis.yml>
 ```
 
-Il parametro <code>makelc</code> accetta le seguenti opzioni:
+# Post-processing
 
-- 0, salta la lightcurve
-- 1, esegue la lightcurve selezionando i time bins da un file di aperture photometry (se non fornito viene sollevato un errore)
-- 2, esegue la lightcurve con fisso binsize (il default è 86400)
+To collect your results (lightcurve, SED, localisation or roi optimisation) in a single data file you can execute the following script. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
 
-### Esempio
-
+Run the fermi analysis:
 ```bash
-python $PYCODE/cmd6fermi.py -f config.yaml --skipsed True --makelc 1
+python collect_results.py --pipeconf <your_pipe.yml>
 ```
 
+# Comparing with Fermi/LAT monitoring lightcurves
 
-## collectLC.py
-Questo script permette di estrarre i dati (tmin, tmax, ts, flux, flux_err, flux_ul95) dagli output della gta.lightcurve. 
-
-### Output
-1) curve di luce di ogni mese, salvate nella folder del mese (igrj17354-3255_lightcurve_collected.txt) 
-2) curva di luce totale, salvata nella folder dell'analisi (igrj17354-3255_lightcurve_fullLC.txt) 
-3) log contenente una lista dei mesi in cui dovesse mancare l'output della lightcurve, salvato in LC/ (es: YEARS5h_collectLC.log)
-
-### Istruzioni d'esecuzione
-
-```bash
-python $PYCODE/collectLC.py $DATA/FOLDER_ANALYSIS
-```
-
-### Esempio
-
-```bash
-python $PYCODE/collectLC.py $DATA/YEARS5j
-```
-
-## collectLCdata.py
-Questo script data una LC già raccolta, estrae solamente le detection sopra una data soglia di TS.
-Al tmin, tmax in MET delle detection vengono anche aggiunti tmin, tmax in MJD.\
-**NB: è necessario attivare prima l'ambiente fermipy3 o un altro ambiente che contenga python3 e pandas (python2 ha problemi di compatibilità con la funzione round() che non mi sono del tutto chiari)**
-
-### Output
-Nella stessa folder della igrj17354-3255_lightcurve_fullLC.txt, viene salvato il file igrj17354-3255_lightcurve_aboveXts.py dove X è il valore di soglia in TS.
-
-### Istruzioni esecuzione
-
-```bash
-python $PYCODE/collectLCdata.py $DATA/FOLDER_ANALYSIS [TS_THRESH]
-```
-
-Se TS_THRESH non viene specificato, il default è 9.
-
-### Esempio
-
-```bash
-python $PYCODE/collectLCdata.py $DATA/YEARS5j 
-```
-
-Oppure
-
-```bash
-python $PYCODE/collectLCdata.py YEARS5j 25
-```
-
-
-## collectLOC.py
-Questo script permette di estrarre i dati (ra, ra_err, dec, dec_err, ra_preloc, dec_preloc, pos_offset, pos_r95) dagli output della gta.localize se esistente. 
-
-### Output
-1) output di ogni mese, salvati nella folder del mese (*_collected.txt) 
-2) output totale, salvato nella folder dell'analisi (*_fullLOC.txt) 
-3) log contenente una lista dei mesi in cui l'output è presente, salvato in LC/ (es: YEARS5h_collectLOC.log)
-
-### Istruzioni d'esecuzione
-
-```bash
-python $PYCODE/collectLC.py $DATA/FOLDER_ANALYSIS
-```
-
-### Esempio
-
-```bash
-python $PYCODE/collectLC.py $DATA/YEARS5j
-```
+Please refere to this [README](lateasy/monitoring/README.md)
