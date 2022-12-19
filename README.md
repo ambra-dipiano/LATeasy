@@ -12,6 +12,9 @@ We provide an environment recipe for [anaconda](https://www.anaconda.com/product
 You can create such environments like this:
 
 ```bach
+conda config --append channels conda-forge
+conda config --append channels fermi
+conda config --append channels pypi
 conda env create -n <name> -f <environment-file.yml>
 ```
 
