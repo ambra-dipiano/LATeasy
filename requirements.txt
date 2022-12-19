@@ -1,0 +1,44 @@
+astropy @ file:///home/conda/feedstock_root/build_artifacts/astropy_1653589970972/work
+astropy-healpix==0.7
+attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1659291887007/work
+certifi==2022.9.24
+click @ file:///home/conda/feedstock_root/build_artifacts/click_1651215153723/work
+contourpy @ file:///home/conda/feedstock_root/build_artifacts/contourpy_1662135108659/work
+cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1635519461629/work
+fermipy==1.2
+fonttools @ file:///home/conda/feedstock_root/build_artifacts/fonttools_1664574251770/work
+gammapy @ file:///home/conda/feedstock_root/build_artifacts/gammapy_1655526186534/work
+healpy @ file:///home/conda/feedstock_root/build_artifacts/healpy_1658630692237/work
+iminuit @ file:///home/conda/feedstock_root/build_artifacts/iminuit_1664395618659/work
+importlib-metadata @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1653252797772/work
+iniconfig @ file:///home/conda/feedstock_root/build_artifacts/iniconfig_1603384189793/work
+kiwisolver @ file:///home/conda/feedstock_root/build_artifacts/kiwisolver_1657953076186/work
+-e git+ssh://git@github.com/ASTRO-EDU/FermiTools.git@7946de5b3e3dbb784e4eae79f5bd6d81365e8342#egg=lateasy
+lxml @ file:///home/conda/feedstock_root/build_artifacts/lxml_1656759371916/work
+matplotlib @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-suite_1663358908800/work
+munkres==1.1.4
+numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1662888870462/work
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
+pandas==1.5.0
+Pillow @ file:///home/conda/feedstock_root/build_artifacts/pillow_1660385855509/work
+pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1648772597647/work
+Pmw @ file:///home/conda/feedstock_root/build_artifacts/pmw_1660323672547/work
+py @ file:///home/conda/feedstock_root/build_artifacts/py_1636301881863/work
+pydantic @ file:///home/conda/feedstock_root/build_artifacts/pydantic_1662443083419/work
+pyerfa @ file:///home/conda/feedstock_root/build_artifacts/pyerfa_1649586113326/work
+pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1652235407899/work
+PyQt5_sip==4.19.18
+pytest==7.1.3
+pytest-runner @ file:///home/conda/feedstock_root/build_artifacts/pytest-runner_1646158889426/work
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1660580468234/work
+PyYAML @ file:///home/conda/feedstock_root/build_artifacts/pyyaml_1648757097602/work
+regions @ file:///home/conda/feedstock_root/build_artifacts/regions_1649290161985/work
+scipy==1.9.1
+sip==4.19.13
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1644342247877/work
+tornado @ file:///home/conda/feedstock_root/build_artifacts/tornado_1656937838435/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1656706066251/work
+unicodedata2 @ file:///home/conda/feedstock_root/build_artifacts/unicodedata2_1649111919389/work
+zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1659400682470/work
