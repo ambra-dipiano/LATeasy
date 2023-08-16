@@ -6,8 +6,7 @@ This repository is intended as a collection of tools and script to run automated
 
 We provide an environment recipe for [anaconda](https://www.anaconda.com/products/distribution). Any variation from it is not granted to work.
 
-- [environment-fermipy2.yml](./environment-fermipy2.yml) for fermpy v0.19 and python v2.7
-- [environment-fermipy3.yml](./environment-fermipy3.yml) for fermipy v1.2 and python v3.9 
+- [environment.yml](./environment.yml) for fermipy v1.2 and python v3.9 
 
 You can create such environments like this:
 
