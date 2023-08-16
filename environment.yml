@@ -158,5 +158,4 @@ dependencies:
   - pip:
     - astropy-healpix==0.7
     - fermipy==1.2
-prefix: /data01/homes/dipiano/.conda/envs/fermipy3
 
