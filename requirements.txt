@@ -1,7 +1,7 @@
 astropy @ file:///home/conda/feedstock_root/build_artifacts/astropy_1653589970972/work
 astropy-healpix==0.7
 attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1659291887007/work
-certifi==2022.9.24
+certifi==2023.7.22
 click @ file:///home/conda/feedstock_root/build_artifacts/click_1651215153723/work
 contourpy @ file:///home/conda/feedstock_root/build_artifacts/contourpy_1662135108659/work
 cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1635519461629/work
