@@ -333,3 +333,4 @@ postprocessing:
   plot: false
 ```
 
+**Warning:** unless your analyses are submitted to Slurm, the post-processing script is not garanteed to function properly. You may be required to open your result manually.
