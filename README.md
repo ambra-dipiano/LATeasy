@@ -98,7 +98,9 @@ python run_fermianalysis.py --pipeconf <your_pipe.yml> --fermiconf <your_fermian
 
 # Post-processing
 
-To collect your results (lightcurve, SED, localisation or roi optimisation) in a single data file you can execute the following script. Further information on the configuration can be found in this [README](lateasy/templates/README.md).
+To collect your results (lightcurve, SED, localisation or roi optimisation) in a single data file you can execute the following script. Further information on the configuration can be found in this [README](lateasy/templates/README.md). 
+
+**Warning:** unless your analyses are submitted to Slurm, this script is not garanteed to function properly. You will be required to open your result manually.
 
 Run the fermi analysis:
 ```bash
