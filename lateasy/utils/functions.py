@@ -246,7 +246,7 @@ def collect_roi(filename, src='IGRJ17354-3255', columns=('ts', 'flux', 'flux_err
 # merge output 
 def merge_data(bins, filename, mergefile, folder):
     if len(bins) == 0:
-        raise Exception('The analysis did not produce any output of the kind: ' + filename)
+        raise Exception(f'The post-processing did not produce any output of the kind: {filename}\nIf you did not submit your analyses to Slurm jobs you may be required to manually open your results. If you did submit to Slurm check your logs for futher information.')
     mf = open(join('.', mergefile), 'w+') 
     for i, b in enumerate(bins):
         with open(join('.', folder, b, filename)) as f:
