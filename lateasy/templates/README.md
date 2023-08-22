@@ -272,9 +272,9 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 | name           | str   | rootname of the analysis job         |
 | tmin           | int | start time of the analysis job in MET  |
 | tmax           | int | stop time of the analysis job in MET   |
-| timebin        | int | time bin size of the job submission in seconds |
+| timebin        | int | time bin size of the job submission in seconds; it relates to the extent of one fermipy analysis: if less than <code>tmax-tmin</code> then segmented lightcurves will be submitted as parallel analyses jobs to cover the full <code>[tmin, tmax]</code> interval, if equal to <code>tmax-tmin</code> then a single analysis will be submitted |
 | emax           | int | maximum energy of the analysis         |
-| mode           | str | execution mode relative to size of time bin; options: <code>hour</code>, <code>fix</code>, <code>integral</code>      |
+| mode           | str | execution mode relative to size of time bin; options: <code>hour</code> (compute at hours timescale from 1 day prior tmin to 1 day after tmax), <code>fix</code> (ompute at given timescale from tmin to tmax), <code>integral</code> (compute integral from tmin to tmax)                                     |
 | queue          | str | slurm partition name                   |
 | sbatch         | bool | submit jobs after creating them       |
 | activation     | str | conda activation keyword; options: <code>conda</code>, <code>source</code> |
@@ -333,4 +333,3 @@ postprocessing:
   plot: false
 ```
 
-**Warning:** unless your analyses are submitted to Slurm, the post-processing script is not garanteed to function properly. You may be required to open your result manually.
