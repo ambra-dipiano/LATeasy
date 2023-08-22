@@ -193,7 +193,7 @@ execute:
 
 ### Section: <code>lightcurve</code>
 
-The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts.
+The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts. The parameter of this section are directly forwarded to the configuration of fermipy and describe how the fermipy lightcurve will be executed.
 
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
