@@ -46,7 +46,12 @@ slurm:
   timebin: 2592000
 ```
 
-This will estimate the background over a month time interval.
+This will estimate the background over a month time interval. If, i.e., you have executed monthly background estimation over a longer period of time and collected the results into a single file, then you may provide the background estimates to be used for the final analysis:
+
+```yaml
+slurm:
+  bkgresults: path/to/file
+```
 
 ## Lightcurve
 
