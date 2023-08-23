@@ -131,7 +131,7 @@ with open(model, 'wb') as f:
     src_lib.write(model)
 log.info('Freed all sources within ' + str(radius) + ' deg')
 log.info('Freed variable srcs with TS > ' + str(min_ts_external) + 'within ' +  str(radius_external) + ' deg')
-log.info('Total freed sources ' + str(nsources))
+log.info('Total freed sources ' + str(freed))
 
 # remove withe lines
 with open(model) as f:
