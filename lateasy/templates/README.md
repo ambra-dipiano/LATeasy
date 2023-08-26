@@ -46,6 +46,12 @@ The tag <code>file</code> of the configuration file, collects all file names whi
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
 | folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section |
 
+The photometry  file must be a txt file with the following columns
+
+```
+start_met stop_met exposure counts
+```
+
 In exemple:
 
 ```yaml
