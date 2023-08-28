@@ -42,9 +42,9 @@ The tag <code>file</code> of the configuration file, collects all file names whi
 | target         | str  | name of the target source model, it must be place in "models" from the previous section |
 | photometry     | str  | name of file contaning the AP exposure, it must be place in <code>data</code> from the previous section |
 | catalogue      | str  | name of catalogue FITS file, it must be place in <code>data</code> from the previous section |
-| observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section |
-| inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
-| folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section |
+| observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section                                                 |
+| inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section                            |
+| folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section                                                 |
 
 The photometry  file must be a txt file with the following columns
 
@@ -70,10 +70,10 @@ The tag <code>background</code> of the configuration file, collects all initial 
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
-| isomodel       | str  | name of the isothropic background model, it must be placed in  <code>galdir</code> from the previous section |
+| isomodel       | str  | name of the isothropic background model, it must be placed in  <code>galdir</code> from the previous section                                                          |
 | isofree        | bool | free isothropic background during analysis |
 | isonorm        | float | normalisation value of the isothropic background model, if null takes default |
-| galmodel       | str  | name of the galactic background model, it must be placed in  <code>galdir</code> from the previous section |
+| galmodel       | str  | name of the galactic background model, it must be placed in  <code>galdir</code> from the previous section                                                          |
 | galfree        | bool | free galactic background model during analysis |
 | galnorm        | float | normalisazione value of the galactic background model, if null takes default |
 | galindex       | float | index value of the galactic background model, if null takes default |
@@ -274,15 +274,15 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 |----------------|-------|----------------------------------------|
 | envname        | str   | virtual environment to activate        |
 | template       | str   | absolute path to slurm job submission template |
-| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter or basename of the file if placed into the <code>output</code> folder of the <code>path</code> section; if null takes default values from <code>background</code> section |
-| name           | str   | rootname of the analysis job         |
+| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter or basename of the file if placed into the <code>output</code> folder of the <code>path</code> section; if null takes default values from <code>background</code> section                                   |
+| name           | str   | rootname of the analysis job           |
 | tmin           | int   | start time of the analysis job in MET  |
 | tmax           | int   | stop time of the analysis job in MET   |
 | timebin        | int   | time bin size of the job submission in seconds; it relates to the extent of one fermipy analysis: if less than <code>tmax-tmin</code> then segmented lightcurves will be submitted as parallel analyses jobs to cover the full <code>[tmin, tmax]</code> interval, if equal to <code>tmax-tmin</code> then a single analysis will be submitted |
 | emax           | int   | maximum energy of the analysis         |
-| mode           | str   | execution mode relative to size of time bin; options: <code>hour</code> (compute at hours timescale from 1 day prior tmin to 1 day after tmax), <code>fix</code> (ompute at given timescale from tmin to tmax), <code>integral</code> (compute integral from tmin to tmax)                                     |
+| mode           | str   | execution mode relative to size of time bin; options: <code>hour</code> (compute at hours timescale from 1 day prior tmin to 1 day after tmax), <code>fix</code> (ompute at given timescale from tmin to tmax), <code>integral</code> (compute integral from tmin to tmax)                              |
 | queue          | str   | slurm partition name                   |
-| sbatch         | bool  | submit jobs after creating them       |
+| sbatch         | bool  | submit jobs after creating them        |
 | activation     | str   | conda activation keyword; options: <code>conda</code>, <code>source</code> |
 
 We also provide a [template](template_slurm.ll) example for the job submission script. Please follow the specified instruction within it.
@@ -326,7 +326,7 @@ The tag <code>postprocessing</code> of the configuration file, collects the para
 
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
-| collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>       |
+| collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>                                                  |
 | mints          | int   | minimum ts threshold for detection     |
 | plot           | bool  | compute default plot for collected data, only if <code>collect=LC</code> |
 
