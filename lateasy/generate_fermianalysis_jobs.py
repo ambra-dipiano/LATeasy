@@ -63,13 +63,13 @@ def generate(name, tmin, tmax, emax, queue, data):
                 log.info('Background from precomputed lightcurve results')
     elif all([pipeconf['background']['isonorm'], pipeconf['background']['galnorm'], pipeconf['background']['galindex']]) is not None:
         # from configuration
-        log.info('Background from configuration file')
+        log.info('Background from "background" section of the pipe.yml configuration file')
     else:
         # from default values
         pipeconf['background']['isonorm'] = 1
         pipeconf['background']['galnorm'] = 1
         pipeconf['background']['galindex'] = 0
-        log.info('Background from default values')
+        log.info('Background values set to default (isonorm=1, galnorm=1, galindex=0)')
 
     # compose bash executable script
     job = [
@@ -109,11 +109,25 @@ def generate(name, tmin, tmax, emax, queue, data):
 
 
 # file with result to extract isomodel and galmodel parameters (if absent take then compute from default)
-if pipeconf['slurm']['bkgresults'] is not None and isfile(join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])):
+log.info('Verify "bkgresults" input file.')
+if not isfile(pipeconf['slurm']['bkgresults']):
+    log.warning(f"File {pipeconf['slurm']['bkgresults']} not found. \nTrying in output folder default path.")
+    if not isfile(join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])):
+        log.error(f"File {pipeconf['slurm']['bkgresults']} not found. Revert to background default setting.")
+        pipeconf['slurm']['bkgresults'] = None
+    else: 
+        log.info(f"File {pipeconf['slurm']['bkgresults']} found in {pipeconf['path']['output']}.")
+        pipeconf['slurm']['bkgresults'] = join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])
+else: 
+    log.info(f"File {pipeconf['slurm']['bkgresults']} found.")
+
+if pipeconf['slurm']['bkgresults'] is not None and isfile(pipeconf['slurm']['bkgresults']):
     f = pipeconf['slurm']['bkgresults']
     data = pd.read_csv(f, header=0, sep=" ")
+    log.info(f"Background data loaded from {pipeconf['slurm']['bkgresults']}")
 else:
     # create empty data
+    log.info('Creating empty background DataFrame.')
     column_names = ["a", "b", "c"]
     data = pd.DataFrame(columns = column_names)
 
