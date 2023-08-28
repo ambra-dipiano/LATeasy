@@ -274,7 +274,7 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 |----------------|-------|----------------------------------------|
 | envname        | str   | virtual environment to activate        |
 | template       | str   | absolute path to slurm job submission template |
-| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter and which should be placed into the <code>output</code> folder of the <code>path</code> section; if null takes default values from <code>background</code> section |
+| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter or basename of the file if placed into the <code>output</code> folder of the <code>path</code> section; if null takes default values from <code>background</code> section |
 | name           | str   | rootname of the analysis job         |
 | tmin           | int   | start time of the analysis job in MET  |
 | tmax           | int   | stop time of the analysis job in MET   |
