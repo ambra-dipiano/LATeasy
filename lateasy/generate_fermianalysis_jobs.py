@@ -108,19 +108,23 @@ def generate(name, tmin, tmax, emax, queue, data):
         system("sbatch --partition=" + queue + " " + llname)
 
 
-# file with result to extract isomodel and galmodel parameters (if absent take then compute from default)
-log.info('Verify "bkgresults" input file.')
-if not isfile(pipeconf['slurm']['bkgresults']):
-    log.warning(f"File {pipeconf['slurm']['bkgresults']} not found. \nTrying in output folder default path.")
-    if not isfile(join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])):
-        log.error(f"File {pipeconf['slurm']['bkgresults']} not found. Revert to background default setting.")
-        pipeconf['slurm']['bkgresults'] = None
+# verify file with result to extract isomodel and galmodel parameters 
+if pipeconf['slurm']['bkgresults'] is not None:
+    log.info('Verify "bkgresults" input file.')
+    if not isfile(pipeconf['slurm']['bkgresults']):
+        log.warning(f"File {pipeconf['slurm']['bkgresults']} not found. \nTrying in output folder default path.")
+        if not isfile(join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])):
+            log.error(f"File {pipeconf['slurm']['bkgresults']} not found. Revert to background default setting.")
+            pipeconf['slurm']['bkgresults'] = None
+        else: 
+            log.info(f"File {pipeconf['slurm']['bkgresults']} found in {pipeconf['path']['output']}.")
+            pipeconf['slurm']['bkgresults'] = join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])
     else: 
-        log.info(f"File {pipeconf['slurm']['bkgresults']} found in {pipeconf['path']['output']}.")
-        pipeconf['slurm']['bkgresults'] = join(pipeconf['path']['output'], pipeconf['slurm']['bkgresults'])
-else: 
-    log.info(f"File {pipeconf['slurm']['bkgresults']} found.")
+        log.info(f"File {pipeconf['slurm']['bkgresults']} found.")
+else:
+    log.info('No "bkgresults" file provided as input, using set values.')
 
+# load background lightcurve if provided (if absent take then compute from default)
 if pipeconf['slurm']['bkgresults'] is not None and isfile(pipeconf['slurm']['bkgresults']):
     f = pipeconf['slurm']['bkgresults']
     data = pd.read_csv(f, header=0, sep=" ")
