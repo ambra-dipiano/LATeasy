@@ -47,9 +47,9 @@ def generate(name, tmin, tmax, emax, queue, data):
     fermiconf['selection']['tmin'] = tmin
     fermiconf['selection']['tmax'] = tmax
     fermiconf['fileio']['outdir'] = dirname
-    fermiconf['model']['galdiff'] = join(pipeconf['path']['galdir'], pipeconf['background']['galmodel'], '.fits')
-    fermiconf['model']['isodiff'] = join(pipeconf['background']['isomodel'], '.txt')
-    fermiconf['model']['catalogs'] = list(join(pipeconf['path']['models'], pipeconf['file']['inputmodel']))
+    fermiconf['model']['galdiff'] = join(pipeconf['path']['galdir'], pipeconf['background']['galmodel'] + '.fits')
+    fermiconf['model']['isodiff'] = pipeconf['background']['isomodel'] + '.txt'
+    fermiconf['model']['catalogs'] = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
 
     # write fermipy yaml configuration
     with open(ymlname, "w+") as f:
