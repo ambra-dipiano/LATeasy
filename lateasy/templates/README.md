@@ -46,12 +46,6 @@ The tag <code>file</code> of the configuration file, collects all file names whi
 | inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section                            |
 | folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section                                                 |
 
-The photometry  file must be a txt file with the following columns
-
-```
-start_met stop_met exposure counts
-```
-
 In exemple:
 
 ```yaml
@@ -63,6 +57,14 @@ file:
   photometry: 
   folded8: 
 ```
+
+The <code>photometry</code> file must be parsable as a text file and contain the following columns:
+
+```
+start_met stop_met exposure counts
+```
+
+The <code>inpurmodel</code> file can be created manually with direct use of [LATSourceModel](https://github.com/physicsranger/make4FGLxml) or the older version [make4FGLxml](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py).
 
 ### Section: <code>background</code>
 
