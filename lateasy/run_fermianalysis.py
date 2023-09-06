@@ -198,7 +198,6 @@ sources = gta.get_sources()
 log.info('\n\n# 2nd fit saved in ---> ' + str(fname))
 log.debug("### Results of roi2_fit_model")
 for src in gta.roi.get_sources():
-    log.debug(src.name + " " + str(src['ts']))
     log.info(src.name + " " + str(src['ts']))
 
 log.debug("target & bkgs after fit2:")

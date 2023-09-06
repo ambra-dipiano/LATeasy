@@ -42,9 +42,9 @@ The tag <code>file</code> of the configuration file, collects all file names whi
 | target         | str  | name of the target source model, it must be place in "models" from the previous section |
 | photometry     | str  | name of file contaning the AP exposure, it must be place in <code>data</code> from the previous section |
 | catalogue      | str  | name of catalogue FITS file, it must be place in <code>data</code> from the previous section |
-| observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section |
-| inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section |
-| folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section |
+| observation    | str  | name of events file to create the sky region model, it must be place in <code>data</code> from the previous section                                                 |
+| inputmodel     | str  | name of the sky region model to generate and use for analysis, it will be place (or must be if existing) in "models" from the previous section                            |
+| folded8        | str  | name of folded time intervals data file, if needed it must be placed in <code>data</code> from the previous section                                                 |
 
 In exemple:
 
@@ -58,16 +58,24 @@ file:
   folded8: 
 ```
 
+The <code>photometry</code> file must be parsable as a text file and contain the following columns:
+
+```
+start_met stop_met exposure counts
+```
+
+The <code>inpurmodel</code> file can be created manually with direct use of [LATSourceModel](https://github.com/physicsranger/make4FGLxml) or the older version [make4FGLxml](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py).
+
 ### Section: <code>background</code>
 
-The tag <code>background</code> of the configuration file, collects all initial will contain all initial background hypothesis. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your <code>galdir</code> folder from the <code>path</code> section of the configuration file. This section is always required to be compiled.
+The tag <code>background</code> of the configuration file, collects all initial will contain all initial background hypothesis, including the model which [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py) selects as default choices. If you want to use a different version, you should refer to the <code>updatemodel</code> section below. If unsure, leave the values empty and provide only the models name. Beware that the specified model must be locally existing in your <code>galdir</code> folder from the <code>path</code> section of the configuration file. This section is always required to be compiled.
 
 | keyword        | type | description                            |
 |----------------|------|----------------------------------------|
-| isomodel       | str  | name of the isothropic background model, it must be placed in  <code>galdir</code> from the previous section |
+| isomodel       | str  | name of the isothropic background model, it must be placed in  <code>galdir</code> from the previous section                                                          |
 | isofree        | bool | free isothropic background during analysis |
 | isonorm        | float | normalisation value of the isothropic background model, if null takes default |
-| galmodel       | str  | name of the galactic background model, it must be placed in  <code>galdir</code> from the previous section |
+| galmodel       | str  | name of the galactic background model, it must be placed in  <code>galdir</code> from the previous section                                                          |
 | galfree        | bool | free galactic background model during analysis |
 | galnorm        | float | normalisazione value of the galactic background model, if null takes default |
 | galindex       | float | index value of the galactic background model, if null takes default |
@@ -193,7 +201,7 @@ execute:
 
 ### Section: <code>lightcurve</code>
 
-The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts.
+The tag <code>lightcurve</code> of the configuration file, collects all lightcurve parameters of the analysis. This section must always be compiled for the analysis script and the jobs generation scripts. The parameter of this section are directly forwarded to the configuration of fermipy and describe how the fermipy lightcurve will be executed.
 
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
@@ -231,7 +239,7 @@ makemodel:
 
 ### Section: <code>updatemodel</code>
 
-The tag <code>updatemodel</code> of the configuration file, collects the parameters necessary to update and modify the sky region model as generated by the [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py) script. This section must be completed only to run the model update script. 
+The tag <code>updatemodel</code> of the configuration file, collects the parameters necessary to update and modify the sky region model as generated by the [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py) script. This section must be completed only to run the model update script. If you want to use a different version of the background with respect to the default of the [make4FGLxml.py](https://fermi.gsfc.nasa.gov/ssc/data/analysis/user/make4FGLxml.py) you should specify which in this section.
 
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
@@ -268,16 +276,16 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 |----------------|-------|----------------------------------------|
 | envname        | str   | virtual environment to activate        |
 | template       | str   | absolute path to slurm job submission template |
-| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter, if null takes default values from <code>background</code> section |
-| name           | str   | rootname of the analysis job         |
-| tmin           | int | start time of the analysis job in MET  |
-| tmax           | int | stop time of the analysis job in MET   |
-| timebin        | int | time bin size of the job submission in seconds |
-| emax           | int | maximum energy of the analysis         |
-| mode           | str | execution mode relative to size of time bin; options: <code>hour</code>, <code>fix</code>, <code>integral</code>      |
-| queue          | str | slurm partition name                   |
-| sbatch         | bool | submit jobs after creating them       |
-| activation     | str | conda activation keyword; options: <code>conda</code>, <code>source</code> |
+| bkgresults     | str   | absolute path to LC results file from which to extract the updated background parameter or basename of the file if placed into the <code>output</code> folder of the <code>path</code> section; if null takes default values from <code>background</code> section                                   |
+| name           | str   | rootname of the analysis job           |
+| tmin           | int   | start time of the analysis job in MET  |
+| tmax           | int   | stop time of the analysis job in MET   |
+| timebin        | int   | time bin size of the job submission in seconds; it relates to the extent of one fermipy analysis: if less than <code>tmax-tmin</code> then segmented lightcurves will be submitted as parallel analyses jobs to cover the full <code>[tmin, tmax]</code> interval, if equal to <code>tmax-tmin</code> then a single analysis will be submitted |
+| emax           | int   | maximum energy of the analysis         |
+| mode           | str   | execution mode relative to size of time bin; options: <code>hour</code> (compute at hours timescale from 1 day prior tmin to 1 day after tmax), <code>fix</code> (ompute at given timescale from tmin to tmax), <code>integral</code> (compute integral from tmin to tmax)                              |
+| queue          | str   | slurm partition name                   |
+| sbatch         | bool  | submit jobs after creating them        |
+| activation     | str   | conda activation keyword; options: <code>conda</code>, <code>source</code> |
 
 We also provide a [template](template_slurm.ll) example for the job submission script. Please follow the specified instruction within it.
 
@@ -287,7 +295,7 @@ In exemple:
 slurm:
   envname: fermipy2
   template: /data01/homes/dipiano/FermiTools/lateasy/crab/conf/slurm.ll
-  bkgresults: 
+  bkgresults: backgrounds.txt
   name: PY2
   tmin: 276652802
   tmax: 276739202
@@ -320,7 +328,7 @@ The tag <code>postprocessing</code> of the configuration file, collects the para
 
 | keyword        | type  | description                            |
 |----------------|-------|----------------------------------------|
-| collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>       |
+| collect        | str   | which results to collect data from, options: <code>LC</code>, <code>LOC</code>, <code>ROI</code>, <code>SED</code>                                                  |
 | mints          | int   | minimum ts threshold for detection     |
 | plot           | bool  | compute default plot for collected data, only if <code>collect=LC</code> |
 

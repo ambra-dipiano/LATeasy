@@ -47,6 +47,9 @@ def generate(name, tmin, tmax, emax, queue, data):
     fermiconf['selection']['tmin'] = tmin
     fermiconf['selection']['tmax'] = tmax
     fermiconf['fileio']['outdir'] = dirname
+    fermiconf['model']['galdiff'] = join(pipeconf['path']['galdir'], pipeconf['background']['galmodel'] + '.fits')
+    fermiconf['model']['isodiff'] = pipeconf['background']['isomodel'] + '.txt'
+    fermiconf['model']['catalogs'] = join(pipeconf['path']['models'], pipeconf['file']['inputmodel'])
 
     # write fermipy yaml configuration
     with open(ymlname, "w+") as f:
@@ -145,25 +148,25 @@ emax = pipeconf['slurm']['emax']
 queue = pipeconf['slurm']['queue']
 
 # submitt jobs based on "mode"
-log.info('Slurm job generator mode:' + mode)
+log.info('Slurm job generator mode: ' + mode)
 if mode.lower() == 'hours':
     # compute at hours timescale from 1 day prior tmin to 1 day after tmax
     for i in range(tmin-86400, tmax+86400, 3600):
-        log.info('Time interval' + str(i) + ' - ' + str(i+binsize))
+        log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
 elif mode.lower() == 'fix':
     # compute at given timescale from tmin to tmax
     for i in range(tmin, tmax, binsize):
-        log.info('Time interval' + str(i) + ' - ' + str(i+binsize))
+        log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
 elif mode.lower() == 'integral':
     # compute integral from tmin to tmax
-    log.info('Time interval' + str(tmin) + ' - ' + str(tmax))
+    log.info('Time interval ' + str(tmin) + ' - ' + str(tmax))
     generate(name, tmin, tmax, emax, queue, data)
 else:
     # invalid "mode" configuration
-    log.error('Invalid submission mode:' + mode.lower())
-    raise ValueError('Invalid submission mode:' + mode.lower())
+    log.error('Invalid submission mode: ' + mode.lower())
+    raise ValueError('Invalid submission mode: ' + mode.lower())
 
 log.info('Copy pipeline configuration in output folder.')
 system('cp ' + args.pipeconf + ' ' + pipeconf['path']['output'])
