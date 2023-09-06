@@ -60,16 +60,31 @@ def generate(name, tmin, tmax, emax, queue, data):
     # define background values
     if not data.empty:
         log.info('Initialise background from "bkgresults" data.')
-        # from previous results
+
+        # log info on free/fix background
+        if pipeconf['background']['isofree']:
+            log.info('Isotropic background configuration: free')
+        else:
+            log.info('Isotropic background configuration: fix')
+        if pipeconf['background']['galfree']:
+            log.info('Galactic background configuration: free')
+        else:
+            log.info('Galactic background configuration: fix')
+
+        # get background from previous results
         for index, row in data.iterrows():
             if tmin >= row["tmin"] and tmin <= row["tmax"]:
                 pipeconf['background']['isonorm'] = row["iso_Normalization_value"]
                 pipeconf['background']['galnorm'] =  row["gal_Prefactor_value"]
                 pipeconf['background']['galindex'] = row["gal_Index_value"]
                 log.info('Background from precomputed lightcurve results')
+    
+    # get background from configuration
     elif all([pipeconf['background']['isonorm'], pipeconf['background']['galnorm'], pipeconf['background']['galindex']]) is not None:
         # from configuration
         log.info('Background from "background" section of the pipe.yml configuration file')
+
+    # set background to default
     else:
         # from default values
         pipeconf['background']['isonorm'] = 1
