@@ -34,13 +34,15 @@ log.info('Logging: ' + logname)
 def generate(name, tmin, tmax, emax, queue, data):
     # define file names
     dirname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax))
-    ymlname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".yml")
+    ymlname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+"_fermiconf.yml")
+    ymlpipe = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+"_pipeconf.yml")
     llname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".ll")
     shname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".sh")
-    log.debug('Job directory:' + dirname)
-    log.debug('Job fermipy configuration:' + ymlname)
-    log.debug('Job bash executable:' + shname)
-    log.debug('Job slurm script:' + llname)
+    log.debug('Job directory: ' + dirname)
+    log.debug('Job pipe configuration: ' + ymlname)
+    log.debug('Job fermipy configuration: ' + ymlname)
+    log.debug('Job bash executable: ' + shname)
+    log.debug('Job slurm script: ' + llname)
     
     # complete fermipy configuration
     fermiconf['selection']['emax'] = emax
@@ -57,16 +59,32 @@ def generate(name, tmin, tmax, emax, queue, data):
 
     # define background values
     if not data.empty:
-        # from previous results
+        log.info('Initialise background from "bkgresults" data.')
+
+        # log info on free/fix background
+        if pipeconf['background']['isofree']:
+            log.info('Isotropic background configuration: free')
+        else:
+            log.info('Isotropic background configuration: fix')
+        if pipeconf['background']['galfree']:
+            log.info('Galactic background configuration: free')
+        else:
+            log.info('Galactic background configuration: fix')
+
+        # get background from previous results
         for index, row in data.iterrows():
             if tmin >= row["tmin"] and tmin <= row["tmax"]:
                 pipeconf['background']['isonorm'] = row["iso_Normalization_value"]
                 pipeconf['background']['galnorm'] =  row["gal_Prefactor_value"]
                 pipeconf['background']['galindex'] = row["gal_Index_value"]
                 log.info('Background from precomputed lightcurve results')
+    
+    # get background from configuration
     elif all([pipeconf['background']['isonorm'], pipeconf['background']['galnorm'], pipeconf['background']['galindex']]) is not None:
         # from configuration
         log.info('Background from "background" section of the pipe.yml configuration file')
+
+    # set background to default
     else:
         # from default values
         pipeconf['background']['isonorm'] = 1
@@ -74,13 +92,17 @@ def generate(name, tmin, tmax, emax, queue, data):
         pipeconf['background']['galindex'] = 0
         log.info('Background values set to default (isonorm=1, galnorm=1, galindex=0)')
 
+    # write fermipy yaml configuration
+    with open(ymlpipe, "w+") as f:
+        yaml.dump(pipeconf, f, default_flow_style=False)
+
     # compose bash executable script
     job = [
     '#!/bin/bash\n\n',
     pipeconf['slurm']['activation'] + ' activate ' + pipeconf['slurm']['envname'],
     '\nexport FERMIDATA=' + pipeconf['path']['data'],
     '\nexport FERMI_DIFFUSE_DIR=' + pipeconf['path']['galdir'],
-    '\npython ' + join(abspath(__file__).replace(basename(__file__), ''), 'run_fermianalysis.py') + ' --fermiconf ' + ymlname + ' --pipeconf ' + args.pipeconf, 
+    '\npython ' + join(abspath(__file__).replace(basename(__file__), ''), 'run_fermianalysis.py') + ' --fermiconf ' + ymlname + ' --pipeconf ' + ymlpipe, 
     '\ncp ' + dirname + '.* ' + dirname,
     '\ncd ' + dirname,
     '\npython ' + join(abspath(__file__).replace(basename(__file__), ''), 'run_sensitivity.py'),
@@ -109,7 +131,6 @@ def generate(name, tmin, tmax, emax, queue, data):
     # submit job to slurm
     if pipeconf['slurm']['sbatch']:
         system("sbatch --partition=" + queue + " " + llname)
-
 
 # verify file with result to extract isomodel and galmodel parameters 
 if pipeconf['slurm']['bkgresults'] is not None:
