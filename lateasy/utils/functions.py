@@ -76,7 +76,7 @@ def collect_lc(filename, outputfile, roiname, keys, source, relpath, isomodel, g
     roi = np.load(roiname, allow_pickle=True, encoding='latin1', fix_imports=True).flat[0]
     rows = len(lc['tmin'])
     cols_lc = lc.keys()
-    cols_roi = lc.keys()
+    cols_roi = roi.keys()
     # header of output file
     hdr = str()
     for i in range(rows):
@@ -102,9 +102,19 @@ def collect_lc(filename, outputfile, roiname, keys, source, relpath, isomodel, g
                 if 'Index_error' in key:
                     line += ' ' + str(roi['sources'][galmodel]['param_errors'][1])
                 if 'Normalization_value' in key:
-                    line += ' ' + str(roi['sources'][isomodel]['param_values'][0])
+                    try:
+                        line += ' ' + str(roi['sources'][isomodel]['param_values'][0])
+                    except KeyError as e:
+                        line += ' ' + str(roi['sources']['isodiff']['param_values'][0])
+                        print(f'Isotropic model {isomodel} not found, trying isodiff')
                 if 'Normalization_error' in key:
-                    line += ' ' + str(roi['sources'][isomodel]['param_errors'][0])
+                    try:
+                        line += ' ' + str(roi['sources'][isomodel]['param_errors'][0])
+                    except KeyError as e:
+                        line += ' ' + str(roi['sources']['isodiff']['param_errors'][0]) 
+                        print(f'Isotropic model {isomodel} not found, trying isodiff')
+
+
             # source params from lc and from roi
             elif 'source' in key:
                 hdr += ' ' + str(key)
