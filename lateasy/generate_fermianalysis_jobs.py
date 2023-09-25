@@ -39,7 +39,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     llname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".ll")
     shname = join(pipeconf['path']['output'], name+"_"+str(tmin)+"_"+str(tmax)+".sh")
     log.debug('Job directory: ' + dirname)
-    log.debug('Job pipe configuration: ' + ymlname)
+    log.debug('Job pipe configuration: ' + ymlpipe)
     log.debug('Job fermipy configuration: ' + ymlname)
     log.debug('Job bash executable: ' + shname)
     log.debug('Job slurm script: ' + llname)
