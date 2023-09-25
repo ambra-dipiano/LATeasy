@@ -96,21 +96,21 @@ else:
 # background parameters
 galmodel = pipeconf['background']['galmodel']
 isomodel = pipeconf['background']['isomodel']
-if pipeconf['background']['galfree']:
-    keepgalmodelfree = True
+keepgalmodelfree = pipeconf['background']['galfree']
+iso_normalization_value = pipeconf['background']['isonorm']
+# set starting values or defaults
+if pipeconf['background']['galnorm'] is None:
     gal_prefactor_value = 1
-    gal_index_value = 0
 else:
     gal_prefactor_value = pipeconf['background']['galnorm']
+if pipeconf['background']['galindex'] is None:
+    gal_index_value = 0
+else:
     gal_index_value = pipeconf['background']['galindex']
-    keepgalmodelfree = False
-
-if pipeconf['background']['isofree']:
-    keepisomodelfree = True
+if pipeconf['background']['isonorm'] is None:
     iso_normalization_value = 1 
 else:
     iso_normalization_value = pipeconf['background']['isonorm']
-    keepisomodelfree = False
 
 log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']))
 log.info("Execute LOC: " + str(pipeconf['execute']['localise']))
