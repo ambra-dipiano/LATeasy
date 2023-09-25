@@ -89,7 +89,7 @@ def generate(name, tmin, tmax, emax, queue, data):
         # from default values
         pipeconf['background']['isonorm'] = 1
         pipeconf['background']['galnorm'] = 1
-        pipeconf['background']['galindex'] = 0
+        pipeconf['background']['galindex'] = 1
         log.info('Background values set to default (isonorm=1, galnorm=1, galindex=0)')
 
     # write fermipy yaml configuration
