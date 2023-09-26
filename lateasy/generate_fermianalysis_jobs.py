@@ -99,6 +99,7 @@ def generate(name, tmin, tmax, emax, queue, data):
     # compose bash executable script
     job = [
     '#!/bin/bash\n\n',
+    'source /opt/module/anaconda-3.7\n',
     pipeconf['slurm']['activation'] + ' activate ' + pipeconf['slurm']['envname'],
     '\nexport FERMIDATA=' + pipeconf['path']['data'],
     '\nexport FERMI_DIFFUSE_DIR=' + pipeconf['path']['galdir'],
