@@ -65,7 +65,7 @@ from fermipy.gtanalysis import GTAnalysis
 if pipeconf['slurm']['name'] is None:
     logname = join(pipeconf['path']['output'], pipeconf['target']['name'] + '_' + str(fermiconf['selection']['tmin']) + '_' + str(fermiconf['selection']['tmax']) + '.log')
 else:
-    logname = join(pipeconf['path']['output'], pipeconf['slurm']['name'] + '_' + str(pipeconf['slurm']['tmin']) + '_' + str(pipeconf['slurm']['tmax']) + '.log')
+    logname = join(pipeconf['path']['output'], pipeconf['slurm']['name'] + '_' + str(pipeconf['selection']['tmin']) + '_' + str(pipeconf['selection']['tmax']) + '.log')
 
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
@@ -97,7 +97,7 @@ else:
 galmodel = pipeconf['background']['galmodel']
 isomodel = pipeconf['background']['isomodel']
 keepgalmodelfree = pipeconf['background']['galfree']
-iso_normalization_value = pipeconf['background']['isonorm']
+keepisomodelfree = pipeconf['background']['isofree']
 # set starting values or defaults
 if pipeconf['background']['galnorm'] is None:
     gal_prefactor_value = 1
@@ -112,7 +112,16 @@ if pipeconf['background']['isonorm'] is None:
 else:
     iso_normalization_value = pipeconf['background']['isonorm']
 
-log.info("\n\nExecute SED: " + str(pipeconf['execute']['sed']))
+log.info('\n# initial gal and iso parameters')
+log.info('\n--- galmodel ---')
+log.info('\nmodel = ' + str(galmodel) + '\nfree = ' + str(keepgalmodelfree))
+log.info('\nprefactor = ' + str(gal_prefactor_value) + '\nindex = ' + str(gal_index_value))
+log.info('\n--- isomodel ---')
+log.info('\nmodel = ' + str(isomodel) + '\nfree = ' + str(keepisomodelfree))
+log.info('\nnormalisation = ' + str(iso_normalization_value))
+
+log.info('\n\n# execution setting')
+log.info("\nExecute SED: " + str(pipeconf['execute']['sed']))
 log.info("Execute LOC: " + str(pipeconf['execute']['localise']))
 log.info("Execute LC: " + str(pipeconf['execute']['lc']))
 
