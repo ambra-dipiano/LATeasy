@@ -65,7 +65,7 @@ from fermipy.gtanalysis import GTAnalysis
 if pipeconf['slurm']['name'] is None:
     logname = join(pipeconf['path']['output'], pipeconf['target']['name'] + '_' + str(fermiconf['selection']['tmin']) + '_' + str(fermiconf['selection']['tmax']) + '.log')
 else:
-    logname = join(pipeconf['path']['output'], pipeconf['slurm']['name'] + '_' + str(pipeconf['selection']['tmin']) + '_' + str(pipeconf['selection']['tmax']) + '.log')
+    logname = join(pipeconf['path']['output'], pipeconf['slurm']['name'] + '_' + str(fermiconf['selection']['tmin']) + '_' + str(fermiconf['selection']['tmax']) + '.log')
 
 log = set_logger(filename=logname, level=pipeconf['execute']['loglevel'])
 
