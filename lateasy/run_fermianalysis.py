@@ -29,8 +29,7 @@ def manageGalIsoParameters(galmodel, isomodel, keepgalmodelfree=True, keepisomod
     gta.set_parameter(galmodel, par='Prefactor', value=gal_prefactor_value, scale=1)
     gta.set_parameter(galmodel, par='Index', value=gal_index_value, scale=1)
     if keepgalmodelfree == True:
-        gta.free_source(galmodel, pars='Prefactor', free=True)
-        gta.free_source(galmodel, pars='Index', free=True)
+        gta.free_source(galmodel, free=True)
     else:
         gta.free_source(galmodel, free=False)
 
