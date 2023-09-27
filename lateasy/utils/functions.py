@@ -92,49 +92,62 @@ def collect_lc(filename, outputfile, roiname, keys, source, relpath, isomodel, g
                     line += ' ' + str(lc[key][i])
             # bkg from roi
             elif 'iso' in key or 'gal' in key:
-                hdr += ' ' + str(key)
                 if 'Prefactor_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][galmodel]['param_values'][0])
                 if 'Prefactor_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][galmodel]['param_errors'][0])
                 if 'Index_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][galmodel]['param_values'][1])
                 if 'Index_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][galmodel]['param_errors'][1])
                 if 'Normalization_value' in key:
                     try:
+                        hdr += ' ' + str(key)
                         line += ' ' + str(roi['sources'][isomodel]['param_values'][0])
                     except KeyError as e:
+                        hdr += ' ' + str(key)
                         line += ' ' + str(roi['sources']['isodiff']['param_values'][0])
                         print(f'Isotropic model {isomodel} not found, trying isodiff')
                 if 'Normalization_error' in key:
                     try:
+                        hdr += ' ' + str(key)
                         line += ' ' + str(roi['sources'][isomodel]['param_errors'][0])
                     except KeyError as e:
+                        hdr += ' ' + str(key)
                         line += ' ' + str(roi['sources']['isodiff']['param_errors'][0]) 
                         print(f'Isotropic model {isomodel} not found, trying isodiff')
 
-
             # source params from lc and from roi
             elif 'source' in key:
-                hdr += ' ' + str(key)
                 # from lc
                 if 'Prefactor_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(lc['param_values'][i][0]) 
-                elif 'Prefacotr_error' in key:
+                elif 'Prefactor_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(lc['param_errors'][i][0]) 
                 elif 'Index_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(lc['param_values'][i][1]) 
                 elif 'Index_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(lc['param_errors'][i][1]) 
                 # from roi
                 elif 'RA_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][source]['ra'])
                 elif 'RA_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][source]['ra_err'])
                 elif 'DEC_value' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][source]['dec'])
                 elif 'DEC_error' in key:
+                    hdr += ' ' + str(key)
                     line += ' ' + str(roi['sources'][source]['dec_err'])
             elif 'sens' in key:
                 hdr += ' ' + str(key)
