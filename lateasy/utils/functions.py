@@ -143,6 +143,7 @@ def collect_lc(filename, outputfile, roiname, keys, source, relpath, isomodel, g
                 hdr += ' ' + str(key)
                 line += ' ' + str(get_phase(lc['tmin'][i], lc['tmax'][i]))
         # add filename
+        hdr += ' ' + 'lc_file'
         line += ' ' + str(filename)
         # write header
         if i == 0:
@@ -177,6 +178,7 @@ def collect_loc(filename, columns=('ra', 'ra_err', 'dec', 'dec_err', 'ra_preloc'
     for key in columns:
         line += str(data[key]) + ' '
     # add filename
+    hdr += ' ' + 'loc_file'
     line += str(filename)
     with open(outputfile, 'a') as f:
         f.write(line + '\n')
@@ -213,6 +215,7 @@ def collect_sed(filename, columns=('e_min', 'e_max', 'ts', 'flux', 'flux_err', '
             else:
                 line += str(data[key][n]) + ' '
         # add filename
+        hdr += ' ' + 'sed_file'
         line += str(filename)
         with open(outputfile, 'a') as f:
             f.write(line + '\n')
@@ -248,6 +251,7 @@ def collect_roi(filename, src='IGRJ17354-3255', columns=('ts', 'flux', 'flux_err
         else:
             line += str(data['sources'][src][key]) + ' '
     # add filename
+    hdr += ' ' + 'roi_file'
     line += str(filename)
     with open(outputfile, 'a') as f:
         f.write(line + '\n')
