@@ -1,0 +1,8 @@
+###activate notebook
+
+docker run --rm -it -p 8893:8893 \
+-e DISPLAY=$DISPLAY \
+-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+-v $PWD/shared_dir:/shared_dir \
+fermitool:latest /bin/bash -c \
+"source /opt/conda/etc/profile.d/conda.sh && conda activate fermi && export PATH=PATH:/opt/conda/bin && jupyter notebook --ip='*' --port=8893 --no-browser --allow-root --notebook-dir="/opt/FermiTools" --NotebookApp.token='' --NotebookApp.password=''"
