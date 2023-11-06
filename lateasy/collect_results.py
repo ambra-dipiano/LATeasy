@@ -48,10 +48,8 @@ roiname = 'roi2_fit_model.npy'
 output = str(source.upper()) + '_' + str(pipeconf['postprocessing']['collect'].lower()) + '.txt'
 if pipeconf['postprocessing']['collect'].upper() == 'ROI':
     filename = roiname
-    #raise ValueError('Option not implemented yet.')
 elif pipeconf['postprocessing']['collect'].upper() == 'SED':
     filename = 'sed.npy'
-    #raise ValueError('Option not implemented yet.')
 elif pipeconf['postprocessing']['collect'].upper() == 'LC':
     filename = source.lower() + '_lightcurve.npy'
 elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
@@ -85,7 +83,8 @@ log.info('merge output: ' + mergefile)
 # keep only ts >= 9
 ts = pipeconf['postprocessing']['mints']
 detfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
-data = pd.read_csv(mergefile, sep=' ')
+data = pd.read_csv(mergefile, sep=' ', na_filter=False)
+data = data.fillna(0, inplace=True)
 data_above = data[data['ts'] >= float(ts)]
 log.info('detections above ts=' + str(ts) + ': ' + str(len(data_above)))
 data_above.to_csv(detfile, sep=' ', header=True, index=False)
