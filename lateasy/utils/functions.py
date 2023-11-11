@@ -9,6 +9,8 @@ import os
 import logging
 import numpy as np
 import pandas as pd
+from datetime import datetime
+from astropy.time import Time
 import xml.etree.ElementTree as ET
 from os.path import join, exists, isfile, dirname, isdir
 
@@ -21,6 +23,15 @@ def met_to_mjd(time):
     """Convert mean julian date to mission elapse time."""
     correction = 0.0006962818548948615
     return time / (86400. + correction) + 51910
+
+def mjd_to_tt(time_mjd):
+    """Convert MJD to AGILE TT time."""
+    t = Time(time_mjd, format="mjd")
+    return np.round(t.unix - 1072915200)
+
+def met_to_tt(time):
+    """Convert Fermi MET to AGILE TT time."""
+    return mjd_to_tt(met_to_mjd(time))
 
 def get_target_coords(model, name):
     mysource = ET.parse(model).getroot().find('source[@name="' + name + '"]')
