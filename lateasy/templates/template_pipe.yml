@@ -87,7 +87,9 @@ slurm:
   tmax:               # (float) stop time
   timebin:            # (float) time bin size of distinct analysis
   emax:               # (int) maximum energy
-  mode:               # (str) execution mode relative to size of time bin: <hour|fix|integral>
+  mode:               # (str) execution mode relative to size of time bin: <hour|fix|integral|scan>
+  scan:               # (int) scanning time interval for scan execution mode
+  deltat:             # (int) delta time to consider before and after [tmin,tmax] interval for scan execution mode
   queue:              # (str) slurm partition
   sbatch:             # (bool) to submit jobs after creating them
   activation:         # (str) environment activation: <conda|source>

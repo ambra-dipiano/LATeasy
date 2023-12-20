@@ -172,8 +172,15 @@ queue = pipeconf['slurm']['queue']
 # submitt jobs based on "mode"
 log.info('Slurm job generator mode: ' + mode)
 if mode.lower() == 'hours':
-    # compute at hours timescale from 1 day prior tmin to 1 day after tmax
+    # compute at "hours" timescale from 1 day prior tmin to 1 day after tmax
     for i in range(tmin-86400, tmax+86400, 3600):
+        log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
+        generate(name, i, i+binsize, emax, queue, data)
+if mode.lower() == 'scan':
+    # compute at "scan" timescale from "deltat" prior tmin to "deltat" after tmax
+    scan = pipeconf['slurm']['scan']
+    deltat = pipeconf['slurm']['deltat']
+    for i in range(tmin-deltat, tmax+deltat, scan):
         log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
 elif mode.lower() == 'fix':
