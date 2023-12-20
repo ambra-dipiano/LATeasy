@@ -283,6 +283,8 @@ The tag <code>slurm</code> of the configuration file, collects all slurm paralle
 | timebin        | int   | time bin size of the job submission in seconds; it relates to the extent of one fermipy analysis: if less than <code>tmax-tmin</code> then segmented lightcurves will be submitted as parallel analyses jobs to cover the full <code>[tmin, tmax]</code> interval, if equal to <code>tmax-tmin</code> then a single analysis will be submitted |
 | emax           | int   | maximum energy of the analysis         |
 | mode           | str   | execution mode relative to size of time bin; options: <code>hours</code> (compute at hours timescale from 1 day prior tmin to 1 day after tmax), <code>fix</code> (ompute at given timescale from tmin to tmax), <code>integral</code> (compute integral from tmin to tmax)                              |
+| scan           | int   | scanning time interval, only if `mode=scan` |
+| deltat         | int   | delta time to consider before `tmin` and after `tmax`, only if `mode=scan` |  
 | queue          | str   | slurm partition name                   |
 | sbatch         | bool  | submit jobs after creating them        |
 | activation     | str   | conda activation keyword; options: <code>conda</code>, <code>source</code> |
@@ -293,15 +295,17 @@ In exemple:
 
 ```yaml
 slurm:
-  envname: fermipy2
+  envname: fermipy3
   template: /data01/homes/dipiano/FermiTools/lateasy/crab/conf/slurm.ll
   bkgresults: backgrounds.txt
-  name: PY2
+  name: PY3
   tmin: 276652802
   tmax: 276739202
-  timebin: 86400
+  timebin: 43200
   emax: 300000
   mode: fix
+  scan: 3600
+  deltat: 86400
   queue: large
   sbatch: true
   activation: conda
