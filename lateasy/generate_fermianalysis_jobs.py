@@ -184,12 +184,12 @@ if mode.lower() == 'scan':
         log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
 elif mode.lower() == 'fix':
-    # compute at given timescale from tmin to tmax
+    # compute at "fix" timescale from tmin to tmax
     for i in range(tmin, tmax, binsize):
         log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
 elif mode.lower() == 'integral':
-    # compute integral from tmin to tmax
+    # compute "integral" from tmin to tmax
     log.info('Time interval ' + str(tmin) + ' - ' + str(tmax))
     generate(name, tmin, tmax, emax, queue, data)
 else:
