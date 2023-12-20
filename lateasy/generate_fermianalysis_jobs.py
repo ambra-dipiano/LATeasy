@@ -176,7 +176,7 @@ if mode.lower() == 'hours':
     for i in range(tmin-86400, tmax+86400, 3600):
         log.info('Time interval ' + str(i) + ' - ' + str(i+binsize))
         generate(name, i, i+binsize, emax, queue, data)
-if mode.lower() == 'scan':
+elif mode.lower() == 'scan':
     # compute at "scan" timescale from "deltat" prior tmin to "deltat" after tmax
     scan = pipeconf['slurm']['scan']
     deltat = pipeconf['slurm']['deltat']
