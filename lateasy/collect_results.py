@@ -84,7 +84,7 @@ log.info('merge output: ' + mergefile)
 ts = pipeconf['postprocessing']['mints']
 detfile = mergefile.replace('.txt', '_ts%s.txt' %str(ts))
 data = pd.read_csv(mergefile, sep=' ', na_filter=False)
-data = data.fillna(0, inplace=True)
+data = data.fillna(0)
 data_above = data[data['ts'] >= float(ts)]
 log.info('detections above ts=' + str(ts) + ': ' + str(len(data_above)))
 data_above.to_csv(detfile, sep=' ', header=True, index=False)
