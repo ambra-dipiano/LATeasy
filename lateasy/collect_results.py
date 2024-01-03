@@ -28,7 +28,7 @@ log.info('Logging: ' + logname)
 
 folder = pipeconf['path']['output']
 source = pipeconf['target']['4FGLname']
-log.info('collect from ' + pipeconf['postprocessing']['collect'].upper())
+log.info('collect type ' + pipeconf['postprocessing']['collect'].upper())
 # check folder existance
 if not os.path.isdir(folder):
     raise ValueError('directory', folder, 'not found')
@@ -55,7 +55,7 @@ elif pipeconf['postprocessing']['collect'].upper() == 'LC':
 elif pipeconf['postprocessing']['collect'].upper() == 'LOC':
     filename = source.lower() +'_loc.npy'
 filename = filename.replace(' ', '_')
-log.info('Collect from:' + filename)
+log.info('collect from: ' + filename)
 # collect single LC bins data
 binfiles = []
 for b in bins:
@@ -63,6 +63,7 @@ for b in bins:
     outputfile = join(folder, b, output)
     roi = join(folder, b, roiname)
     if isfile(binfilename):
+        log.info(f'output found: {binfilename}')
         binfiles.append(b)
         if pipeconf['postprocessing']['collect'].upper() == 'LC':
             collect_lc(binfilename, outputfile, roi, keys, source, relpath=join(folder, b), isomodel=pipeconf['background']['isomodel'], galmodel=pipeconf['background']['galmodel'])
